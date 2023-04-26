@@ -8,12 +8,21 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Column(
+      body:
+      Container(
+        padding: const EdgeInsets.all(30.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Image(image: AssetImage(tLogo)),
-            const Text(tWelcomeText),
-            const Text(tWelcomeDescription),
+            Image(image: const AssetImage(tLogo), height:height * 0.6,),
+            Column(
+              children: [
+                Text(tWelcomeText.toUpperCase(), style: Theme.of(context).textTheme.displaySmall, textAlign: TextAlign.left, ),
+                Text(tWelcomeDescription.toUpperCase(), style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.left,),
+              ],
+            ),
             Column(
               children: [
                 ElevatedButton(onPressed: (){}, child: const Text(tGetStartedText)),
@@ -21,6 +30,7 @@ class WelcomeScreen extends StatelessWidget {
               ],
             )
           ],
+        ),
       ),
     );
   }
