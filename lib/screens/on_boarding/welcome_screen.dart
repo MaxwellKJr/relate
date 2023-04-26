@@ -16,7 +16,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image(image: const AssetImage(tLogo), height:height * 0.6,),
+            Image(image: const AssetImage(tLogo), height:height * 0.5,),
             Column(
               children: [
                 Text(tWelcomeText.toUpperCase(), style: Theme.of(context).textTheme.displaySmall, textAlign: TextAlign.left, ),
@@ -25,8 +25,19 @@ class WelcomeScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                ElevatedButton(onPressed: (){}, child: const Text(tGetStartedText)),
-                OutlinedButton(onPressed: (){}, child: const Text(tLoginInsteadText, style: TextStyle(backgroundColor: primaryColor),)),
+                SizedBox(
+                  width: double.infinity,
+                    child: ElevatedButton(
+                        onPressed: (){},
+                        child: const Text(tGetStartedText),
+                    ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                    child: OutlinedButton(
+                        onPressed: (){}, child: const Text(tLoginInsteadText)
+                    ),
+                ),
               ],
             )
           ],
