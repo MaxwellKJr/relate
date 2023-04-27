@@ -14,23 +14,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Relate App',
+      title: 'Relate',
       theme: ThemeData(
-        useMaterial3: true,
-        // primaryColor: Colors.teal,
-        // primarySwatch: Colors.teal,
-        colorSchemeSeed: primaryColor
-      ),
+          useMaterial3: true,
+          // primaryColor: Colors.teal,
+          // primarySwatch: Colors.teal,
+          colorSchemeSeed: primaryColor),
       darkTheme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
           // primaryColor: Colors.teal,
           // primarySwatch: Colors.teal,
-          colorSchemeSeed: primaryColor
-      ),
+          colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
       home: const WelcomeScreen(),
     );
   }
 }
-
