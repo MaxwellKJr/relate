@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/image_strings.dart';
 import 'package:relate/constants/text_string.dart';
@@ -18,9 +20,11 @@ class WelcomeScreen extends StatelessWidget {
           children: [
             Image(image: const AssetImage(tLogo), height:height * 0.5,),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(tWelcomeText.toUpperCase(), style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.left, ),
-                Text(tWelcomeDescription.toUpperCase(), style: Theme.of(context).textTheme.bodyLarge, textAlign: TextAlign.left,),
+                Text(tWelcomeText.toUpperCase(), style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.w800, color: primaryColor), textAlign: TextAlign.left, ),
+                const SizedBox(height: 10.0),
+                Text(tWelcomeDescription, style: GoogleFonts.poppins(), textAlign: TextAlign.left,),
               ],
             ),
             Column(
@@ -30,17 +34,15 @@ class WelcomeScreen extends StatelessWidget {
                   width: double.infinity,
                     child: FilledButton(
                         onPressed: (){},
-                        child: const Text(tGetStartedText),
+                        child: Text(tGetStartedText.toUpperCase(), style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),),
                     ),
                 ),
-                const SizedBox(
-                    height: 20.0
-                ),
+                const SizedBox(height: elementSpacing),
                 SizedBox(
                   height: tButtonHeight,
                   width: double.infinity,
                     child: TextButton(
-                        onPressed: (){}, child: const Text(tLoginInsteadText)
+                        onPressed: (){}, child: Text(tLoginInsteadText.toUpperCase(), style: GoogleFonts.poppins(fontSize: 18, fontWeight: FontWeight.bold),)
                     ),
                 ),
               ],
