@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
 void main() {
@@ -16,12 +17,16 @@ class MyApp extends StatelessWidget {
       title: 'Relate App',
       theme: ThemeData(
         useMaterial3: true,
-        primarySwatch: Colors.teal,
+        // primaryColor: Colors.teal,
+        // primarySwatch: Colors.teal,
+        colorSchemeSeed: primaryColor
       ),
       darkTheme: ThemeData(
           useMaterial3: true,
           brightness: Brightness.dark,
-          primarySwatch: Colors.teal
+          // primaryColor: Colors.teal,
+          // primarySwatch: Colors.teal,
+          colorSchemeSeed: primaryColor
       ),
       themeMode: ThemeMode.system,
       home: const WelcomeScreen(),
