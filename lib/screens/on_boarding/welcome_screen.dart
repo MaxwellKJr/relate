@@ -34,14 +34,15 @@ class WelcomeScreen extends StatelessWidget {
                       color: primaryColor),
                   textAlign: TextAlign.left,
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 12.0),
                 Text(
                   tWelcomeDescription,
-                  style: GoogleFonts.poppins(),
+                  style: GoogleFonts.poppins(fontSize: 16),
                   textAlign: TextAlign.left,
                 ),
               ],
             ),
+            const SizedBox(height: 10.0),
             Column(
               children: [
                 SizedBox(

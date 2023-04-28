@@ -13,7 +13,6 @@ class Page3 extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
 
     return Container(
-      color: whiteColor,
       padding: const EdgeInsets.all(layoutPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

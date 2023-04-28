@@ -20,6 +20,6 @@ const String page3Headline = "Seek and talk with professionals";
 const String page1Description =
     "This app is all about support, you don't have to struggle alone. Share your load with us.";
 const String page2Description =
-    "Send texts and posts from anywhere, read and learn more about depression";
+    "Send texts and posts from anywhere, read and learn more about depression anytime.";
 const String page3Description =
     "With many therapists to choose from, we’ll help you find the right one for you and your needs.";
