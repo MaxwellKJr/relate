@@ -4,6 +4,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/image_strings.dart';
 import 'package:relate/constants/text_string.dart';
+import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/on_boarding/on_boarding_pages.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -68,7 +69,13 @@ class WelcomeScreen extends StatelessWidget {
                   height: tButtonHeight,
                   width: double.infinity,
                   child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const LoginScreen();
+                          },
+                        ));
+                      },
                       child: Text(
                         tLoginInsteadText.toUpperCase(),
                         style: GoogleFonts.poppins(

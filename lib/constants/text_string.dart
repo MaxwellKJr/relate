@@ -23,3 +23,11 @@ const String page2Description =
     "Send texts and posts from anywhere, read and learn more about depression anytime.";
 const String page3Description =
     "With many therapists to choose from, we’ll help you find the right one for you and your needs.";
+
+// Login Screen
+const String tWelcomeBack = "Welcome Back!";
+const String tLogin = "Login";
+const String tDontHaveAnAccount = "Don't have an account? ";
+
+// Create account screen
+const String tAlreadyHaveAnAccount = "Already have an account? ";
