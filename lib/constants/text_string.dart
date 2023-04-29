@@ -30,4 +30,5 @@ const String tLogin = "Login";
 const String tDontHaveAnAccount = "Don't have an account? ";
 
 // Create account screen
+const String tCreateAccount = "Create an account";
 const String tAlreadyHaveAnAccount = "Already have an account? ";

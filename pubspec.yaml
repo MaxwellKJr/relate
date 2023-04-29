@@ -38,6 +38,8 @@ dependencies:
   flutter_native_splash: ^2.2.19
   google_fonts: ^4.0.4
   smooth_page_indicator: ^1.1.0
+  firebase_core: ^2.10.0
+  firebase_auth: ^4.4.2
 
 dev_dependencies:
   flutter_test:
