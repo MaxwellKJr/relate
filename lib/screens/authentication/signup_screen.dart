@@ -6,7 +6,6 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
-import 'package:relate/screens/on_boarding/on_boarding_pages.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

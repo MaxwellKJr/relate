@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text("Home Page BABY!!")]),
+            children: [const Text("Home Page BABY!!")]),
       ),
     ));
   }
