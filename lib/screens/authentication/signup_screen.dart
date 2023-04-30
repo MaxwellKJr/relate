@@ -19,7 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
 
   void signUp() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
   }
 
