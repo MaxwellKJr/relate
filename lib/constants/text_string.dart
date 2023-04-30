@@ -1,14 +1,9 @@
-import 'package:flutter/material.dart';
-
 // Welcome Screen
 const String tWelcomeText = "Welcome to Relate";
 const String tWelcomeDescription =
     "This is a safe space that connects you with people who are dealing with the same things as you are.";
 const String tGetStartedText = "Get Started";
 const String tLoginInsteadText = "Login Instead";
-
-//
-const String tSignupText = "Sign Up";
 
 // On Boarding Pages
 // Headlines
@@ -24,10 +19,16 @@ const String page2Description =
 const String page3Description =
     "With many therapists to choose from, we’ll help you find the right one for you and your needs.";
 
+/// Authentication Screens
+const String tEmail = "Email";
+const String tPassword = "Password";
+const String tConfirmPassword = "Confirm Password";
+
 // Login Screen
 const String tWelcomeBack = "Welcome Back!";
 const String tLogin = "Login";
 const String tDontHaveAnAccount = "Don't have an account? ";
+const String tSignupText = "Sign Up";
 
 // Create account screen
 const String tCreateAccount = "Create an account";

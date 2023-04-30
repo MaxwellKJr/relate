@@ -1,23 +1,30 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/on_boarding/on_boarding_pages.dart';
+import 'package:relate/screens/authentication/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void login() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text, password: _passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    final _userNameTextfieldController = TextEditingController();
-
     return GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
@@ -35,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Welcome Back!",
+                        tWelcomeBack,
                         style: GoogleFonts.poppins(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
@@ -43,59 +50,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: elementSpacing),
-                      TextField(
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                          ),
-                          hintText: 'Email',
-                          suffix: GestureDetector(
-                            onTap: () {
-                              _userNameTextfieldController.clear();
-                            },
-                            child: const Text(
-                              'Clear',
-                            ),
-                          ),
-
-                          // labelText: 'First name',
-
-                          // suffixIcon: IconButton(
-                          //   onPressed: () {
-                          //     _userNameTextfieldController.clear();
-                          //   },
-                          //   icon: const Icon(Icons.delete),
-                          // )
-                        ),
-                      ),
+                      AuthTextField(
+                          controller: _emailController,
+                          hintText: tEmail,
+                          obscureText: false,
+                          prefixIcon: const Icon(Icons.mail)),
                       const SizedBox(height: elementSpacing),
-                      TextField(
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                          ),
-                          hintText: 'Password',
-                          suffix: GestureDetector(
-                            onTap: () {
-                              _userNameTextfieldController.clear();
-                            },
-                            child: const Text(
-                              'Clear',
-                            ),
-                          ),
-
-                          // labelText: 'First name',
-
-                          // suffixIcon: IconButton(
-                          //   onPressed: () {
-                          //     _userNameTextfieldController.clear();
-                          //   },
-                          //   icon: const Icon(Icons.delete),
-                          // )
-                        ),
-                      ),
+                      AuthTextField(
+                          controller: _passwordController,
+                          hintText: tPassword,
+                          obscureText: true,
+                          prefixIcon: const Icon(Icons.lock)),
                       const SizedBox(height: 30),
                       Column(
                         children: [
@@ -104,11 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const OnBoardingPages();
-                                  },
-                                ));
+                                login;
                               },
                               child: Text(
                                 tLogin.toUpperCase(),
@@ -126,10 +87,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                 tDontHaveAnAccount,
                                 style: GoogleFonts.poppins(),
                               ),
-                              const Text(
-                                tSignupText,
-                                style: TextStyle(color: primaryColor),
-                              )
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                const SignupScreen()));
+                                  },
+                                  child: Text(
+                                    tSignupText,
+                                    style: GoogleFonts.poppins(
+                                        color: primaryColor),
+                                  ))
                             ],
                           )
                         ],

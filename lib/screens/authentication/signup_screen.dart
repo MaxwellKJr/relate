@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
+import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/on_boarding/on_boarding_pages.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -13,10 +16,17 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void signUp() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text, password: _passwordController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    final _userNameTextfieldController = TextEditingController();
+    // var height = MediaQuery.of(context).size.height;
 
     return GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -43,59 +53,17 @@ class _SignupScreenState extends State<SignupScreen> {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: elementSpacing),
-                      TextField(
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                          ),
-                          hintText: 'Email',
-                          suffix: GestureDetector(
-                            onTap: () {
-                              _userNameTextfieldController.clear();
-                            },
-                            child: const Text(
-                              'Clear',
-                            ),
-                          ),
-
-                          // labelText: 'First name',
-
-                          // suffixIcon: IconButton(
-                          //   onPressed: () {
-                          //     _userNameTextfieldController.clear();
-                          //   },
-                          //   icon: const Icon(Icons.delete),
-                          // )
-                        ),
-                      ),
+                      AuthTextField(
+                          controller: _emailController,
+                          hintText: tEmail,
+                          obscureText: false,
+                          prefixIcon: const Icon(Icons.email)),
                       const SizedBox(height: elementSpacing),
-                      TextField(
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(borderRadius),
-                          ),
-                          hintText: 'Password',
-                          suffix: GestureDetector(
-                            onTap: () {
-                              _userNameTextfieldController.clear();
-                            },
-                            child: const Text(
-                              'Clear',
-                            ),
-                          ),
-
-                          // labelText: 'First name',
-
-                          // suffixIcon: IconButton(
-                          //   onPressed: () {
-                          //     _userNameTextfieldController.clear();
-                          //   },
-                          //   icon: const Icon(Icons.delete),
-                          // )
-                        ),
-                      ),
+                      AuthTextField(
+                          controller: _passwordController,
+                          hintText: tPassword,
+                          obscureText: true,
+                          prefixIcon: const Icon(Icons.lock)),
                       const SizedBox(height: 30),
                       Column(
                         children: [
@@ -104,14 +72,10 @@ class _SignupScreenState extends State<SignupScreen> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const OnBoardingPages();
-                                  },
-                                ));
+                                signUp();
                               },
                               child: Text(
-                                tLogin.toUpperCase(),
+                                tSignupText.toUpperCase(),
                                 style: GoogleFonts.poppins(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
@@ -123,13 +87,20 @@ class _SignupScreenState extends State<SignupScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                tDontHaveAnAccount,
+                                tAlreadyHaveAnAccount,
                                 style: GoogleFonts.poppins(),
                               ),
-                              const Text(
-                                tSignupText,
-                                style: TextStyle(color: primaryColor),
-                              )
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                const LoginScreen()));
+                                  },
+                                  child: const Text(
+                                    tLogin,
+                                    style: TextStyle(color: primaryColor),
+                                  ))
                             ],
                           )
                         ],
