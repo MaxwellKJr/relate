@@ -5,9 +5,9 @@ import 'package:relate/firebase_options.dart';
 import 'package:relate/screens/authentication/auth_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:relate/screens/home/home_page.dart';
+import 'package:relate/screens/home/home_screen.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());

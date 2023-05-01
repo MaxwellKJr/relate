@@ -16,10 +16,27 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void login() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
+
+    // var user = FirebaseAuth.instance;
+
+    // if (user.currentUser != null) {
+    //   Navigator.of(context).pop(MaterialPageRoute(
+    //       builder: (BuildContext context) => const LoginScreen()));
+
+    // Navigator.pop(context);
   }
 
   @override
@@ -50,20 +67,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: elementSpacing),
-                      AuthTextField(
-                        controller: _emailController,
-                        hintText: tEmail,
-                        obscureText: false,
-                        prefixIcon: const Icon(Icons.mail),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: elementSpacing),
-                      AuthTextField(
-                          controller: _passwordController,
-                          hintText: tPassword,
-                          obscureText: true,
-                          prefixIcon: const Icon(Icons.lock),
-                          keyboardType: TextInputType.visiblePassword),
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              AuthTextField(
+                                controller: _emailController,
+                                hintText: tEmail,
+                                obscureText: false,
+                                prefixIcon: const Icon(Icons.mail),
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              const SizedBox(height: elementSpacing),
+                              AuthTextField(
+                                  controller: _passwordController,
+                                  hintText: tPassword,
+                                  obscureText: true,
+                                  prefixIcon: const Icon(Icons.lock),
+                                  keyboardType: TextInputType.visiblePassword),
+                            ],
+                          )),
                       const SizedBox(height: 30),
                       Column(
                         children: [
@@ -72,7 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                login();
+                                if (_formKey.currentState!.validate()) {
+                                  login();
+                                }
                               },
                               child: Text(
                                 tLogin.toUpperCase(),
@@ -94,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (BuildContext context) =>
+                                            builder: (context) =>
                                                 const SignupScreen()));
                                   },
                                   child: Text(

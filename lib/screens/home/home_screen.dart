@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/constants/size_values.dart';
+import 'package:relate/screens/authentication/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void signOut() {
+    // Navigator.of(context).pop(MaterialPageRoute(
+    //     builder: (BuildContext context) => const LoginScreen()));
     FirebaseAuth.instance.signOut();
   }
 
@@ -20,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.menu),
+        title: const Text("Relate"),
         actions: [
           IconButton(onPressed: signOut, icon: Icon(Icons.logout_outlined)),
         ],
