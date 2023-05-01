@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/home/home_page.dart';
+import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
@@ -17,7 +17,7 @@ class AuthScreen extends StatelessWidget {
               return const HomeScreen();
             } else {
               // if logged out
-              return const LoginScreen();
+              return const WelcomeScreen();
             }
           }),
     );

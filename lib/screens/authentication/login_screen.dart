@@ -51,16 +51,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: elementSpacing),
                       AuthTextField(
-                          controller: _emailController,
-                          hintText: tEmail,
-                          obscureText: false,
-                          prefixIcon: const Icon(Icons.mail)),
+                        controller: _emailController,
+                        hintText: tEmail,
+                        obscureText: false,
+                        prefixIcon: const Icon(Icons.mail),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
                       const SizedBox(height: elementSpacing),
                       AuthTextField(
                           controller: _passwordController,
                           hintText: tPassword,
                           obscureText: true,
-                          prefixIcon: const Icon(Icons.lock)),
+                          prefixIcon: const Icon(Icons.lock),
+                          keyboardType: TextInputType.visiblePassword),
                       const SizedBox(height: 30),
                       Column(
                         children: [

@@ -17,7 +17,6 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   void signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
@@ -53,16 +52,20 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: elementSpacing),
                       AuthTextField(
-                          controller: _emailController,
-                          hintText: tEmail,
-                          obscureText: false,
-                          prefixIcon: const Icon(Icons.email)),
+                        controller: _emailController,
+                        hintText: tEmail,
+                        obscureText: false,
+                        prefixIcon: const Icon(Icons.email),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
                       const SizedBox(height: elementSpacing),
                       AuthTextField(
-                          controller: _passwordController,
-                          hintText: tPassword,
-                          obscureText: true,
-                          prefixIcon: const Icon(Icons.lock)),
+                        controller: _passwordController,
+                        hintText: tPassword,
+                        obscureText: true,
+                        prefixIcon: const Icon(Icons.lock),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
                       const SizedBox(height: 30),
                       Column(
                         children: [

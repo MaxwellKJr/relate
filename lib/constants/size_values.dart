@@ -10,3 +10,7 @@ const double elementSpacing = 20.0;
 
 // Border Radius
 const double borderRadius = 30.0;
+
+/// Form
+// Icons
+const double iconSize = 20.0;

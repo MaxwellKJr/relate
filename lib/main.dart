@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
-import 'package:relate/screens/on_boarding/welcome_screen.dart';
+import 'package:relate/screens/authentication/auth_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           // primarySwatch: Colors.teal,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: const WelcomeScreen(),
+      home: const AuthScreen(),
     );
   }
 }

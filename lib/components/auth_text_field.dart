@@ -6,6 +6,7 @@ class AuthTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final prefixIcon;
+  final keyboardType;
 
   const AuthTextField({
     super.key,
@@ -13,6 +14,7 @@ class AuthTextField extends StatelessWidget {
     required this.hintText,
     required this.obscureText,
     required this.prefixIcon,
+    required this.keyboardType,
   });
 
   @override
@@ -21,6 +23,7 @@ class AuthTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       maxLines: 1,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
@@ -28,10 +31,13 @@ class AuthTextField extends StatelessWidget {
         prefixIcon: prefixIcon,
         hintText: hintText,
         suffix: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            controller.clear();
+          },
           child: const Icon(
             Icons.delete,
             color: Colors.red,
+            size: iconSize,
           ),
         ),
       ),
