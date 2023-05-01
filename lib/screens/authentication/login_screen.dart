@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                login;
+                                login();
                               },
                               child: Text(
                                 tLogin.toUpperCase(),
