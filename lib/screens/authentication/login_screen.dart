@@ -17,6 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _focusNode1 = FocusNode();
+  final _focusNode2 = FocusNode();
 
   void login() async {
     showDialog(
@@ -76,15 +78,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: tEmail,
                                 obscureText: false,
                                 prefixIcon: const Icon(Icons.mail),
+                                textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
+                                focusNode: _focusNode1,
+                                onFieldSubmitted: (value) =>
+                                    FocusScope.of(context)
+                                        .requestFocus(_focusNode2),
                               ),
                               const SizedBox(height: elementSpacing),
                               AuthTextField(
-                                  controller: _passwordController,
-                                  hintText: tPassword,
-                                  obscureText: true,
-                                  prefixIcon: const Icon(Icons.lock),
-                                  keyboardType: TextInputType.visiblePassword),
+                                controller: _passwordController,
+                                hintText: tPassword,
+                                obscureText: true,
+                                prefixIcon: const Icon(Icons.lock),
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.visiblePassword,
+                                focusNode: _focusNode2,
+                                onFieldSubmitted: (value) => login(),
+                              ),
                             ],
                           )),
                       const SizedBox(height: 30),
@@ -125,7 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Text(
                                     tSignupText,
                                     style: GoogleFonts.poppins(
-                                        color: primaryColor),
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w600),
                                   ))
                             ],
                           )

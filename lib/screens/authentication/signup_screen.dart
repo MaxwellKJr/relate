@@ -17,6 +17,9 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _focusNode1 = FocusNode();
+  final _focusNode2 = FocusNode();
 
   void signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -52,21 +55,35 @@ class _SignupScreenState extends State<SignupScreen> {
                         textAlign: TextAlign.left,
                       ),
                       const SizedBox(height: elementSpacing),
-                      AuthTextField(
-                        controller: _emailController,
-                        hintText: tEmail,
-                        obscureText: false,
-                        prefixIcon: const Icon(Icons.email),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: elementSpacing),
-                      AuthTextField(
-                        controller: _passwordController,
-                        hintText: tPassword,
-                        obscureText: true,
-                        prefixIcon: const Icon(Icons.lock),
-                        keyboardType: TextInputType.emailAddress,
-                      ),
+                      Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              AuthTextField(
+                                controller: _emailController,
+                                hintText: tEmail,
+                                obscureText: false,
+                                prefixIcon: const Icon(Icons.email),
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.emailAddress,
+                                focusNode: _focusNode1,
+                                onFieldSubmitted: (value) =>
+                                    FocusScope.of(context)
+                                        .requestFocus(_focusNode2),
+                              ),
+                              const SizedBox(height: elementSpacing),
+                              AuthTextField(
+                                controller: _passwordController,
+                                hintText: tPassword,
+                                obscureText: true,
+                                prefixIcon: const Icon(Icons.lock),
+                                textInputAction: TextInputAction.send,
+                                keyboardType: TextInputType.emailAddress,
+                                focusNode: _focusNode2,
+                                onFieldSubmitted: (value) => signUp(),
+                              ),
+                            ],
+                          )),
                       const SizedBox(height: 30),
                       Column(
                         children: [
@@ -75,7 +92,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                signUp();
+                                if (_formKey.currentState!.validate()) {
+                                  signUp();
+                                }
                               },
                               child: Text(
                                 tSignupText.toUpperCase(),
@@ -102,7 +121,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                   },
                                   child: const Text(
                                     tLogin,
-                                    style: TextStyle(color: primaryColor),
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w600),
                                   ))
                             ],
                           )
