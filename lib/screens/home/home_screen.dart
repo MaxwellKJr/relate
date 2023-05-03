@@ -21,20 +21,29 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      appBar: AppBar(
-        leading: const Icon(Icons.menu),
-        title: const Text("Relate"),
-        actions: [
-          IconButton(onPressed: signOut, icon: Icon(Icons.logout_outlined)),
-        ],
-      ),
-      body: Padding(
-        padding:
-            const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [const Text("Home Page BABY!!")]),
-      ),
-    ));
+            body: CustomScrollView(
+      slivers: [
+        SliverAppBar.medium(
+          leading: const Icon(Icons.menu),
+          title: const Text("Relate"),
+          actions: [
+            IconButton(onPressed: signOut, icon: Icon(Icons.logout_outlined)),
+          ],
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: layoutPadding, right: layoutPadding),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text(
+                "Home Page BABY!!",
+                style: TextStyle(),
+              )
+            ]),
+          ),
+        )
+      ],
+    )));
   }
 }
