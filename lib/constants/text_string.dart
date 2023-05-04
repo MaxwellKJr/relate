@@ -20,7 +20,9 @@ const String page3Description =
     "With many therapists to choose from, we’ll help you find the right one for you and your needs.";
 
 /// Authentication Screens
+const String tUserName = "Username";
 const String tEmail = "Email";
+const String tPhonenumber = "Phonenumber";
 const String tPassword = "Password";
 const String tConfirmPassword = "Confirm Password";
 

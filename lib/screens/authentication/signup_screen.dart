@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,20 +18,37 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
+  final _focusNode3 = FocusNode();
+  final _focusNode4 = FocusNode();
 
   void signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
-    var user = FirebaseAuth.instance;
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
+    final userName = _userNameController.text.trim();
+    final email = _emailController.text.trim();
+    final phoneNumber = _phoneNumberController.text.trim();
 
     if (user.currentUser != null) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool('hasSignedInBefore', true);
+
+      final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      await userRef.set({
+        'uid': uid,
+        'userName': userName,
+        'email': email,
+        'phoneNumber': phoneNumber
+      });
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const HomeScreen()));
@@ -71,12 +89,12 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Column(
                             children: [
                               AuthTextField(
-                                controller: _emailController,
-                                hintText: tEmail,
+                                controller: _userNameController,
+                                hintText: tUserName,
                                 obscureText: false,
-                                prefixIcon: const Icon(Icons.email),
+                                prefixIcon: const Icon(Icons.person),
                                 textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                                 focusNode: _focusNode1,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -84,13 +102,39 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                               const SizedBox(height: elementSpacing),
                               AuthTextField(
+                                controller: _emailController,
+                                hintText: tEmail,
+                                obscureText: false,
+                                prefixIcon: const Icon(Icons.email),
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.emailAddress,
+                                focusNode: _focusNode2,
+                                onFieldSubmitted: (value) =>
+                                    FocusScope.of(context)
+                                        .requestFocus(_focusNode3),
+                              ),
+                              // const SizedBox(height: elementSpacing),
+                              // AuthTextField(
+                              //   controller: _phoneNumberController,
+                              //   hintText: tEmail,
+                              //   obscureText: false,
+                              //   prefixIcon: const Icon(Icons.email),
+                              //   textInputAction: TextInputAction.next,
+                              //   keyboardType: TextInputType.phone,
+                              //   focusNode: _focusNode1,
+                              //   onFieldSubmitted: (value) =>
+                              //       FocusScope.of(context)
+                              //           .requestFocus(_focusNode3),
+                              // ),
+                              const SizedBox(height: elementSpacing),
+                              AuthTextField(
                                 controller: _passwordController,
                                 hintText: tPassword,
                                 obscureText: true,
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.send,
-                                keyboardType: TextInputType.emailAddress,
-                                focusNode: _focusNode2,
+                                keyboardType: TextInputType.visiblePassword,
+                                focusNode: _focusNode3,
                                 onFieldSubmitted: (value) => signUp(),
                               ),
                             ],
