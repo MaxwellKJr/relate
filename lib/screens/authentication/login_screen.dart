@@ -6,6 +6,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/signup_screen.dart';
+import 'package:relate/screens/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,22 +22,23 @@ class _LoginScreenState extends State<LoginScreen> {
   final _focusNode2 = FocusNode();
 
   void login() async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
 
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
 
-    // var user = FirebaseAuth.instance;
+    var user = FirebaseAuth.instance;
 
-    // if (user.currentUser != null) {
-    //   Navigator.of(context).pop(MaterialPageRoute(
-    //       builder: (BuildContext context) => const LoginScreen()));
+    if (user.currentUser != null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const HomeScreen()));
+    }
 
     // Navigator.pop(context);
   }
