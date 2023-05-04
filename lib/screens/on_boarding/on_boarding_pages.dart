@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import "package:relate/constants/colors.dart";
-import "package:relate/constants/size_values.dart";
 import "package:relate/screens/on_boarding/page_1.dart";
 import "package:relate/screens/on_boarding/page_2.dart";
 import "package:relate/screens/on_boarding/page_3.dart";

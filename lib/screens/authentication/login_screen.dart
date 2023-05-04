@@ -7,6 +7,7 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/signup_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,6 +37,9 @@ class _LoginScreenState extends State<LoginScreen> {
     var user = FirebaseAuth.instance;
 
     if (user.currentUser != null) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('hasSignedInBefore', true);
+
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const HomeScreen()));
     }

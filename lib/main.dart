@@ -6,8 +6,9 @@ import 'package:relate/screens/authentication/auth_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
@@ -58,7 +59,7 @@ class _MyAppState extends State<MyApp> {
           // primarySwatch: Colors.teal,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const HomeScreen() : const AuthScreen(),
+      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
     );
   }
 }
