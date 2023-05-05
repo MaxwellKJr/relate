@@ -27,11 +27,11 @@ class _SignupScreenState extends State<SignupScreen> {
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
   final _focusNode3 = FocusNode();
-  final _focusNode4 = FocusNode();
 
   void signUp() async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text, password: _passwordController.text);
+
     final user = FirebaseAuth.instance;
     final uid = user.currentUser?.uid;
     final userName = _userNameController.text.trim();
@@ -43,6 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
       prefs.setBool('hasSignedInBefore', true);
 
       final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+
       await userRef.set({
         'uid': uid,
         'userName': userName,
