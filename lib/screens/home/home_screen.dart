@@ -6,6 +6,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/post_issue/post_issue_screen.dart';
+import 'package:relate/components/post/post_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -58,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 30.0,
                             fontWeight: FontWeight.w600,
                             color: primaryColor),
-                      )
+                      ),
+                      PostList(),
                     ]),
               ),
             ),
