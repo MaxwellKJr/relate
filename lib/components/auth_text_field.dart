@@ -25,10 +25,13 @@ class AuthTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hasText = ValueNotifier(false);
     return TextFormField(
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
+        } else if (obscureText == true && value.length < 6) {
+          return 'Password must have at least 6 characters';
         }
         return null;
       },
@@ -38,6 +41,9 @@ class AuthTextField extends StatelessWidget {
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       focusNode: focusNode,
+      onChanged: (text) {
+        hasText.value = text.isNotEmpty;
+      },
       onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -45,15 +51,23 @@ class AuthTextField extends StatelessWidget {
         ),
         prefixIcon: prefixIcon,
         hintText: hintText,
-        suffix: GestureDetector(
-          onTap: () {
-            controller.clear();
+        suffix: ValueListenableBuilder<bool>(
+          valueListenable: hasText,
+          builder: (context, value, child) {
+            return Visibility(
+              visible: value,
+              child: GestureDetector(
+                onTap: () {
+                  controller.clear();
+                },
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: iconSize,
+                ),
+              ),
+            );
           },
-          child: const Icon(
-            Icons.delete,
-            color: Colors.red,
-            size: iconSize,
-          ),
         ),
       ),
     );

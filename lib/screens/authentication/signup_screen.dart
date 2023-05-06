@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
@@ -7,9 +5,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
-import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/services/auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -36,6 +32,12 @@ class _SignupScreenState extends State<SignupScreen> {
   void onButtonPressed() {
     setState(() {
       _isLoading = true;
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
     });
   }
 
@@ -83,7 +85,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 controller: _emailController,
                                 hintText: tEmail,
                                 obscureText: false,
-                                prefixIcon: const Icon(Icons.email),
+                                prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
                                 focusNode: _focusNode2,
@@ -91,19 +93,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                     FocusScope.of(context)
                                         .requestFocus(_focusNode3),
                               ),
-                              // const SizedBox(height: elementSpacing),
-                              // AuthTextField(
-                              //   controller: _phoneNumberController,
-                              //   hintText: tEmail,
-                              //   obscureText: false,
-                              //   prefixIcon: const Icon(Icons.email),
-                              //   textInputAction: TextInputAction.next,
-                              //   keyboardType: TextInputType.phone,
-                              //   focusNode: _focusNode1,
-                              //   onFieldSubmitted: (value) =>
-                              //       FocusScope.of(context)
-                              //           .requestFocus(_focusNode3),
-                              // ),
                               const SizedBox(height: elementSpacing),
                               AuthTextField(
                                 controller: _passwordController,
