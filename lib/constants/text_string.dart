@@ -1,3 +1,14 @@
+// Basic Text
+const String tRelate = "Relate";
+const String tSignout = "Sign Out";
+
+// Drawer Text
+const String tWellnessCentres = "Wellness Centres";
+const String tSelfJourney = "Self Journery";
+const String tCommunityGroups = "Community Groups";
+const String tContactAProfessional = "Contact a Professional";
+const String tAboutRelate = "About $tRelate";
+
 // Welcome Screen
 const String tWelcomeText = "Welcome to Relate";
 const String tWelcomeDescription =

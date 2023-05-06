@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:relate/constants/size_values.dart';
 
 class AuthTextField extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
   final String hintText;
   final bool obscureText;
-  final prefixIcon;
-  final textInputAction;
+  final Icon prefixIcon;
+  final TextInputAction textInputAction;
   final keyboardType;
-  final focusNode;
+  final FocusNode focusNode;
   final onFieldSubmitted;
 
   const AuthTextField({
