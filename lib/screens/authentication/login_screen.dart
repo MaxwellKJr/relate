@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
@@ -6,8 +5,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/signup_screen.dart';
-import 'package:relate/screens/home/home_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:relate/services/auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,40 +14,30 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final Auth auth = Auth();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
 
-  void login() async {
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     });
+  bool _isLoading = false;
 
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text, password: _passwordController.text);
+  void onButtonPressed() {
+    setState(() {
+      _isLoading = true;
+    });
 
-    var user = FirebaseAuth.instance;
-
-    if (user.currentUser != null) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('hasSignedInBefore', true);
-
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen()));
-    }
-
-    // Navigator.pop(context);
+    Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // var height = MediaQuery.of(context).size.height;
     return GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
@@ -59,10 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Image(
-                  //   image: const AssetImage(tLogo),
-                  //   height: height * 0.3,
-                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -100,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.visiblePassword,
                                 focusNode: _focusNode2,
-                                onFieldSubmitted: (value) => login(),
+                                onFieldSubmitted: (value) => auth.login(context,
+                                    _emailController, _passwordController),
                               ),
                             ],
                           )),
@@ -109,19 +94,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           SizedBox(
                             height: tButtonHeight,
-                            width: double.infinity,
-                            child: FilledButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  login();
-                                }
-                              },
-                              child: Text(
-                                tLogin.toUpperCase(),
-                                style: GoogleFonts.poppins(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                            width: _isLoading ? tButtonHeight : double.infinity,
+                            child: _isLoading
+                                ? const CircularProgressIndicator.adaptive()
+                                : FilledButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        onButtonPressed();
+                                        _focusNode1.unfocus();
+                                        _focusNode2.unfocus();
+                                        auth.login(context, _emailController,
+                                            _passwordController);
+                                      }
+                                    },
+                                    child: Text(
+                                      tLogin.toUpperCase(),
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                           ),
                           const SizedBox(height: elementSpacing),
                           Row(

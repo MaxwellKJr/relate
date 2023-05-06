@@ -8,6 +8,7 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/services/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -18,6 +19,8 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final Auth auth = Auth();
+
   final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -28,38 +31,16 @@ class _SignupScreenState extends State<SignupScreen> {
   final _focusNode2 = FocusNode();
   final _focusNode3 = FocusNode();
 
-  void signUp() async {
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text, password: _passwordController.text);
+  bool _isLoading = false;
 
-    final user = FirebaseAuth.instance;
-    final uid = user.currentUser?.uid;
-    final userName = _userNameController.text.trim();
-    final email = _emailController.text.trim();
-    final phoneNumber = _phoneNumberController.text.trim();
-
-    if (user.currentUser != null) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('hasSignedInBefore', true);
-
-      final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-
-      await userRef.set({
-        'uid': uid,
-        'userName': userName,
-        'email': email,
-        'phoneNumber': phoneNumber
-      });
-
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen()));
-    }
+  void onButtonPressed() {
+    setState(() {
+      _isLoading = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // var height = MediaQuery.of(context).size.height;
-
     return GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
@@ -69,10 +50,6 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // Image(
-                  //   image: const AssetImage(tLogo),
-                  //   height: height * 0.3,
-                  // ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -136,7 +113,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
                                 focusNode: _focusNode3,
-                                onFieldSubmitted: (value) => signUp(),
+                                onFieldSubmitted: (value) => auth.signUp(
+                                    context,
+                                    _emailController,
+                                    _passwordController),
                               ),
                             ],
                           )),
@@ -145,19 +125,26 @@ class _SignupScreenState extends State<SignupScreen> {
                         children: [
                           SizedBox(
                             height: tButtonHeight,
-                            width: double.infinity,
-                            child: FilledButton(
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  signUp();
-                                }
-                              },
-                              child: Text(
-                                tSignupText.toUpperCase(),
-                                style: GoogleFonts.poppins(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                            width: _isLoading ? tButtonHeight : double.infinity,
+                            child: _isLoading
+                                ? const CircularProgressIndicator()
+                                : FilledButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _focusNode1.unfocus();
+                                        _focusNode2.unfocus();
+                                        _focusNode3.unfocus();
+                                        auth.signUp(context, _emailController,
+                                            _passwordController);
+                                      }
+                                    },
+                                    child: Text(
+                                      tSignupText.toUpperCase(),
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                           ),
                           const SizedBox(height: elementSpacing),
                           Row(
