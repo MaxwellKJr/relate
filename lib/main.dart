@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:relate/screens/authentication/auth_screen.dart';
@@ -7,6 +8,7 @@ import 'package:relate/screens/authentication/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
+import 'package:relate/view_models/post_view_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,22 +46,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Relate',
-      theme: ThemeData(
-          useMaterial3: true,
-          // primaryColor: Colors.teal,
-          // primarySwatch: Colors.teal,
-          colorSchemeSeed: primaryColor),
-      darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          // primaryColor: Colors.teal,
-          // primarySwatch: Colors.teal,
-          colorSchemeSeed: primaryColor),
-      themeMode: ThemeMode.system,
-      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PostViewModel>(create: (_) => PostViewModel()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Relate',
+        theme: ThemeData(
+            useMaterial3: true,
+            // primaryColor: Colors.teal,
+            // primarySwatch: Colors.teal,
+            colorSchemeSeed: primaryColor),
+        darkTheme: ThemeData(
+            useMaterial3: true,
+            brightness: Brightness.dark,
+            // primaryColor: Colors.teal,
+            // primarySwatch: Colors.teal,
+            colorSchemeSeed: primaryColor),
+        themeMode: ThemeMode.system,
+        home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      ),
     );
   }
 }

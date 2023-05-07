@@ -32,7 +32,7 @@ class _PostListState extends State<PostList> {
             final post = posts[index];
             final data = post.data() as Map<String, dynamic>?;
             return SizedBox(
-              height: 200,
+              height: double.infinity,
               child: ListTile(
                 subtitle: Text(data?['text'] ?? ''),
               ),
