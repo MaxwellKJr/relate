@@ -12,6 +12,7 @@ class PostIssueScreen extends StatefulWidget {
 class _PostIssueScreenState extends State<PostIssueScreen> {
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool isEmpty = false;
 
   Future<void> sendPost() async {
     final user = FirebaseAuth.instance;
@@ -25,7 +26,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     final post = {
       'text': text,
-      'timestamp': Timestamp.fromDate(currentTime).toString(),
+      'timestamp': Timestamp.fromDate(currentTime),
       'uid': uid, // Add the user's UID and userName to the post document
       'postedBy': userName
     };
@@ -38,6 +39,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hasText = ValueNotifier(false);
     return SafeArea(
         child: Scaffold(
       appBar: PreferredSize(
@@ -84,7 +86,13 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: TextField(
+            child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Enter some text';
+                }
+                return null;
+              },
               controller: _postTextController,
               decoration: const InputDecoration(
                 hintText: 'Share your thoughts...',
