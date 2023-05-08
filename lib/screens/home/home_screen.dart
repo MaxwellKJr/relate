@@ -19,11 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    PostViewModel();
     Provider.of<PostViewModel>(context, listen: false).getPosts();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('MyWidget is being built');
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -33,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.logout_outlined),
+                  icon: const Icon(Icons.miscellaneous_services_sharp),
                 ),
               ],
             ),
@@ -57,7 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(height: 10),
                     Consumer<PostViewModel>(
                       builder: (context, postViewModel, child) {
+                        print(
+                            'Consumer rebuilt with ${postViewModel.posts.length} posts');
                         if (postViewModel.posts.isNotEmpty) {
+                          print(
+                              'Returning ListView.builder with ${postViewModel.posts.length} posts');
                           return ListView.builder(
                             itemCount: postViewModel.posts.length,
                             shrinkWrap: true,

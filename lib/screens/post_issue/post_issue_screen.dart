@@ -25,7 +25,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     final post = {
       'text': text,
-      'timestamp': Timestamp.fromDate(currentTime),
+      'timestamp': Timestamp.fromDate(currentTime).toString(),
       'uid': uid, // Add the user's UID and userName to the post document
       'postedBy': userName
     };

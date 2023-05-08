@@ -8,9 +8,10 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('PostTile is being built with post: $post');
     return ListTile(
-      title: Text(post.postedBy.toString()),
-      subtitle: Text("${post.timestamp} + ' - ' + ${post.text}"),
+      title: Text("${post.postedBy}"),
+      subtitle: Text("${post.timestamp.toString()} + ' - ' + ${post.text}"),
     );
   }
 }
