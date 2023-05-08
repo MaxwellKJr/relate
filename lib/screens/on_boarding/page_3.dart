@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/image_strings.dart';
@@ -17,10 +18,7 @@ class Page3 extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image(
-            image: const AssetImage(tLogo),
-            height: height * 0.3,
-          ),
+          Lottie.asset(findProfessionals, height: height * 0.3),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

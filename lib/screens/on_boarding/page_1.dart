@@ -4,6 +4,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/image_strings.dart';
 import 'package:relate/constants/text_string.dart';
+import 'package:lottie/lottie.dart';
 
 class Page1 extends StatelessWidget {
   const Page1({Key? key}) : super(key: key);
@@ -17,10 +18,7 @@ class Page1 extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Image(
-            image: const AssetImage(tLogo),
-            height: height * 0.3,
-          ),
+          Lottie.asset(connections, height: height * 0.3),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
