@@ -56,53 +56,64 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 final dateTime = timestamp.toDate();
                 final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
                 final formattedTime = DateFormat.Hm().format(dateTime);
+                final formattedDateTime = "$formattedDate $formattedTime";
 
                 return SizedBox(
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.all(layoutPadding),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ViewPost(
-                                            text: post['text'],
-                                            postedBy: post['postedBy'],
-                                            timestamp: post['timestamp'],
-                                            uid: post['uid'],
-                                          )));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(color: Colors.red),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    postedBy,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w800),
-                                  ),
-                                  Text(
-                                    '$formattedDate - $formattedTime',
-                                    style: const TextStyle(color: primaryColor),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    text,
-                                    style: GoogleFonts.roboto(),
-                                  ),
-                                ],
+                        padding: const EdgeInsets.only(
+                            left: layoutPadding - 10,
+                            right: layoutPadding - 10,
+                            bottom: 5),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () async {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ViewPost(
+                                                text: text,
+                                                postedBy: postedBy,
+                                                formattedDateTime:
+                                                    formattedDateTime,
+                                                uid: uid,
+                                              )));
+                                },
+                                child: SizedBox(
+                                    width: double.infinity,
+                                    child: Card(
+                                      elevation: 0,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(
+                                            layoutPadding - 10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              postedBy,
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            Text(
+                                              '$formattedDate - $formattedTime',
+                                              style: const TextStyle(
+                                                  color: primaryColor),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              text,
+                                              style: GoogleFonts.roboto(),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ));
+                            ])));
               });
         }
       },

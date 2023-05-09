@@ -9,17 +9,18 @@ import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
-  final _userNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
-  final _passwordController = TextEditingController();
+  // final _userNameController = TextEditingController();
+  // final _emailController = TextEditingController();
+  // final _phoneNumberController = TextEditingController();
+  // final _passwordController = TextEditingController();
   final context = BuildContext;
 
-  void signUp(context, _emailController, _passwordController) async {
+  void signUp(context, userNameController, phoneNumberController,
+      emailController, passwordController) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text)
+              email: emailController.text, password: passwordController.text)
           .then((value) => {
                 Fluttertoast.showToast(
                     msg: "Account created successfully!",
@@ -33,9 +34,10 @@ class Auth {
 
       final user = FirebaseAuth.instance;
       final uid = user.currentUser?.uid;
-      final userName = _userNameController.text.trim();
-      final email = _emailController.text.trim();
-      final phoneNumber = _phoneNumberController.text.trim();
+
+      final userName = userNameController.text.trim();
+      final email = emailController.text.trim();
+      final phoneNumber = phoneNumberController.text.trim();
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();

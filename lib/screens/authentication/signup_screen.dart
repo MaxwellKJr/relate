@@ -104,6 +104,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                 focusNode: _focusNode3,
                                 onFieldSubmitted: (value) => auth.signUp(
                                     context,
+                                    _userNameController,
+                                    _phoneNumberController,
                                     _emailController,
                                     _passwordController),
                               ),
@@ -120,10 +122,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                 : FilledButton(
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
+                                        onButtonPressed();
                                         _focusNode1.unfocus();
                                         _focusNode2.unfocus();
                                         _focusNode3.unfocus();
-                                        auth.signUp(context, _emailController,
+                                        auth.signUp(
+                                            context,
+                                            _userNameController,
+                                            _phoneNumberController,
+                                            _emailController,
                                             _passwordController);
                                       }
                                     },

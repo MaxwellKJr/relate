@@ -63,7 +63,9 @@ class _DrawerMainState extends State<DrawerMain> {
                   onPressed: () {
                     auth.signOut(context);
                   },
-                  child: const Text(tSignout)),
+                  child: Text(tSignout.toUpperCase(),
+                      style: GoogleFonts.poppins(
+                          fontSize: 17, fontWeight: FontWeight.w700))),
             )
           ],
         ),

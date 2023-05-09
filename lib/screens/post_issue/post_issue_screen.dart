@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:relate/constants/colors.dart';
 
 class PostIssueScreen extends StatefulWidget {
   const PostIssueScreen({super.key});
@@ -32,7 +34,19 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
     };
 
     if (text.isNotEmpty) {
-      await FirebaseFirestore.instance.collection('posts').add(post);
+      await FirebaseFirestore.instance
+          .collection('posts')
+          .add(post)
+          .then((value) => {
+                Fluttertoast.showToast(
+                    msg: "Post Shared",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: primaryColor,
+                    textColor: whiteColor,
+                    fontSize: 16.0)
+              });
       Navigator.pop(context);
     }
   }
@@ -55,7 +69,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
             ),
           ),
           child: AppBar(
-            title: const Text('Post'),
+            title: const Text("Share"),
             leading: IconButton(
               icon: Icon(Icons.adaptive.arrow_back),
               onPressed: () {
