@@ -65,7 +65,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                         padding: const EdgeInsets.only(
                             left: layoutPadding - 10,
                             right: layoutPadding - 10,
-                            bottom: 5),
+                            bottom: 10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -85,10 +85,13 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                 child: SizedBox(
                                     width: double.infinity,
                                     child: Card(
-                                      elevation: 0,
+                                      elevation: 1,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(
-                                            layoutPadding - 10),
+                                        padding:
+                                            const EdgeInsets.all(layoutPadding),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -107,7 +110,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                             const SizedBox(height: 10),
                                             Text(
                                               text,
-                                              style: GoogleFonts.roboto(),
+                                              style: GoogleFonts.roboto(
+                                                  fontSize: 14.5),
+                                              maxLines: 5,
                                             ),
                                             const PostBottomIcons(),
                                           ],

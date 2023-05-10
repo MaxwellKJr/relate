@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.17.0
   page_transition: ^2.0.9
   hidden_drawer_menu: ^3.0.1
+  image_picker: ^0.8.7+4
 
 dev_dependencies:
   flutter_test:

@@ -9,10 +9,6 @@ import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
-  // final _userNameController = TextEditingController();
-  // final _emailController = TextEditingController();
-  // final _phoneNumberController = TextEditingController();
-  // final _passwordController = TextEditingController();
   final context = BuildContext;
 
   void signUp(context, userNameController, phoneNumberController,

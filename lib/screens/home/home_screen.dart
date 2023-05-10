@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title:
             const Text(tRelate, style: TextStyle(fontWeight: FontWeight.w500)),
+        actions: const [Icon(Icons.more_vert)],
         backgroundColor: theme.brightness == Brightness.dark
             ? Colors.black12 // set color for dark theme
             : Colors.white24, // set color for light theme
