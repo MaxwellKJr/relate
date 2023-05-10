@@ -41,7 +41,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 final post = posts![index];
                 final postId = post.id;
 
-                debugPrint(postId);
+                // debugPrint(postId);
 
                 final String text = post['text'];
                 final String postedBy = post['postedBy'];

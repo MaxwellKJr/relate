@@ -7,7 +7,7 @@ import 'package:relate/constants/colors.dart';
 class PostServices {
   final context = BuildContext;
 
-  Future<void> submitComment(postTextController, String postId) async {
+  Future<void> submitComment(context, postTextController, String postId) async {
     try {
       final commentBody = postTextController.text;
 

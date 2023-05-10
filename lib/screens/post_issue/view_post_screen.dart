@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/components/post/comments_section.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
@@ -29,6 +30,8 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   Widget build(BuildContext context) {
+    final postId = widget.postId;
+
     return Scaffold(
         appBar: AppBar(title: const Text("Post")),
         body: SafeArea(
@@ -59,6 +62,7 @@ class _ViewPostState extends State<ViewPost> {
                                 style: GoogleFonts.poppins(fontSize: 14),
                               ),
                               const PostBottomIcons(),
+                              CommentsSection(postId: postId),
                             ],
                           ),
                           Align(
@@ -79,6 +83,7 @@ class _ViewPostState extends State<ViewPost> {
                                           if (_formKey.currentState!
                                               .validate()) {
                                             postService.submitComment(
+                                                context,
                                                 _postTextController,
                                                 widget.postId);
                                           }
