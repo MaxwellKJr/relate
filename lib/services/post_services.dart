@@ -2,33 +2,41 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:relate/constants/colors.dart';
 
-class PostService {
+class PostServices {
   final context = BuildContext;
 
-  void postComment(context, postTextController) async {
-    try {} on FirebaseAuthException catch (error) {
-      if (error.code == 'user-not-found') {
-        Fluttertoast.showToast(
-            msg: "User Does Not Exist!",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else if (error.code == 'wrong-password') {
-        Fluttertoast.showToast(
-            msg: "Wrong Password. Try Again",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      }
-      return null;
+  Future<void> submitComment(postTextController, String postId) async {
+    try {
+      final commentBody = postTextController.text;
+
+      final user = FirebaseAuth.instance;
+      final uid = user.currentUser?.uid;
+      final userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userName = userDoc.data()!['userName'];
+
+      final comment = {
+        'uid': uid,
+        'userName': userName,
+        'commentBody': commentBody,
+        'timestamp': Timestamp.now(),
+      };
+
+      final postRef =
+          FirebaseFirestore.instance.collection('posts').doc(postId);
+      await postRef.collection('comments').add(comment).then((value) =>
+          Fluttertoast.showToast(
+              msg: "Comment Submitted",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: primaryColor,
+              textColor: Colors.white,
+              fontSize: 16.0));
+    } on FirebaseFirestore catch (error) {
+      print(error);
     }
   }
 }

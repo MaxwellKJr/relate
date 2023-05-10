@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/screens/post_issue/view_post_screen.dart';
-import 'package:relate/view_models/post_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 
@@ -16,15 +15,6 @@ class HomeScreenBody extends StatefulWidget {
 }
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
-  late final PostViewModel _viewModel;
-
-  @override
-  void initState() {
-    super.initState();
-    _viewModel = PostViewModel();
-    _viewModel.getPosts();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,14 +30,19 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           );
         } else {
           final posts = snapshot.data?.docs;
-          posts
-              ?.map((post) => post.data())
-              .forEach((post) => debugPrint(post.toString()));
+
+          // posts
+          //     ?.map((post) => post.data())
+          //     .forEach((post) => debugPrint(post.toString()));
 
           return ListView.builder(
               itemCount: posts?.length,
               itemBuilder: (context, index) {
                 final post = posts![index];
+                final postId = post.id;
+
+                debugPrint(postId);
+
                 final String text = post['text'];
                 final String postedBy = post['postedBy'];
                 final Timestamp timestamp = post['timestamp'];
@@ -75,6 +70,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => ViewPost(
+                                                postId: postId,
                                                 text: text,
                                                 postedBy: postedBy,
                                                 formattedDateTime:

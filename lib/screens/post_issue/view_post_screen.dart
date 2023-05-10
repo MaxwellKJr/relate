@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
+import 'package:relate/services/post_services.dart';
 
 class ViewPost extends StatefulWidget {
-  final String text, postedBy, uid, formattedDateTime;
+  final String postId, text, postedBy, uid, formattedDateTime;
 
   const ViewPost(
       {super.key,
+      required this.postId,
       required this.text,
       required this.postedBy,
       required this.formattedDateTime,
@@ -18,6 +22,8 @@ class ViewPost extends StatefulWidget {
 }
 
 class _ViewPostState extends State<ViewPost> {
+  final PostServices postService = PostServices();
+
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -63,12 +69,20 @@ class _ViewPostState extends State<ViewPost> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Flexible(
-                                          child: TextField(
-                                              decoration: InputDecoration(
+                                      Flexible(
+                                          child: TextFormField(
+                                              controller: _postTextController,
+                                              decoration: const InputDecoration(
                                                   hintText: "Comment"))),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            postService.submitComment(
+                                                _postTextController,
+                                                widget.postId);
+                                          }
+                                        },
                                         icon: const Icon(
                                           Icons.send_sharp,
                                           color: primaryColor,
