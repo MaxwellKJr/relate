@@ -6,6 +6,7 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/screens/post_issue/view_post_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/components/post/post_bottom_icons.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({Key? key}) : super(key: key);
@@ -108,6 +109,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                               text,
                                               style: GoogleFonts.roboto(),
                                             ),
+                                            const PostBottomIcons(),
                                           ],
                                         ),
                                       ),

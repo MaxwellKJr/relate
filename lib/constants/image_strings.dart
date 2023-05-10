@@ -13,3 +13,6 @@ const connections = "assets/animations/onboarding/connections.json";
 const expressYourself = "assets/animations/onboarding/express-yourself.json";
 const findProfessionals =
     "assets/animations/onboarding/find-professionals.json";
+
+// Post Related Animations
+const relateHeart = "assets/animations/post/relate-heart-v2.json";
