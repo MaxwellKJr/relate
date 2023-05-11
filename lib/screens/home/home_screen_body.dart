@@ -77,6 +77,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                                 postId: postId,
                                                 text: text,
                                                 focus: focus,
+                                                image: image,
                                                 postedBy: postedBy,
                                                 formattedDateTime:
                                                     formattedDateTime,
@@ -143,11 +144,18 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                             if (post['image'] != null &&
                                                 post['image'] != '')
                                               Container(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: Image.network(
-                                                    post['image']),
-                                              )
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10),
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    child: Image.network(
+                                                      image,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ))
                                             else
                                               Container(),
                                             // Container(

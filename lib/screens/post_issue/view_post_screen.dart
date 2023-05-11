@@ -7,13 +7,14 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
 class ViewPost extends StatefulWidget {
-  final String postId, text, focus, postedBy, uid, formattedDateTime;
+  final String postId, text, focus, image, postedBy, uid, formattedDateTime;
 
   const ViewPost(
       {super.key,
       required this.postId,
       required this.text,
       required this.focus,
+      required this.image,
       required this.postedBy,
       required this.formattedDateTime,
       required this.uid});
@@ -92,6 +93,19 @@ class _ViewPostState extends State<ViewPost> {
                                     style: GoogleFonts.poppins(
                                         fontSize: 14, color: Colors.black87),
                                   ),
+                                  if (widget.image != '')
+                                    Container(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                          child: Image.network(
+                                            widget.image,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ))
+                                  else
+                                    Container(),
                                   const PostBottomIcons(),
                                   CommentsSection(postId: postId),
                                 ],
