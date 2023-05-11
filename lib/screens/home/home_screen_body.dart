@@ -45,6 +45,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
                 final String text = post['text'];
                 final String focus = post['focus'];
+
+                final image = post['image'];
+
                 final String postedBy = post['postedBy'];
                 final Timestamp timestamp = post['timestamp'];
                 final String uid = post['uid'];
@@ -137,6 +140,22 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                                   fontSize: 14.5),
                                               maxLines: 5,
                                             ),
+                                            if (post['image'] != null &&
+                                                post['image'] != '')
+                                              Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: Image.network(
+                                                    post['image']),
+                                              )
+                                            else
+                                              Container(),
+                                            // Container(
+                                            //     padding:
+                                            //         EdgeInsets.only(top: 10),
+                                            //     child: Image.network(
+                                            //         post['image'])),
+
                                             const PostBottomIcons(),
                                           ],
                                         ),
