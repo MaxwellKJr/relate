@@ -51,6 +51,10 @@ dependencies:
   page_transition: ^2.0.9
   hidden_drawer_menu: ^3.0.1
   image_picker: ^0.8.7+4
+  vibration: ^1.7.7
+  image_cropper: ^3.0.3
+  firebase_storage: ^11.1.2
+  animated_custom_dropdown: ^1.5.0
 
 dev_dependencies:
   flutter_test:

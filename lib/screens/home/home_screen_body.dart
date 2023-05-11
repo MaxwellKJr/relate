@@ -44,6 +44,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 // debugPrint(postId);
 
                 final String text = post['text'];
+                final String focus = post['focus'];
                 final String postedBy = post['postedBy'];
                 final Timestamp timestamp = post['timestamp'];
                 final String uid = post['uid'];
@@ -52,7 +53,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 final dateTime = timestamp.toDate();
                 final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
                 final formattedTime = DateFormat.Hm().format(dateTime);
-                final formattedDateTime = "$formattedDate $formattedTime";
+                final formattedDateTime = "$formattedDate @ $formattedTime";
 
                 return SizedBox(
                     width: double.infinity,
@@ -72,6 +73,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                           builder: (context) => ViewPost(
                                                 postId: postId,
                                                 text: text,
+                                                focus: focus,
                                                 postedBy: postedBy,
                                                 formattedDateTime:
                                                     formattedDateTime,
@@ -92,16 +94,41 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              postedBy,
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w800),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  postedBy,
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                const Icon(
+                                                  Icons.circle_rounded,
+                                                  color: Colors.grey,
+                                                  size: 6,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  focus,
+                                                  style: GoogleFonts.poppins(
+                                                      color: primaryColor,
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w800),
+                                                ),
+                                              ],
                                             ),
                                             Text(
-                                              '$formattedDate - $formattedTime',
-                                              style: const TextStyle(
-                                                  color: primaryColor),
+                                              '$formattedDate @ $formattedTime',
+                                              style: const TextStyle(),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(

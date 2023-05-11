@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/comments_section.dart';
@@ -9,12 +7,13 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
 class ViewPost extends StatefulWidget {
-  final String postId, text, postedBy, uid, formattedDateTime;
+  final String postId, text, focus, postedBy, uid, formattedDateTime;
 
   const ViewPost(
       {super.key,
       required this.postId,
       required this.text,
+      required this.focus,
       required this.postedBy,
       required this.formattedDateTime,
       required this.uid});
@@ -34,71 +33,126 @@ class _ViewPostState extends State<ViewPost> {
 
     return Scaffold(
         appBar: AppBar(title: const Text("Post")),
-        body: SafeArea(
-            child: Padding(
-                padding: const EdgeInsets.all(layoutPadding),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: ListView(
-                        shrinkWrap: true,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+        body: GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+              }
+            },
+            child: SafeArea(
+                child: Padding(
+                    padding: const EdgeInsets.all(layoutPadding),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView(
+                            shrinkWrap: true,
                             children: [
-                              Text(
-                                widget.postedBy,
-                                style: GoogleFonts.poppins(
-                                    fontSize: 17, fontWeight: FontWeight.w700),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.postedBy,
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Icon(
+                                        Icons.circle_rounded,
+                                        color: Colors.grey,
+                                        size: 6,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        widget.focus,
+                                        style: GoogleFonts.poppins(
+                                            color: primaryColor,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    widget.formattedDateTime,
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12, color: primaryColor),
+                                  ),
+                                  const SizedBox(height: elementSpacing),
+                                  Text(
+                                    widget.text,
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14, color: Colors.black87),
+                                  ),
+                                  const PostBottomIcons(),
+                                  CommentsSection(postId: postId),
+                                ],
                               ),
-                              Text(
-                                widget.formattedDateTime,
-                                style: GoogleFonts.poppins(
-                                    fontSize: 12, color: primaryColor),
-                              ),
-                              const SizedBox(height: elementSpacing),
-                              Text(
-                                widget.text,
-                                style: GoogleFonts.poppins(fontSize: 14),
-                              ),
-                              const PostBottomIcons(),
-                              CommentsSection(postId: postId),
+                              Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Form(
+                                      key: _formKey,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Flexible(
+                                            child: Container(
+                                                padding: const EdgeInsets.only(
+                                                    top: layoutPadding),
+                                                child: TextFormField(
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'Enter some text';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    controller:
+                                                        _postTextController,
+                                                    decoration: InputDecoration(
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .all(5),
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  borderRadius),
+                                                        ),
+                                                        hintText: "Comment"))),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                postService.submitComment(
+                                                    context,
+                                                    _postTextController,
+                                                    widget.postId);
+                                              }
+                                            },
+                                            icon: const Icon(
+                                              Icons.send_sharp,
+                                              color: primaryColor,
+                                            ),
+                                          )
+                                        ],
+                                      )))
                             ],
                           ),
-                          Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Form(
-                                  key: _formKey,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                          child: TextFormField(
-                                              controller: _postTextController,
-                                              decoration: const InputDecoration(
-                                                  hintText: "Comment"))),
-                                      IconButton(
-                                        onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            postService.submitComment(
-                                                context,
-                                                _postTextController,
-                                                widget.postId);
-                                          }
-                                        },
-                                        icon: const Icon(
-                                          Icons.send_sharp,
-                                          color: primaryColor,
-                                        ),
-                                      )
-                                    ],
-                                  )))
-                        ],
-                      ),
-                    )
-                  ],
-                ))));
+                        )
+                      ],
+                    )))));
   }
 }
