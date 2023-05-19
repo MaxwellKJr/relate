@@ -41,12 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
               PageTransition(
                   type: PageTransitionType.bottomToTop,
                   duration: const Duration(milliseconds: 400),
-                  child: const PostIssueScreen())
+                  child: const PostIssueScreen(),)
               // MaterialPageRoute(
               //   builder: (context) => const PostIssueScreen(),
               // ),
               );
         },
+
         backgroundColor: primaryColor,
         elevation: 3,
         child: const Icon(
