@@ -8,7 +8,7 @@ import 'package:relate/services/message_services.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
 
 class ViewMessage extends StatefulWidget {
-  final String messageId, text, focus, image, postedBy, uid, formattedDateTime;
+  final String messageId, text, focus, image, sentBy, uid, formattedDateTime;
 
   const ViewMessage(
       {super.key,
@@ -16,7 +16,7 @@ class ViewMessage extends StatefulWidget {
         required this.text,
         required this.focus,
         required this.image,
-        required this.postedBy,
+        required this.sentBy,
         required this.formattedDateTime,
         required this.uid});
   @override
@@ -58,7 +58,7 @@ class _ViewMessageState extends State<ViewMessage> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.postedBy,
+                                        widget.sentBy,
                                         style: GoogleFonts.poppins(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),

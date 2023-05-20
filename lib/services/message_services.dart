@@ -28,7 +28,7 @@ class MessageServices {
       };
 
       final messageRef =
-      FirebaseFirestore.instance.collection('posts').doc(messageId);
+      FirebaseFirestore.instance.collection('Messages').doc(messageId);
 
       // if (commentBody != null) {
       //   Fluttertoast.showToast(

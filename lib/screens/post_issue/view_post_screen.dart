@@ -6,6 +6,7 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
+
 class ViewPost extends StatefulWidget {
   final String postId, text, focus, image, postedBy, uid, formattedDateTime;
 

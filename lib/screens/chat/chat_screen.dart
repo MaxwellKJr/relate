@@ -16,15 +16,13 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
 
-  List<types.Message> _messages = [];
-  final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
+      body: ChatScreenBody());
+  }
         title:
         const Text(tRelate, style: TextStyle(fontWeight: FontWeight.w500)),
         actions: const [Icon(Icons.more_vert)],
