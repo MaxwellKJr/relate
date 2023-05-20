@@ -33,11 +33,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
             icon: Icon(Icons.person_rounded), label: "Profile"),
       ],
       selectedIndex: currentPageIndex,
-      onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-        });
-      },
+      onDestinationSelected: (currentPageIndex) =>
+          setState(() => this.currentPageIndex = currentPageIndex),
     );
   }
 }
