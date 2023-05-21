@@ -128,7 +128,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                   showSnackbar(
                                     context,
                                     Colors.green,
-                                    "Group created successfully.",
+                                    "Group has been created successfully.",
                                   );
                                 }
                               },
