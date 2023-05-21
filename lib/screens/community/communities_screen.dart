@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/components/navigation/drawer/drawer_community.dart';
@@ -5,6 +6,7 @@ import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
+import 'package:relate/screens/community/group_cards.dart';
 // import 'package:relate/screens/community/section_divider.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/services/chat_database_services.dart';
@@ -22,6 +24,27 @@ class Communities extends StatefulWidget {
 
 class _CommunitiesState extends State<Communities> {
   Stream? groups;
+  String userName = "";
+
+  //  String userName = "";
+  String email = "";
+  // AuthService authService = AuthService();
+  // bool _isLoading = false;
+  String groupName = "";
+
+  // string manipulation
+  String getUsertId(String res) {
+    return res.substring(0, res.indexOf("_"));
+  }
+
+  String getUserName(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
+
+//get email
+  String getEmail(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
 
   gettingUserData() async {
     // await HelperFunctions.getUserEmailFromSF().then((value) {
@@ -70,7 +93,7 @@ class _CommunitiesState extends State<Communities> {
         iconTheme: const IconThemeData(color: primaryColor),
       ),
       drawer: const DrawerMain(),
-      // body: SectionDivider(),
+      body: groupList(),
       bottomNavigationBar: const NavigationBarMain(),
     );
   }
@@ -83,7 +106,18 @@ class _CommunitiesState extends State<Communities> {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-              return Text("will");
+              return Text("mabodza");
+
+              // ListView.builder(
+
+              // itemCount: snapshot.data['groups'].length,
+              // itemBuilder: (context, index) {
+              //   return GroupCards(
+              //       groupId: getUsertId(snapshot.data['groups'][index]),
+              //       groupName: getUserName(snapshot.data['groups'][index]),
+              //       email: getEmail(snapshot.data['groups'][index]));
+              // },
+              // );
             } else {
               return noGroupWidget();
             }

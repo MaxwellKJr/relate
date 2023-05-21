@@ -12,7 +12,7 @@ class Auth {
   final context = BuildContext;
 
   void signUp(context, userNameController, phoneNumberController,
-      emailController, passwordController) async {
+      emailController, passwordController, groupsController) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -34,6 +34,9 @@ class Auth {
       final userName = userNameController.text.trim();
       final email = emailController.text.trim();
       final phoneNumber = phoneNumberController.text.trim();
+      final groups = groupsController.text.split(',');
+
+      // final groups = groupsController;
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,10 +45,12 @@ class Auth {
         final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
         await userRef.set({
-          'uid': uid,
+          ''
+              'uid': uid,
           'userName': userName,
           'email': email,
-          'phoneNumber': phoneNumber
+          'phoneNumber': phoneNumber,
+          'groups': []
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(

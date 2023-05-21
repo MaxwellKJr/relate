@@ -34,9 +34,12 @@ class ChatDatabase {
   }
 
   // creating a group
-  Future createGroup(String userName, String id, String groupName) async {
+  Future createGroup(
+      String userName, String id, String groupName, String email) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
+      // used this inplace of usernam
+      "email": email,
       "groupIcon": "",
       "admin": "${id}_$userName",
       "members": [],
@@ -47,6 +50,11 @@ class ChatDatabase {
     // update the members
     await groupDocumentReference.update({
       "members": FieldValue.arrayUnion(["${uid}_$userName"]),
+      "groupId": groupDocumentReference.id,
+    });
+
+    await groupDocumentReference.update({
+      "members": FieldValue.arrayUnion(["${uid}_$email"]),
       "groupId": groupDocumentReference.id,
     });
 

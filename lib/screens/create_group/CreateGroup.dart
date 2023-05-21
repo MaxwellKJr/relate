@@ -115,10 +115,10 @@ class _CreateGroupState extends State<CreateGroup> {
                                   await ChatDatabase(
                                     uid: FirebaseAuth.instance.currentUser!.uid,
                                   ).createGroup(
-                                    userName,
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                    groupName,
-                                  );
+                                      userName,
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                      groupName,
+                                      email);
 
                                   innerSetState(() {
                                     _isLoading = false;

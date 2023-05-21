@@ -22,6 +22,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  //
+  final _groupsController = TextEditingController();
 
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
@@ -103,11 +105,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                 keyboardType: TextInputType.visiblePassword,
                                 focusNode: _focusNode3,
                                 onFieldSubmitted: (value) => auth.signUp(
-                                    context,
-                                    _userNameController,
-                                    _phoneNumberController,
-                                    _emailController,
-                                    _passwordController),
+                                  context,
+                                  _userNameController,
+                                  _phoneNumberController,
+                                  _emailController,
+                                  _passwordController,
+                                  _groupsController,
+                                ),
                               ),
                             ],
                           )),
@@ -127,11 +131,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                         _focusNode2.unfocus();
                                         _focusNode3.unfocus();
                                         auth.signUp(
-                                            context,
-                                            _userNameController,
-                                            _phoneNumberController,
-                                            _emailController,
-                                            _passwordController);
+                                          context,
+                                          _userNameController,
+                                          _phoneNumberController,
+                                          _emailController,
+                                          _passwordController,
+                                          _groupsController,
+                                        );
                                       }
                                     },
                                     child: Text(
