@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:flutter/cupertino.dart';
 
 class ConversationList extends StatefulWidget {
   final String name;
@@ -23,7 +25,12 @@ class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {GestureDetector(
+          onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return ChatScreen();
+        }));
+      },);},
       child: Container(
         padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(

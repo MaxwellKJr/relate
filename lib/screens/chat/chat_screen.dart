@@ -6,6 +6,7 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/chat/chat_screen_body.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter/cupertino.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -21,19 +22,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      body: ChatScreenBody());
-  }
-        title:
-        const Text(tRelate, style: TextStyle(fontWeight: FontWeight.w500)),
-        actions: const [Icon(Icons.more_vert)],
-        backgroundColor: theme.brightness == Brightness.dark
-            ? Colors.black12 // set color for dark theme
-            : Colors.white24, // set color for light theme
-        bottomOpacity: 0,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: primaryColor),
-      ),
-        body: const ChatScreenBody(),
+        body: ChatScreenBody(),
         floatingActionButton: FloatingActionButton(
             onPressed: () {
               Navigator.push(
@@ -41,17 +30,8 @@ class _ChatScreenState extends State<ChatScreen> {
                   PageTransition(
                     type: PageTransitionType.bottomToTop,
                     duration: const Duration(milliseconds: 400),
-                    child: const ViewMessage(),)
+                    child: ChatScreenBody(),)
               );
-            },
-
-          backgroundColor: primaryColor,
-          elevation: 3,
-          child: const Icon(
-            Icons.add,
-            color: whiteColor,
-          ),
-        ),
-    );
-  }
-}
+            }
+        ));
+  }}

@@ -5,14 +5,14 @@ import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/message_services.dart';
-import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:flutter/cupertino.dart';
 
 class ViewMessage extends StatefulWidget {
-  final String messageId, text, focus, image, sentBy, uid, formattedDateTime;
+  final String message, text, focus, image, sentBy, uid, formattedDateTime;
 
   const ViewMessage(
       {super.key,
-        required this.messageId,
+        required this.message,
         required this.text,
         required this.focus,
         required this.image,
@@ -31,7 +31,7 @@ class _ViewMessageState extends State<ViewMessage> {
 
   @override
   Widget build(BuildContext context) {
-    final messageId = widget.messageId;
+    final messageId = widget.message;
 
     return Scaffold(
         appBar: AppBar(title: const Text("uid")),
@@ -154,7 +154,7 @@ class _ViewMessageState extends State<ViewMessage> {
                                                 messageService.sendMessage(
                                                     context,
                                                     _messageTextController,
-                                                    widget.messageId);
+                                                    widget.message);
                                               }
                                             },
                                             icon: const Icon(
