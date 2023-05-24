@@ -39,9 +39,9 @@ class ChatDatabase {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       // used this inplace of usernam
-      "email": email,
+      "email": "$email",
       "groupIcon": "",
-      "admin": "${id}_$userName",
+      "admin": "${id}_${userName}",
       "members": [],
       "groupId": "",
       "recentMessage": "",
@@ -63,5 +63,26 @@ class ChatDatabase {
       "groups":
           FieldValue.arrayUnion(["${groupDocumentReference.id}_$groupName"])
     });
+  }
+
+  //getting Conversations
+  getConversations(String groupId) async {
+    return groupCollection
+        .doc(groupId)
+        .collection("messages")
+        .orderBy("time")
+        .snapshots();
+  }
+
+//brings the admin
+  Future getGroupMainAdmin(String groupId) async {
+    DocumentReference d = groupCollection.doc(groupId);
+    DocumentSnapshot documentSnapshot = await d.get();
+    return documentSnapshot['admin'];
+  }
+
+  //used to get every member in a group
+  getAllGroupMembers(groupId) async {
+    return groupCollection.doc(groupId).snapshots();
   }
 }

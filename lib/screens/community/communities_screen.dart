@@ -10,10 +10,8 @@ import 'package:relate/screens/community/group_cards.dart';
 // import 'package:relate/screens/community/section_divider.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/services/chat_database_services.dart';
+import 'package:relate/services/helper_functions.dart';
 // import 'section_divider.dart';
-
-// class Communities extends StatelessWidget {
-//   const Communities ({Key? key}) : super(key: key);
 
 class Communities extends StatefulWidget {
   const Communities({Key? key}) : super(key: key);
@@ -24,7 +22,7 @@ class Communities extends StatefulWidget {
 
 class _CommunitiesState extends State<Communities> {
   Stream? groups;
-  String userName = "";
+  // String userName = "";
 
   //  String userName = "";
   String email = "";
@@ -46,13 +44,19 @@ class _CommunitiesState extends State<Communities> {
     return res.substring(res.indexOf("_") + 1);
   }
 
+  void initState() {
+    super.initState();
+    gettingUserData();
+  }
+
   gettingUserData() async {
-    // await HelperFunctions.getUserEmailFromSF().then((value) {
+    // print("sikurunner");
+    // await HelperFunctions.getUserEmailFromshowgroups().then((value) {
     //   setState(() {
     //     email = value!;
     //   });
     // });
-    // await HelperFunctions.getUserNameFromSF().then((val) {
+    // await HelperFunctions.getUserNameFromshowgroups().then((val) {
     //   setState(() {
     //     userName = val!;
     //   });
@@ -64,6 +68,7 @@ class _CommunitiesState extends State<Communities> {
       setState(() {
         groups = snapshot;
       });
+      groups!.forEach((element) {});
     });
   }
 
@@ -106,18 +111,18 @@ class _CommunitiesState extends State<Communities> {
         if (snapshot.hasData) {
           if (snapshot.data['groups'] != null) {
             if (snapshot.data['groups'].length != 0) {
-              return Text("mabodza");
+              // return Text("mabodza");
 
-              // ListView.builder(
-
-              // itemCount: snapshot.data['groups'].length,
-              // itemBuilder: (context, index) {
-              //   return GroupCards(
-              //       groupId: getUsertId(snapshot.data['groups'][index]),
-              //       groupName: getUserName(snapshot.data['groups'][index]),
-              //       email: getEmail(snapshot.data['groups'][index]));
-              // },
-              // );
+              return ListView.builder(
+                itemCount: snapshot.data['groups'].length,
+                itemBuilder: (context, index) {
+                  return GroupCards(
+                      groupId: getUsertId(snapshot.data['groups'][index]),
+                      groupName: getUserName(snapshot.data['groups'][index])
+                      // email: getEmail(snapshot.data['groups'][index])
+                      );
+                },
+              );
             } else {
               return noGroupWidget();
             }
