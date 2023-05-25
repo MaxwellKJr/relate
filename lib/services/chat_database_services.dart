@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatDatabase {
   final String? uid;
@@ -33,15 +35,21 @@ class ChatDatabase {
     return userCollection.doc(uid).snapshots();
   }
 
+// , String email
   // creating a group
-  Future createGroup(
-      String userName, String id, String groupName, String email) async {
+  Future createGroup(String id, String groupName, String email) async {
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final userName = userDoc.data()!['userName'];
+
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       // used this inplace of usernam
-      "email": "$email",
+      // "email": "$email",
       "groupIcon": "",
-      "admin": "${id}_${userName}",
+      "admin": "${id}_$userName",
       "members": [],
       "groupId": "",
       "recentMessage": "",
