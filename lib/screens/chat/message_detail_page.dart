@@ -1,132 +1,103 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:relate/constants/colors.dart';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MessageDetailPage extends StatefulWidget{
+class MessageDetailPage extends StatefulWidget {
   @override
   _MessageDetailPageState createState() => _MessageDetailPageState();
 }
 
 class _MessageDetailPageState extends State<MessageDetailPage> {
+  final TextEditingController _messageController = TextEditingController();
+
+  Future<void> _sendMessage(String message) async {
+    try {
+      await FirebaseFirestore.instance.collection('messages').add({
+        'text': message,
+        'timestamp': Timestamp.now(),
+      });
+      _messageController.clear();
+    } catch (error) {
+      // Handle error
+      print('Failed to send message: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var messages;
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          flexibleSpace: SafeArea(
-            child: Container(
-              padding: EdgeInsets.only(right: 16),
-              child: Row(
-                children: <Widget>[
-                  IconButton(
-                    onPressed: (){
-                      Navigator.pop(context);
+      appBar: AppBar(
+        title: const Text('Send Message'),
+    leading: IconButton(
+    icon: Icon(Icons.adaptive.arrow_back),
+    onPressed: () {
+      Navigator.pop(context);
+    },
+    ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('messages').orderBy('timestamp', descending: true).snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final messages = snapshot.data!.docs;
+                  return ListView.builder(
+                    reverse: true,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      final message = messages[index].data() as Map<String, dynamic>;
+                      final text = message['text'];
+                      final timestamp = message['timestamp'] as Timestamp;
+                      final dateTime = timestamp.toDate();
+
+                      return ListTile(
+                        title: Text(text),
+                        subtitle: Text(dateTime.toString()),
+                      );
                     },
-                    icon: Icon(Icons.arrow_back,color: Colors.black,),
-                  ),
-                  SizedBox(width: 2,),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage("<https://randomuser.me/api/portraits/men/5.jpg>"),
-                    maxRadius: 20,
-                  ),
-                  SizedBox(width: 12,),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Kriss Benwat",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
-                        SizedBox(height: 6,),
-                        Text("Online",style: TextStyle(color: Colors.grey.shade600, fontSize: 13),),
-                      ],
-                    ),
-                  ),
-                  Icon(Icons.settings,color: Colors.black54,),
-                ],
-              ),
+                  );
+                }
+                return const CircularProgressIndicator();
+              },
             ),
           ),
-        ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemCount: messages.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.only(top: 10,bottom: 10),
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index){
-              return Container(
-                padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
-                child: Align(
-                  alignment: (messages[index].messageType == "User"?Alignment.topLeft:Alignment.topRight),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (messages[index].messageType  == "User"?Colors.grey.shade200:Colors.blue[200]),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    child: Text(messages[index].messageContent, style: TextStyle(fontSize: 15),),
-                  ),
-                ),
-              );
-            },
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.only(left: 10,bottom: 10,top: 10),
-              height: 60,
-              width: double.infinity,
+          const Divider(height: 1),
+          Container(
+            decoration: BoxDecoration(
               color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: (){
-                    },
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Icon(Icons.add, color: Colors.white, size: 20, ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Write message...",
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 15,),
-                  FloatingActionButton(
-                    onPressed: (){},
-                    child: Icon(Icons.send,color: Colors.white,size: 18,),
-                    backgroundColor: Colors.blue,
-                    elevation: 0,
-                  ),
-                ],
-
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  blurRadius: 1,
+                  spreadRadius: 1,
+                  offset: const Offset(0, -2),
+                ),
+              ],
+            ),
+            child: TextField(
+              controller: _messageController,
+              decoration: const InputDecoration(
+                contentPadding:
+                EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                border: InputBorder.none,
+                hintText: 'Type your message...',
               ),
+              onSubmitted: (message) => _sendMessage(message),
             ),
           ),
         ],
       ),
     );
-  }}
+  }
+}
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+
+  runApp(MaterialApp(
+    home: MessageDetailPage(),
+  ));
+}

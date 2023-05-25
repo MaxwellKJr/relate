@@ -45,7 +45,7 @@ class Auth {
           'uid': uid,
           'userName': userName,
           'email': email,
-          'phoneNumber': phoneNumber
+          'phoneNumber': phoneNumber,
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(

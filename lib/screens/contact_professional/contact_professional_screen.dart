@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ContactProfessionalScreen extends StatefulWidget {
   const ContactProfessionalScreen({Key? key}) : super(key: key);
@@ -12,102 +13,127 @@ class ContactProfessionalScreen extends StatefulWidget {
 }
 
 class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
-  final _postTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  final _focusController = TextEditingController();
-  String imageUrl = '';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _specializationController =
+  TextEditingController();
+  XFile? _imageFile;
+  final TextEditingController _descriptionController =
+  TextEditingController();
 
-  Future<void> sendMessage() async {
-    final user = FirebaseAuth.instance;
-    final uid = user.currentUser?.uid;
-    final userDoc =
-    await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final userName = userDoc.data()!['userName'];
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    final text = _postTextController.text;
-    final currentTime = DateTime.now();
-
-    final focus = _focusController.text;
-
-    final post = {
-      'text': text,
-      'focus': focus,
-      'image': imageUrl,
-      'timestamp': Timestamp.fromDate(currentTime),
-      'uid': uid, // Add the user's UID and userName to the post document
-      'postedBy': userName
-    };
-
-    if (text.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection('Messages')
-          .add(post)
-          .then((value) => {
-        Fluttertoast.showToast(
-            msg: "Message Sent",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.blue,
-            textColor: Colors.white,
-            fontSize: 16.0),
+    if (pickedImage != null) {
+      setState(() {
+        _imageFile = pickedImage;
       });
-      Navigator.pop(context);
     }
+  }
+
+  void _addProfessional() async {
+    final name = _nameController.text;
+    final specialization = _specializationController.text;
+    final description = _descriptionController.text;
+
+    if (name.isEmpty || specialization.isEmpty || description.isEmpty) {
+      return;
+    }
+
+    final docRef = await FirebaseFirestore.instance
+        .collection('professionals')
+        .add({
+      'name': name,
+      'specialization': specialization,
+      'image': _imageFile?.path,
+      'description': description,
+    });
+
+    // Clear input fields and image
+    _nameController.clear();
+    _specializationController.clear();
+    _descriptionController.clear();
+    setState(() {
+      _imageFile = null;
+    });
+
+    // Show success message or navigate to the next screen
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Professional added successfully!'),
+      ),
+    );
+  }
+
+  void _navigateToSendMessage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MessageDetailPage(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact Professional'),
+        title: const Text('Add Professional'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(Icons.arrow_drop_down_circle),
-                    title: const Text('Card title 1'),
-                    subtitle: Text(
-                      'Secondary Text',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Greyhound divisively hello coldly wonderfully marginally far upon excluding.',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    ),
-                  ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.start,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          // Perform some action
-                        },
-                        child: const Text('Message'),
-                      ),
-                    ],
-                  ),
-                  Image.asset('assets/card-sample-image.jpg'),
-                  Image.asset('assets/card-sample-image-2.jpg'),
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: sendMessage,
-              child: Text('Send Message'),
-            ),
-          ],
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _specializationController,
+                decoration: const InputDecoration(labelText: 'Specialization'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: Text('Pick Image'),
+              ),
+              if (_imageFile != null)
+                Image.file(File(_imageFile!.path)),
+              const SizedBox(height: 16.0),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(labelText: 'Description'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _addProfessional,
+                child: const Text('Add Professional'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _navigateToSendMessage,
+                child: const Text('Send Message'),
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+class MessageDetailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Send Message'),
+      ),
+      body: const Center(
+        child: Text('Send a message to the professional'),
       ),
     );
   }
