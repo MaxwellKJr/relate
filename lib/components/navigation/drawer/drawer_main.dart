@@ -41,14 +41,16 @@ class _DrawerMainState extends State<DrawerMain> {
                       color: primaryColor)),
             )),
             SizedBox(
-              height: 500,
+              height: 350,
               child: ListView.builder(
+                scrollDirection: Axis.vertical,
                 itemCount: _viewModel.dataList.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = _viewModel.dataList[index];
                   return DrawerListTile(
                     leading: item['leading'],
                     title: item['title'],
+                    destination: item['destination'],
                   );
                 },
               ),

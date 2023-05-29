@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/components/navigation/navigation_bar.dart';
+import 'package:relate/constants/colors.dart';
+import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
@@ -26,6 +29,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: screens[currentPageIndex],
+        drawer: const DrawerMain(),
         bottomNavigationBar: NavigationBar(
           destinations: const [
             NavigationDestination(

@@ -54,6 +54,10 @@ class _MyAppState extends State<MyApp> {
     //         : Colors.white, // set color for light theme
     //   ),
     // );
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor:
+            Colors.transparent // Set your desired color for the system buttons
+        ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
