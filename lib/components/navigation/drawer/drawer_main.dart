@@ -33,13 +33,12 @@ class _DrawerMainState extends State<DrawerMain> {
         child: ListView(
           children: [
             DrawerHeader(
-                child: Center(
               child: Text("Relate",
                   style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: primaryColor)),
-            )),
+            ),
             SizedBox(
               height: 350,
               child: ListView.builder(

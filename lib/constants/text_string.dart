@@ -7,6 +7,7 @@ const String tWellnessCentres = "Wellness Centres";
 const String tSelfJourney = "Self Journery";
 const String tCommunityGroups = "Community Groups";
 const String tContactAProfessional = "Contact a Professional";
+const String tSettings = "Settings";
 const String tAboutRelate = "About $tRelate";
 
 // Welcome Screen

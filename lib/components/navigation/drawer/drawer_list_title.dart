@@ -17,7 +17,7 @@ class DrawerListTile extends StatelessWidget {
       leading: leading,
       title: Text(
         title,
-        style: const TextStyle(fontSize: 18),
+        style: const TextStyle(fontSize: 15),
       ),
       onTap: () {
         Navigator.pop(context);
