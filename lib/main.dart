@@ -7,7 +7,11 @@ import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
+import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +70,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? const WellnessCentresScreen() : const WelcomeScreen(),
     );
   }
 }
