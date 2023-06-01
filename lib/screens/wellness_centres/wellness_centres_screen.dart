@@ -1,212 +1,169 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
-  runApp(const WellnessCentresScreen());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const WellnessCentresApp());
 }
 
-class WellnessCenter {
-  final String name;
-  final String background;
-  final String services;
-  final String criteria;
-
-  WellnessCenter({
-    required this.name,
-    required this.background,
-    required this.services,
-    required this.criteria,
-  });
-}
-
-class WellnessCenterDetailsScreen extends StatelessWidget {
-  final WellnessCenter wellnessCenter;
-
-  const WellnessCenterDetailsScreen({super.key, required this.wellnessCenter});
+class WellnessCentresApp extends StatelessWidget {
+  const WellnessCentresApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(wellnessCenter.name),
+    return MaterialApp(
+      title: 'Wellness Centers',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 8.0),
-            const Text('Background:',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4.0),
-            Text(wellnessCenter.background),
-            const SizedBox(height: 16.0),
-            const Text('Services Offered:',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4.0),
-            Text(wellnessCenter.services),
-            const SizedBox(height: 16.0),
-            const Text('Admission Criteria:',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4.0),
-            Text(wellnessCenter.criteria),
-          ],
-        ),
-      ),
+      home: const WellnessCentresScreen(),
     );
   }
 }
 
 class WellnessCentresScreen extends StatelessWidget {
-  const WellnessCentresScreen({super.key});
-
-  void showMoreDetails(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 200,
-          color: Colors.white,
-          child: Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Sign Out'),
-                onTap: () {
-                  // Add your sign out logic here
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.help),
-                title: const Text('Help'),
-                onTap: () {
-                  // Add your help logic here
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings),
-                title: const Text('Settings'),
-                onTap: () {
-                  // Add your settings logic here
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void navigateToWellnessCenterDetails(
-      BuildContext context, WellnessCenter center) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            WellnessCenterDetailsScreen(wellnessCenter: center),
-      ),
-    );
-  }
-
-  void openWellnessCentersURL() async {
-    const url = 'https://example.com/wellness-centers';
-    // ignore: deprecated_member_use
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  const WellnessCentresScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final List<WellnessCenter> wellnessCenters = [
-      WellnessCenter(
-        name: 'Rehabilitation of Hope',
-        background: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        services: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        criteria: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ),
-      WellnessCenter(
-        name: 'Wellness Center 2',
-        background: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        services: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        criteria: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ),
-      WellnessCenter(
-        name: 'Wellness Center 3',
-        background: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        services: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        criteria: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      ),
-    ];
-
-    return MaterialApp(
-      title: 'Wellness Centres UI',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('WELLNESS CENTERS'),
+        actions: [
+          PopupMenuButton<String>(
+            itemBuilder: (context) => [
+              const PopupMenuItem<String>(
+                value: 'settings',
+                child: Text('Settings'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'help',
+                child: Text('Help'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'logout',
+                child: Text('Log Out'),
+              ),
+            ],
+            onSelected: (value) {
+              // Handle menu item selection
+              if (value == 'settings') {
+                // Handle settings selection
+              } else if (value == 'help') {
+                // Handle help selection
+              } else if (value == 'logout') {
+                // Handle logout selection
+              }
             },
           ),
-          title: const Text(
-            'Wellness Centers',
-            textAlign: TextAlign.center,
-          ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                showMoreDetails(context);
+        ],
+      ),
+      body: Center(
+        child: FutureBuilder<QuerySnapshot>(
+          future: getWellnessCenters(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+
+            if (snapshot.hasError) {
+              return const Text('Error retrieving wellness centers');
+            }
+
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Text('No wellness centers found');
+            }
+
+            List<DocumentSnapshot> centers = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: centers.length,
+              itemBuilder: (context, index) {
+                var center = centers[index];
+                var name = center['name'] ?? '';
+                var address = center['address'] ?? '';
+
+                return ListTile(
+                  title: Text(name),
+                  subtitle: Text(address),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            WellnessDetailsScreen(center: center),
+                      ),
+                    );
+                  },
+                );
               },
-            ),
-          ],
+            );
+          },
         ),
-        body: Column(
+      ),
+    );
+  }
+}
+
+class WellnessDetailsScreen extends StatelessWidget {
+  final DocumentSnapshot center;
+
+  const WellnessDetailsScreen({required this.center, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final name = center['name'] ?? '';
+    final background = center['background'] ?? '';
+    final services = center['services'] ?? '';
+    final address = center['address'] ?? '';
+    final criteria = center['criteria'] ?? '';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.all(16.0),
-                itemCount: wellnessCenters.length,
-                itemBuilder: (BuildContext context, int index) {
-                  WellnessCenter center = wellnessCenters[index];
-                  return ListTile(
-                    title: Text(
-                      center.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: const Text('Tap to view details'),
-                    trailing: const Icon(Icons.arrow_forward),
-                    onTap: () {
-                      navigateToWellnessCenterDetails(context, center);
-                    },
-                  );
-                },
-              ),
+            const SizedBox(height: 16.0),
+            const Text(
+              'Background',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add your logic for handling the button press
-                },
-                style: ElevatedButton.styleFrom(),
-                child: const Text('Find More Wellness Centers'),
-              ),
+            const SizedBox(height: 8.0),
+            Text(background),
+            const SizedBox(height: 24.0),
+            const Text(
+              'Services',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
+            const SizedBox(height: 8.0),
+            Text(services),
+            const SizedBox(height: 24.0),
+            const Text(
+              'Address',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8.0),
+            Text(address),
+            const SizedBox(height: 24.0),
+            const Text(
+              'Criteria',
+              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8.0),
+            Text(criteria),
           ],
         ),
       ),
     );
   }
+}
+
+Future<QuerySnapshot> getWellnessCenters() async {
+  return FirebaseFirestore.instance.collection('wellnessCenters').get();
 }
