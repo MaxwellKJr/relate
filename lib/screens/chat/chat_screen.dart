@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/services/chat_database_services.dart';
 
+import 'message_cards.dart';
+
 class ChatScreen extends StatefulWidget {
   final String groupId;
   final String groupName;
-  // final String userName;
-  const ChatScreen({
-    Key? key,
-    required this.groupId,
-    required this.groupName,
-    // required this.userName
-  }) : super(key: key);
+  final String userName;
+  const ChatScreen(
+      {Key? key,
+      required this.groupId,
+      required this.groupName,
+      required this.userName})
+      : super(key: key);
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -20,6 +22,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   String admin = "";
   Stream<QuerySnapshot>? chats;
+  TextEditingController messageController = TextEditingController();
 
   @override
   void initState() {
@@ -67,9 +70,89 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: const Icon(Icons.info))
         ],
       ),
-      body: Center(
-        child: Text("hie"),
+      body: Stack(
+        children: <Widget>[
+          // chat messages here
+          chatMessages(),
+          Container(
+            alignment: Alignment.bottomCenter,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              width: MediaQuery.of(context).size.width,
+              color: Colors.grey[700],
+              child: Row(children: [
+                Expanded(
+                    child: TextFormField(
+                  controller: messageController,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    hintText: "Send a message...",
+                    hintStyle: TextStyle(color: Colors.white, fontSize: 16),
+                    border: InputBorder.none,
+                  ),
+                )),
+                const SizedBox(
+                  width: 12,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    sendMessage();
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Center(
+                        child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                    )),
+                  ),
+                )
+              ]),
+            ),
+          )
+        ],
       ),
     );
+  }
+
+  chatMessages() {
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageCards(
+                      message: snapshot.data.docs[index]['message'],
+                      sender: snapshot.data.docs[index]['sender'],
+                      sentByMe: widget.userName ==
+                          snapshot.data.docs[index]['sender']);
+                },
+              )
+            : Container();
+      },
+    );
+  }
+
+  sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      Map<String, dynamic> chatMessageMap = {
+        "message": messageController.text,
+        "sender": widget.userName,
+        "time": DateTime.now().millisecondsSinceEpoch,
+      };
+
+      ChatDatabase().sendMessage(widget.groupId, chatMessageMap);
+      setState(() {
+        messageController.clear();
+      });
+    }
   }
 }

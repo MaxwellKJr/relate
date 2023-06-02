@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({Key? key}) : super(key: key);
@@ -18,6 +19,18 @@ class _CreateGroupState extends State<CreateGroup> {
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
+  @override
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
+  Future<void> getUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
