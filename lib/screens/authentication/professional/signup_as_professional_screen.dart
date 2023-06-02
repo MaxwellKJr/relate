@@ -58,7 +58,7 @@ class _SignupAsProfessionalScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        tCreateAccount,
+                        tCreateProfessionalAccount,
                         style: GoogleFonts.poppins(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
@@ -104,12 +104,13 @@ class _SignupAsProfessionalScreenState
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
                                 focusNode: _focusNode3,
-                                onFieldSubmitted: (value) => auth.signUp(
-                                    context,
-                                    _userNameController,
-                                    _phoneNumberController,
-                                    _emailController,
-                                    _passwordController),
+                                onFieldSubmitted: (value) =>
+                                    auth.signUpAsProfessional(
+                                        context,
+                                        _userNameController,
+                                        _phoneNumberController,
+                                        _emailController,
+                                        _passwordController),
                               ),
                             ],
                           )),
@@ -128,7 +129,7 @@ class _SignupAsProfessionalScreenState
                                         _focusNode1.unfocus();
                                         _focusNode2.unfocus();
                                         _focusNode3.unfocus();
-                                        auth.signUp(
+                                        auth.signUpAsProfessional(
                                             context,
                                             _userNameController,
                                             _phoneNumberController,
@@ -137,7 +138,7 @@ class _SignupAsProfessionalScreenState
                                       }
                                     },
                                     child: Text(
-                                      tSignupText.toUpperCase(),
+                                      tCreateProfessionalAccount.toUpperCase(),
                                       style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),

@@ -5,6 +5,8 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
+import 'package:relate/screens/authentication/professional/professional_disclaimer_screen.dart';
+import 'package:relate/screens/authentication/professional/signup_as_professional_screen.dart';
 import 'package:relate/services/auth.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -47,6 +49,7 @@ class _SignupScreenState extends State<SignupScreen> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
             body: SafeArea(
+                child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(
@@ -55,6 +58,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 100,
+                      ),
                       Text(
                         tCreateAccount,
                         style: GoogleFonts.poppins(
@@ -143,27 +149,60 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                           ),
                           const SizedBox(height: elementSpacing),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                tAlreadyHaveAnAccount,
-                                style: GoogleFonts.poppins(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    tAlreadyHaveAnAccount,
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        const LoginScreen()));
+                                      },
+                                      child: const Text(
+                                        tLogin,
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w600),
+                                      ))
+                                ],
                               ),
-                              GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                const LoginScreen()));
-                                  },
-                                  child: const Text(
-                                    tLogin,
-                                    style: TextStyle(
-                                        color: primaryColor,
-                                        fontWeight: FontWeight.w600),
-                                  ))
+                              const SizedBox(height: elementSpacing),
+                              const Text(
+                                "OR",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w900),
+                              ),
+                              const SizedBox(height: elementSpacing),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    const ProfessionalDisclaimerScreen()));
+                                      },
+                                      child: const Text(
+                                        tCreateProfessionalAccount,
+                                        style: TextStyle(
+                                            color: primaryColor,
+                                            fontWeight: FontWeight.w600),
+                                      ))
+                                ],
+                              ),
                             ],
                           )
                         ],
@@ -172,6 +211,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   )
                 ],
               )),
-        )));
+        ))));
   }
 }

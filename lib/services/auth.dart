@@ -98,6 +98,7 @@ class Auth {
       final userName = userNameController.text.trim();
       final email = emailController.text.trim();
       final phoneNumber = phoneNumberController.text.trim();
+      // final consultancyName = consultancyNameController.text.trim();
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -112,8 +113,11 @@ class Auth {
           'email': email,
           'isProfessional': true,
           'isVerified': false,
+          'isAPrivateProfessional': false,
           'specializedIn': [],
-          'phoneNumber': phoneNumber
+          'isAssociatedWith': [],
+          'phoneNumber': phoneNumber,
+          // 'consultancyName': consultancyName,
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
