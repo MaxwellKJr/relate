@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../chat/message_detail_page.dart';
+
 class ContactProfessionalScreen extends StatefulWidget {
   const ContactProfessionalScreen({Key? key}) : super(key: key);
 
@@ -125,16 +127,16 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
   }
 }
 
-class MessageDetailPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Send Message'),
-      ),
-      body: const Center(
-        child: Text('Send a message to the professional'),
-      ),
-    );
-  }
-}
+// class MessageDetailPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Send Message'),
+//       ),
+//       body: const Center(
+//         child: Text('Send a message to the professional'),
+//       ),
+//     );
+//   }
+// }

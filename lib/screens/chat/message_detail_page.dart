@@ -1,6 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class MessageDetailPage extends StatefulWidget {
   @override
@@ -27,7 +27,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Send Message'),
+        title: const Text('Send Message...'),
     leading: IconButton(
     icon: Icon(Icons.adaptive.arrow_back),
     onPressed: () {
@@ -92,12 +92,12 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
     );
   }
 }
-
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-
-  runApp(MaterialApp(
-    home: MessageDetailPage(),
-  ));
-}
+//
+// void main() {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   Firebase.initializeApp();
+//
+//   runApp(MaterialApp(
+//     home: MessageDetailPage(),
+//   ));
+// }
