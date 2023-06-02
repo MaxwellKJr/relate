@@ -71,24 +71,22 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
       body: Stack(
-        children: <Widget>[
+        children: [
           // chat messages here
           chatMessages(),
           Container(
             alignment: Alignment.bottomCenter,
             width: MediaQuery.of(context).size.width,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               width: MediaQuery.of(context).size.width,
-              color: Colors.grey[700],
               child: Row(children: [
                 Expanded(
                     child: TextFormField(
                   controller: messageController,
-                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     hintText: "Send a message...",
-                    hintStyle: TextStyle(color: Colors.white, fontSize: 16),
+                    hintStyle: TextStyle(fontSize: 16),
                     border: InputBorder.none,
                   ),
                 )),

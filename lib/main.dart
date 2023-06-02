@@ -75,10 +75,10 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: Communities(),
+      // home: Communities(),
       // home: MyHomePage()
       // home: GroupData(),
-      // home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }
 }

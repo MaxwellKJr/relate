@@ -29,17 +29,17 @@ class Drawer_communityy extends State<Drawer_community> {
     return Drawer(
       child: Container(
         padding:
-        const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
+            const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
         child: ListView(
           children: [
             DrawerHeader(
                 child: Center(
-                  child: Text("Relate",
-                      style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                          color: primaryColor)),
-                )),
+              child: Text("Relate",
+                  style: GoogleFonts.poppins(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w800,
+                      color: primaryColor)),
+            )),
             SizedBox(
               height: 500,
               child: ListView.builder(
@@ -49,6 +49,7 @@ class Drawer_communityy extends State<Drawer_community> {
                   return DrawerListTile(
                     leading: item['leading'],
                     title: item['title'],
+                    destination: item['destination'],
                   );
                 },
               ),

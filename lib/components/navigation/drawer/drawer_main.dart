@@ -58,24 +58,6 @@ class _DrawerMainState extends State<DrawerMain> {
             const SizedBox(
               height: elementSpacing,
             ),
-
-            //trial to another
-            SizedBox(
-              width: double.infinity,
-              height: 50.0,
-              child: FilledButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Communities()),
-                    );
-                  },
-                  child: Text('to community',
-                      style: GoogleFonts.poppins(
-                          fontSize: 17, fontWeight: FontWeight.w700))),
-            ),
-            //change up
-
             SizedBox(
               width: double.infinity,
               height: 50.0,

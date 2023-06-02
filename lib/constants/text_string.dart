@@ -5,7 +5,7 @@ const String tSignout = "Sign Out";
 // Drawer Text
 const String tWellnessCentres = "Wellness Centres";
 const String tSelfJourney = "Self Journery";
-const String tCommunityGroups = "Community Groups";
+const String tCommunityGroups = "Communities";
 const String tContactAProfessional = "Contact a Professional";
 const String tSettings = "Settings";
 const String tAboutRelate = "About $tRelate";

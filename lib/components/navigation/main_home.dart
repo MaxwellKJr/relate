@@ -4,8 +4,10 @@ import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
 
 class MainHomeScreen extends StatefulWidget {
@@ -20,8 +22,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
 
   final screens = [
     const HomeScreen(),
-    const CommunityGroupsScreen(),
-    const ChatScreen(),
+    const Communities(),
+    const MessagesScreen(),
     const ProfileScreen()
   ];
 
@@ -35,9 +37,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             NavigationDestination(
                 icon: Icon(Icons.home_rounded), label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.people_rounded), label: "Community"),
+                icon: Icon(Icons.people_rounded), label: "Communities"),
             NavigationDestination(
-                icon: Icon(Icons.message_rounded), label: "Chat"),
+                icon: Icon(Icons.message_rounded), label: "Messages"),
             NavigationDestination(
                 icon: Icon(Icons.person_rounded), label: "Profile"),
           ],

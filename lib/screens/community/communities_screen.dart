@@ -271,7 +271,7 @@ class _CommunitiesState extends State<Communities>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Community Groups",
+        title: const Text(tCommunityGroups,
             style: TextStyle(fontWeight: FontWeight.w500)),
         actions: [
           IconButton(
@@ -279,7 +279,7 @@ class _CommunitiesState extends State<Communities>
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SearchAndJoin()),
+                MaterialPageRoute(builder: (context) => const SearchAndJoin()),
               );
             },
           ),
@@ -288,7 +288,7 @@ class _CommunitiesState extends State<Communities>
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreateGroup()),
+                MaterialPageRoute(builder: (context) => const CreateGroup()),
               );
             },
           ),
@@ -298,9 +298,9 @@ class _CommunitiesState extends State<Communities>
         children: [
           TabBar(
             controller: _tabController,
-            tabs: [
-              const Tab(text: 'My Groups'),
-              const Tab(text: 'All Groups'),
+            tabs: const [
+              Tab(text: 'My Groups'),
+              Tab(text: 'All Groups'),
             ],
           ),
           Expanded(
@@ -317,7 +317,6 @@ class _CommunitiesState extends State<Communities>
         ],
       ),
       drawer: const DrawerMain(),
-      bottomNavigationBar: const NavigationBarMain(),
     );
   }
 
@@ -379,13 +378,13 @@ class _CommunitiesState extends State<Communities>
           .getAllGroups(),
       builder: (context, AsyncSnapshot<List<String>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
         if (!snapshot.hasData) {
-          return Text('No data available');
+          return const Text('No data available');
         }
 
         List<String> groups = snapshot.data!;
