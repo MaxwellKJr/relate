@@ -34,22 +34,23 @@ class _DrawerMainState extends State<DrawerMain> {
         child: ListView(
           children: [
             DrawerHeader(
-                child: Center(
               child: Text("Relate",
                   style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: primaryColor)),
-            )),
+            ),
             SizedBox(
-              height: 500,
+              height: 350,
               child: ListView.builder(
+                scrollDirection: Axis.vertical,
                 itemCount: _viewModel.dataList.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = _viewModel.dataList[index];
                   return DrawerListTile(
                     leading: item['leading'],
                     title: item['title'],
+                    destination: item['destination'],
                   );
                 },
               ),

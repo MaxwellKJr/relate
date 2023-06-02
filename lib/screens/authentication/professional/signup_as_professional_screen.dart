@@ -5,18 +5,18 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
-import 'package:relate/screens/authentication/professional/professional_disclaimer_screen.dart';
-import 'package:relate/screens/authentication/professional/signup_as_professional_screen.dart';
 import 'package:relate/services/auth.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class SignupAsProfessionalScreen extends StatefulWidget {
+  const SignupAsProfessionalScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<SignupAsProfessionalScreen> createState() =>
+      _SignupAsProfessionalScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignupAsProfessionalScreenState
+    extends State<SignupAsProfessionalScreen> {
   final Auth auth = Auth();
 
   final _userNameController = TextEditingController();
@@ -24,8 +24,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  //
-  final _groupsController = TextEditingController();
 
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
@@ -51,7 +49,6 @@ class _SignupScreenState extends State<SignupScreen> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
             body: SafeArea(
-                child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(
@@ -60,11 +57,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 100,
-                      ),
                       Text(
-                        tCreateAccount,
+                        tCreateProfessionalAccount,
                         style: GoogleFonts.poppins(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
@@ -110,14 +104,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
                                 focusNode: _focusNode3,
-                                onFieldSubmitted: (value) => auth.signUp(
-                                  context,
-                                  _userNameController,
-                                  _phoneNumberController,
-                                  _emailController,
-                                  _passwordController,
-                                  _groupsController,
-                                ),
+                                onFieldSubmitted: (value) =>
+                                    auth.signUpAsProfessional(
+                                        context,
+                                        _userNameController,
+                                        _phoneNumberController,
+                                        _emailController,
+                                        _passwordController),
                               ),
                             ],
                           )),
@@ -136,18 +129,16 @@ class _SignupScreenState extends State<SignupScreen> {
                                         _focusNode1.unfocus();
                                         _focusNode2.unfocus();
                                         _focusNode3.unfocus();
-                                        auth.signUp(
-                                          context,
-                                          _userNameController,
-                                          _phoneNumberController,
-                                          _emailController,
-                                          _passwordController,
-                                          _groupsController,
-                                        );
+                                        auth.signUpAsProfessional(
+                                            context,
+                                            _userNameController,
+                                            _phoneNumberController,
+                                            _emailController,
+                                            _passwordController);
                                       }
                                     },
                                     child: Text(
-                                      tSignupText.toUpperCase(),
+                                      tCreateProfessionalAccount.toUpperCase(),
                                       style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -155,60 +146,27 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                           ),
                           const SizedBox(height: elementSpacing),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    tAlreadyHaveAnAccount,
-                                    style: GoogleFonts.poppins(),
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const LoginScreen()));
-                                      },
-                                      child: const Text(
-                                        tLogin,
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontWeight: FontWeight.w600),
-                                      ))
-                                ],
+                              Text(
+                                tAlreadyHaveAnAccount,
+                                style: GoogleFonts.poppins(),
                               ),
-                              const SizedBox(height: elementSpacing),
-                              const Text(
-                                "OR",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w900),
-                              ),
-                              const SizedBox(height: elementSpacing),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const ProfessionalDisclaimerScreen()));
-                                      },
-                                      child: const Text(
-                                        tCreateProfessionalAccount,
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontWeight: FontWeight.w600),
-                                      ))
-                                ],
-                              ),
+                              GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                const LoginScreen()));
+                                  },
+                                  child: const Text(
+                                    tLogin,
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontWeight: FontWeight.w600),
+                                  ))
                             ],
                           )
                         ],
@@ -217,6 +175,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   )
                 ],
               )),
-        ))));
+        )));
   }
 }

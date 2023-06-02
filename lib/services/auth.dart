@@ -80,6 +80,78 @@ class Auth {
     }
   }
 
+  void signUpAsProfessional(context, userNameController, phoneNumberController,
+      emailController, passwordController) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text)
+          .then((value) => {
+                Fluttertoast.showToast(
+                    msg: "Account created successfully!",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: primaryColor,
+                    textColor: whiteColor,
+                    fontSize: 16.0)
+              });
+
+      final user = FirebaseAuth.instance;
+      final uid = user.currentUser?.uid;
+
+      final userName = userNameController.text.trim();
+      final email = emailController.text.trim();
+      final phoneNumber = phoneNumberController.text.trim();
+      // final consultancyName = consultancyNameController.text.trim();
+
+      if (user.currentUser != null) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setBool('hasSignedInBefore', true);
+
+        final professionalRef =
+            FirebaseFirestore.instance.collection('professionals').doc(uid);
+
+        await professionalRef.set({
+          'uid': uid,
+          'userName': userName,
+          'email': email,
+          'isProfessional': true,
+          'isVerified': false,
+          'isAPrivateProfessional': false,
+          'specializedIn': [],
+          'isAssociatedWith': [],
+          'phoneNumber': phoneNumber,
+          // 'consultancyName': consultancyName,
+        });
+
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const HomeScreen()));
+      }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'user-not-found') {
+        Fluttertoast.showToast(
+            msg: "User Does Not Exist!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else if (error.code == 'wrong-password') {
+        Fluttertoast.showToast(
+            msg: "Wrong Password. Try Again",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+      return null;
+    }
+  }
+
   void login(context, _emailController, _passwordController) async {
     try {
       await FirebaseAuth.instance
@@ -142,5 +214,10 @@ class Auth {
             )
         // const LoginScreen()
         ));
+  }
+
+  void getCurrentUserData() {
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
   }
 }
