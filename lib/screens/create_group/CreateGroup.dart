@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
-import 'package:relate/services/helper_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({Key? key}) : super(key: key);
@@ -19,44 +19,18 @@ class _CreateGroupState extends State<CreateGroup> {
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
-
   @override
   void initState() {
-    gettingUserData();
     super.initState();
+    getUserName();
   }
 
-  // string manipulation
-  String getId(String res) {
-    return res.substring(0, res.indexOf("_"));
-  }
-
-  String getName(String res) {
-    return res.substring(res.indexOf("_") + 1);
-  }
-
-  gettingUserData() async {
-    // await HelperFunctions.getUserEmailFromshowgroups().then((value) {
-    //   setState(() {
-    //     email = value!;
-    //   });
-    // });
-    // await HelperFunctions.getUserNameFromshowgroups().then((val) {
-    //   setState(() {
-    //     userName = val!;
-    //   });
-    // });
-    // getting the list of snapshots in our stream
-    await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
-        .getUserGroups()
-        .then((snapshot) {
-      setState(() {
-        groups = snapshot;
-      });
+  Future<void> getUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? "";
     });
   }
-// email = await HelperFunctions.getUserEmailFromshowgroups();
-// userName = await HelperFunctions.getUserNameFromshowgroups();
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +127,7 @@ class _CreateGroupState extends State<CreateGroup> {
                                   await ChatDatabase(
                                     uid: FirebaseAuth.instance.currentUser!.uid,
                                   ).createGroup(
-                                      // userName,
+                                      userName,
                                       FirebaseAuth.instance.currentUser!.uid,
                                       groupName,
                                       email);

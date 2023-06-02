@@ -11,8 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Auth {
   final context = BuildContext;
 
-  void signUp(context, userNameController, phoneNumberController,
-      emailController, passwordController, groupsController) async {
+  void signUp(
+    context,
+    userNameController,
+    phoneNumberController,
+    emailController,
+    passwordController,
+    groupsController,
+  ) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -36,21 +42,19 @@ class Auth {
       final phoneNumber = phoneNumberController.text.trim();
       final groups = groupsController.text.split(',');
 
-      // final groups = groupsController;
-
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('hasSignedInBefore', true);
+        prefs.setString('userName', userName);
 
         final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
         await userRef.set({
-          ''
-              'uid': uid,
+          'uid': uid,
           'userName': userName,
           'email': email,
           'phoneNumber': phoneNumber,
-          'groups': []
+          'groups': [],
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -101,6 +105,17 @@ class Auth {
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('hasSignedInBefore', true);
+
+        final currentUser = user.currentUser!;
+        final querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: currentUser.email)
+            .get();
+
+        if (querySnapshot.docs.isNotEmpty) {
+          final userName = querySnapshot.docs[0].data()['userName'];
+          prefs.setString('userName', userName);
+        }
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const HomeScreen()));

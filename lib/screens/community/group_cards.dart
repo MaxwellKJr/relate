@@ -5,16 +5,16 @@ import '../chat/chat_screen.dart';
 class GroupCards extends StatefulWidget {
   final String groupId;
   final String groupName;
-  // final String userName;
+  final String userName;
   // final String email;
   // final String adminName;
-  const GroupCards(
-      {Key? key,
-      // required this.adminName,
-      // required this.userName,
-      required this.groupName,
-      required this.groupId})
-      : super(key: key);
+  const GroupCards({
+    Key? key,
+    // required this.adminName,
+    required this.userName,
+    required this.groupName,
+    required this.groupId,
+  }) : super(key: key);
 
   @override
   State<GroupCards> createState() => _GroupCardsState();
@@ -31,7 +31,7 @@ class _GroupCardsState extends State<GroupCards> {
               builder: (context) => ChatScreen(
                 groupId: widget.groupId,
                 groupName: widget.groupName,
-                // userName: widget.userName,
+                userName: widget.userName,
               ),
             ));
       },

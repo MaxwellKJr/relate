@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
+import 'package:relate/screens/community/tab.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
@@ -68,9 +70,10 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      // home: Communities(),
-      // CreateGroup()
-      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      home: Communities(),
+      // home: MyHomePage()
+      // home: GroupData(),
+      // home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
     );
   }
 }
