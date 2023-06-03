@@ -49,7 +49,7 @@ class _PostBottomIconsState extends State<PostBottomIcons>
     DocumentReference postRef =
         FirebaseFirestore.instance.collection('posts').doc(widget.postId);
 
-    if (relates == widget.relates.contains(userRef?.uid)) {
+    if (relates) {
       _controller.forward();
       postRef.update({
         'relates': FieldValue.arrayUnion([userRef?.uid])

@@ -150,7 +150,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                               text,
                                               style: GoogleFonts.roboto(
                                                   fontSize: 14.5),
-                                              maxLines: 5,
+                                              maxLines: 10,
                                             ),
                                             if (post['image'] != null &&
                                                 post['image'] != '')

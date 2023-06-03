@@ -14,9 +14,21 @@ class PostServices {
 
       final user = FirebaseAuth.instance;
       final uid = user.currentUser?.uid;
+
       final userDoc =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final userName = userDoc.data()!['userName'];
+
+      final professionalDoc = await FirebaseFirestore.instance
+          .collection('professionals')
+          .doc(uid)
+          .get();
+      String? userName;
+
+      if (userDoc.exists) {
+        userName = userDoc.data()!['userName'];
+      } else if (professionalDoc.exists) {
+        userName = professionalDoc.data()!['userName'];
+      }
 
       final comment = {
         'uid': uid,
