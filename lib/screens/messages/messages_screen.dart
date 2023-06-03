@@ -5,14 +5,14 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
 
-class ChatListScreen extends StatefulWidget {
-  const ChatListScreen({Key? key}) : super(key: key);
+class MessagesScreen extends StatefulWidget {
+  const MessagesScreen({Key? key}) : super(key: key);
 
   @override
-  _ChatListScreenState createState() => _ChatListScreenState();
+  State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
-class _ChatListScreenState extends State<ChatListScreen> {
+class _MessagesScreenState extends State<MessagesScreen> {
   final CollectionReference<Map<String, dynamic>> chatsRef =
   FirebaseFirestore.instance.collection('chats');
   final CollectionReference<Map<String, dynamic>> usersRef =
@@ -30,12 +30,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Chats'),
-      ),
-      body:
-      Column(
+    return const Scaffold(
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -154,5 +150,6 @@ class _ChatListScreenState extends State<ChatListScreen> {
         _searchResults = snapshot.docs;
       });
     });
+    );
   }
 }
