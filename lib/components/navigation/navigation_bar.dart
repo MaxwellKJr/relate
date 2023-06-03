@@ -17,8 +17,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
   final screens = [
     const HomeScreen(),
     const CommunityGroupsScreen(),
-    const ChatScreen(),
-    const ProfileScreen()
+    const ChatListScreen(),
+    const UserProfileScreen()
   ];
 
   @override

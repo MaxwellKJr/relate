@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class MessageDetailPage extends StatefulWidget {
+  final String userId;
+
+  MessageDetailPage({required this.userId});
+
   @override
   _MessageDetailPageState createState() => _MessageDetailPageState();
 }
@@ -28,12 +31,12 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Send Message...'),
-    leading: IconButton(
-    icon: Icon(Icons.adaptive.arrow_back),
-    onPressed: () {
-      Navigator.pop(context);
-    },
-    ),
+        leading: IconButton(
+          icon: Icon(Icons.adaptive.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -92,12 +95,3 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
     );
   }
 }
-//
-// void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   Firebase.initializeApp();
-//
-//   runApp(MaterialApp(
-//     home: MessageDetailPage(),
-//   ));
-// }
