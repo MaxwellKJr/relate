@@ -31,11 +31,11 @@ class _CommentCardState extends State<CommentCard> {
     final formattedDateTime = "$formattedDate $formattedTime";
 
     return Container(
-      padding: const EdgeInsets.only(top: 15, bottom: 15),
-      decoration: const BoxDecoration(
+      padding: const EdgeInsets.only(top: 15, bottom: 0),
+      decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.black12, // Set the color of the border
+            color: Colors.grey[300]!, // Set the color of the border
             width: 1.0, // Set the width of the border
           ),
         ),
@@ -76,7 +76,7 @@ class _CommentCardState extends State<CommentCard> {
             style: const TextStyle(fontSize: 15),
           ),
           const SizedBox(
-            height: 20,
+            height: 15,
           )
         ],
       ),
