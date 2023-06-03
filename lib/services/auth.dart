@@ -127,6 +127,7 @@ class Auth {
           'isAssociatedWith': [],
           'phoneNumber': phoneNumber,
           // 'consultancyName': consultancyName,
+
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(

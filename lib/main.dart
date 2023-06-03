@@ -6,12 +6,19 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/chat/message_detail_page.dart';
+import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
+
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/community/tab.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/screens/home/home_screen.dart';
+
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
+import 'package:relate/screens/profile/profile_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
 
 Future<void> main() async {
