@@ -104,8 +104,11 @@ class _ViewPostState extends State<ViewPost> {
                                           ),
                                         ))
                                   else
-                                    Container(),
-                                  const PostBottomIcons(),
+                                    // Container(),
+                                    PostBottomIcons(
+                                      postId: postId,
+                                      relates: const [],
+                                    ),
                                   CommentsSection(postId: postId),
                                 ],
                               ),

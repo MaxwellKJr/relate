@@ -62,9 +62,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     width: double.infinity,
                     child: Padding(
                         padding: const EdgeInsets.only(
-                            left: layoutPadding - 10,
-                            right: layoutPadding - 10,
-                            bottom: 10),
+                          left: layoutPadding - 10,
+                          right: layoutPadding - 10,
+                        ),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -87,13 +87,24 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                 child: SizedBox(
                                     width: double.infinity,
                                     child: Card(
-                                      elevation: 1,
+                                      elevation: 0,
                                       shape: const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.all(layoutPadding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Colors.grey[300]!,
+                                              width: 1.0,
+                                            ),
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.only(
+                                          top: layoutPadding + 5,
+                                          left: layoutPadding - 10,
+                                          right: layoutPadding - 10,
+                                        ),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -164,7 +175,11 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                             //     child: Image.network(
                                             //         post['image'])),
 
-                                            const PostBottomIcons(),
+                                            PostBottomIcons(
+                                              postId: postId,
+                                              relates: List<String>.from(
+                                                  post['relates'] ?? []),
+                                            ),
                                           ],
                                         ),
                                       ),

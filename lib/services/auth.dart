@@ -55,6 +55,7 @@ class Auth {
           'email': email,
           'phoneNumber': phoneNumber,
           'groups': [],
+          'relatesTo': []
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -126,6 +127,7 @@ class Auth {
           'specializedIn': [],
           'isAssociatedWith': [],
           'phoneNumber': phoneNumber,
+          'relatesTo': [],
           // 'consultancyName': consultancyName,
         });
 

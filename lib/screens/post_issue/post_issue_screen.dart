@@ -28,9 +28,21 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
   Future<void> sendPost() async {
     final user = FirebaseAuth.instance;
     final uid = user.currentUser?.uid;
+
     final userDoc =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final userName = userDoc.data()!['userName'];
+
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+    String? userName;
+
+    if (userDoc.exists) {
+      userName = userDoc.data()!['userName'];
+    } else if (professionalDoc.exists) {
+      userName = professionalDoc.data()!['userName'];
+    }
 
     final text = _postTextController.text;
     final currentTime = DateTime.now();
@@ -42,8 +54,9 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
       'focus': focus,
       'image': imageUrl,
       'timestamp': Timestamp.fromDate(currentTime),
-      'uid': uid, // Add the user's UID and userName to the post document
-      'postedBy': userName
+      'uid': uid,
+      'postedBy': userName,
+      'relates': []
     };
 
     if (text.isNotEmpty) {
@@ -140,6 +153,9 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                   children: [
                     Flexible(
                       child: CustomDropdown(
+                        fillColor: Colors.transparent,
+                        listItemStyle: TextStyle(color: blackColor),
+                        selectedStyle: TextStyle(color: Colors.teal),
                         hintText: 'Choose focus',
                         items: const [
                           'General',
