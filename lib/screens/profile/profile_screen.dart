@@ -12,56 +12,79 @@ class UserProfileScreen extends StatefulWidget {
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final CollectionReference<Map<String, dynamic>> usersRef =
   FirebaseFirestore.instance.collection('users');
+  final CollectionReference<Map<String, dynamic>> conversationsRef =
+  FirebaseFirestore.instance.collection('conversations');
+
+  Future<String?> _getConversationId(String userId) async {
+    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+
+    final snapshot = await conversationsRef
+        .where('participants.$currentUser', isEqualTo: true)
+        .where('participants.$userId', isEqualTo: true)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final conversationId = snapshot.docs.first.id;
+      return conversationId;
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-  appBar: AppBar(
-  title: Text('User Profiles'),
-  ),
-  body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-  stream: usersRef.snapshots(),
-  builder: (context, snapshot) {
-  if (snapshot.hasError) {
-  return Text('Error: ${snapshot.error}');
-  }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Profiles'),
+      ),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: usersRef.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
 
-  if (snapshot.connectionState == ConnectionState.waiting) {
-  return CircularProgressIndicator();
-  }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
 
-  final userData = snapshot.data?.docs ?? [];
+          final userData = snapshot.data?.docs ?? [];
 
-  return ListView.builder(
-  itemCount: userData.length,
-  itemBuilder: (context, index) {
-  final user = userData[index].data();
+          return ListView.builder(
+            itemCount: userData.length,
+            itemBuilder: (context, index) {
+              final user = userData[index].data();
 
-  return ListTile(
-  leading: CircleAvatar(
-  // Replace with user profile image
-  backgroundImage: NetworkImage(user['profileImageUrl'] ?? ''),
-  ),
-  title: Text(user['name'] ?? ''),
-  subtitle: Text(user['email'] ?? ''),
-  trailing: ElevatedButton(
-  onPressed: () {
-  Navigator.push(
-  context,
-  MaterialPageRoute(
-  builder: (context) => MessageDetailPage(
-  userId: userData[index].id,
-  ),
-  ),
-  );
-  },
-  child: Text('Message'),
-  ),
-  );
-  },
-  );
-  },
-  ),
-  );
+              return ListTile(
+                leading: CircleAvatar(
+                  // Replace with user profile image
+                  backgroundImage: NetworkImage(user['profileImageUrl'] ?? ''),
+                ),
+                title: Text(user['name'] ?? ''),
+                subtitle: Text(user['email'] ?? ''),
+                trailing: ElevatedButton(
+                  onPressed: () async {
+                    final conversationId = await _getConversationId(user['userId'] ?? '');
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MessageDetailPage(
+                          conversationId: conversationId ?? '', // Handle null value
+                          userId: user['userId'] ?? '',
+                          userName: user['name'] ?? '',
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text('Message'),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
-  }
+}

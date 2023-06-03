@@ -85,7 +85,7 @@ class _ProfessionalsScreenState extends State<ProfessionalsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MessageDetailPage(userId: professional.id),
+        builder: (context) => MessageDetailPage(userId: 'user-id-here', userName: 'user-name-here',conversationId: 'conversation-id-here'),
       ),
     );
   }

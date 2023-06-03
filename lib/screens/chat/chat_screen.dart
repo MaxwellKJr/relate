@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
+import 'package:relate/screens/profile/profile_screen.dart';
 
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({Key? key}) : super(key: key);
@@ -19,7 +20,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   TextEditingController _searchController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>> _searchResults = [];
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = []; // Add this line
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = [];
 
   @override
   void dispose() {
@@ -76,19 +77,21 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     return ListTile(
                       leading: CircleAvatar(
                         // Replace with chat user's profile image
-                        backgroundImage:
-                        AssetImage('assets/images/profile.png'),
+                        backgroundImage: AssetImage('assets/images/profile.png'),
                       ),
                       title: Text(chatData?['chatName'] ?? ''),
                       subtitle: Text(chatData?['lastMessage'] ?? ''),
                       trailing: Text(chatData?['lastMessageTime'] ?? ''),
-                      onTap: () {
-                        // Handle chat item tap
+                      onTap: () async {
+                        final conversationId = await _getConversationId(chatId);
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MessageDetailPage(
-                              userId: userData[index].id,
+                              conversationId: conversationId ?? '',
+                              userId: chatData?['user']['userId'] ?? '',
+                              userName: chatData?['chatName'] ?? '',
                             ),
                           ),
                         );
@@ -104,10 +107,33 @@ class _ChatListScreenState extends State<ChatListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          _showAddChatDialog();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserProfileScreen(),
+            ),
+          );
         },
       ),
     );
+  }
+
+  Future<String?> _getConversationId(String chatId) async {
+    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+
+    final snapshot = await chatsRef
+        .doc(chatId)
+        .collection('conversations')
+        .where('participants.$currentUser', isEqualTo: true)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final conversationId = snapshot.docs.first.id;
+      return conversationId;
+    }
+
+    return null;
   }
 
   void _searchChats(String searchTerm) {
@@ -127,56 +153,5 @@ class _ChatListScreenState extends State<ChatListScreen> {
         _searchResults = snapshot.docs;
       });
     });
-  }
-
-  void _showAddChatDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        String newChatName = '';
-
-        return AlertDialog(
-          title: Text('Add New Chat'),
-          content: TextField(
-            decoration: InputDecoration(
-              labelText: 'Chat Name',
-            ),
-            onChanged: (value) {
-              newChatName = value;
-            },
-          ),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            ElevatedButton(
-              child: Text('Add'),
-              onPressed: () async {
-                if (newChatName.isNotEmpty) {
-                  final userSnapshot = await usersRef.doc().get();
-                  final userData = userSnapshot.data();
-                  final userId = userSnapshot.id;
-
-                  await chatsRef.add({
-                    'chatName': newChatName,
-                    'lastMessage': '',
-                    'lastMessageTime': '',
-                    'user': {
-                      'userId': userId,
-                      'userName': userData?['userName'] ?? '',
-                      'profileImage': userData?['profileImage'] ?? '',
-                    },
-                  });
-                }
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
