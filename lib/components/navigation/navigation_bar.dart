@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:relate/screens/chat/chat_screen.dart';
+// import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
@@ -17,8 +17,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
   final screens = [
     const HomeScreen(),
     const CommunityGroupsScreen(),
-    const ChatListScreen(),
-    const UserProfileScreen()
+    // const ChatScreen(),
+    const ProfileScreen()
   ];
 
   @override
@@ -33,11 +33,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
             icon: Icon(Icons.person_rounded), label: "Profile"),
       ],
       selectedIndex: currentPageIndex,
-      onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-        });
-      },
+      onDestinationSelected: (currentPageIndex) =>
+          setState(() => this.currentPageIndex = currentPageIndex),
     );
   }
 }

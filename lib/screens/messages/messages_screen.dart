@@ -8,6 +8,9 @@ import 'package:relate/screens/profile/profile_screen.dart';
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
 
+class MessagesScreen extends StatefulWidget {
+  const MessagesScreen({super.key});
+
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
@@ -150,6 +153,5 @@ class _MessagesScreenState extends State<MessagesScreen> {
         _searchResults = snapshot.docs;
       });
     });
-    );
   }
 }

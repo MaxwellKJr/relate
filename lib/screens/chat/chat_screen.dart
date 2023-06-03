@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
@@ -8,6 +10,22 @@ import 'package:relate/screens/profile/profile_screen.dart';
 class ChatListScreen extends StatefulWidget {
   const ChatListScreen({Key? key}) : super(key: key);
 
+import 'package:relate/screens/chat/group_chat_info.dart';
+import 'package:relate/services/chat_database_services.dart';
+
+import 'message_cards.dart';
+
+
+class ChatScreen extends StatefulWidget {
+  final String groupId;
+  final String groupName;
+  final String userName;
+  const ChatScreen(
+      {Key? key,
+      required this.groupId,
+      required this.groupName,
+      required this.userName})
+      : super(key: key);
   @override
   _ChatListScreenState createState() => _ChatListScreenState();
 }
@@ -26,6 +44,32 @@ class _ChatListScreenState extends State<ChatListScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+
+class _ChatScreenState extends State<ChatScreen> {
+  String admin = "";
+  Stream<QuerySnapshot>? chats;
+  TextEditingController messageController = TextEditingController();
+
+  @override
+  void initState() {
+    getChatandAdmin();
+    super.initState();
+  }
+
+  getChatandAdmin() {
+    ChatDatabase().getConversations(widget.groupId).then((val) {
+      setState(() {
+        chats = val;
+      });
+    });
+
+    ChatDatabase().getGroupMainAdmin(widget.groupId).then((val) {
+      print(widget.groupId);
+      setState(() {
+        admin = val;
+      });
+    });
+
   }
 
   @override
@@ -154,5 +198,110 @@ class _ChatListScreenState extends State<ChatListScreen> {
         _searchResults = snapshot.docs;
       });
     });
+    
+        centerTitle: true,
+        elevation: 0,
+        title: Text(widget.groupName),
+        backgroundColor: Theme.of(context).primaryColor,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => GroupChatInfor(
+                      groupId: widget.groupId,
+                      groupName: widget.groupName,
+                      adminName: admin,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.info))
+        ],
+      ),
+      body: Stack(
+        children: [
+          // chat messages here
+          chatMessages(),
+          Container(
+            alignment: Alignment.bottomCenter,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              width: MediaQuery.of(context).size.width,
+              child: Row(children: [
+                Expanded(
+                    child: TextFormField(
+                  controller: messageController,
+                  decoration: const InputDecoration(
+                    hintText: "Send a message...",
+                    hintStyle: TextStyle(fontSize: 16),
+                    border: InputBorder.none,
+                  ),
+                )),
+                const SizedBox(
+                  width: 12,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    sendMessage();
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Center(
+                        child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                    )),
+                  ),
+                )
+              ]),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  chatMessages() {
+    return StreamBuilder(
+      stream: chats,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageCards(
+                      message: snapshot.data.docs[index]['message'],
+                      sender: snapshot.data.docs[index]['sender'],
+                      sentByMe: widget.userName ==
+                          snapshot.data.docs[index]['sender']);
+                },
+              )
+            : Container();
+      },
+    );
+  }
+
+  sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      Map<String, dynamic> chatMessageMap = {
+        "message": messageController.text,
+        "sender": widget.userName,
+        "time": DateTime.now().millisecondsSinceEpoch,
+      };
+
+      ChatDatabase().sendMessage(widget.groupId, chatMessageMap);
+      setState(() {
+        messageController.clear();
+      });
+    }
+
   }
 }

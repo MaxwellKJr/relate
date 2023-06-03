@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: whiteColor,
         ),
       ),
-      bottomNavigationBar: const NavigationBarMain(),
+      // bottomNavigationBar: const NavigationBarMain(),
     );
   }
 }

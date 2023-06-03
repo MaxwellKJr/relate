@@ -4,18 +4,17 @@ import 'package:relate/components/navigation/drawer/drawer_list_title.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/auth.dart';
 import 'package:relate/view_models/drawer_tiles_view_model.dart';
 
-class DrawerMain extends StatefulWidget {
-  const DrawerMain({super.key});
+class Drawer_community extends StatefulWidget {
+  const Drawer_community({super.key});
 
   @override
-  State<DrawerMain> createState() => _DrawerMainState();
+  State<Drawer_community> createState() => Drawer_communityy();
 }
 
-class _DrawerMainState extends State<DrawerMain> {
+class Drawer_communityy extends State<Drawer_community> {
   late DrawerTilesViewModel _viewModel;
   final Auth auth = Auth();
 
@@ -34,16 +33,16 @@ class _DrawerMainState extends State<DrawerMain> {
         child: ListView(
           children: [
             DrawerHeader(
+                child: Center(
               child: Text("Relate",
                   style: GoogleFonts.poppins(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                       color: primaryColor)),
-            ),
+            )),
             SizedBox(
-              height: 350,
+              height: 500,
               child: ListView.builder(
-                scrollDirection: Axis.vertical,
                 itemCount: _viewModel.dataList.length,
                 itemBuilder: (BuildContext context, int index) {
                   final item = _viewModel.dataList[index];

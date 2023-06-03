@@ -2,12 +2,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
 import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
+
+import 'package:relate/screens/community/alllgroups.dart';
+import 'package:relate/screens/community/communities_screen.dart';
+import 'package:relate/screens/community/tab.dart';
+import 'package:relate/screens/create_group/CreateGroup.dart';
+import 'package:relate/screens/home/home_screen.dart';
+
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
@@ -56,6 +65,10 @@ class _MyAppState extends State<MyApp> {
     //         : Colors.white, // set color for light theme
     //   ),
     // );
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor:
+            Colors.transparent // Set your desired color for the system buttons
+        ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -69,7 +82,10 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? ChatListScreen () : const WelcomeScreen(),
+      // home: Communities(),
+      // home: MyHomePage()
+      // home: GroupData(),
+      home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }
 }
