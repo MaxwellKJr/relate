@@ -8,18 +8,15 @@ import 'package:relate/screens/profile/profile_screen.dart';
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
 
-class MessagesScreen extends StatefulWidget {
-  const MessagesScreen({super.key});
-
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final CollectionReference<Map<String, dynamic>> chatsRef =
-  FirebaseFirestore.instance.collection('chats');
+      FirebaseFirestore.instance.collection('chats');
   final CollectionReference<Map<String, dynamic>> usersRef =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
 
   TextEditingController _searchController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>> _searchResults = [];
@@ -33,14 +30,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: _searchController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Search Chats',
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
@@ -59,7 +56,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
 
                 final chatDocs = snapshot.data?.docs ?? [];
@@ -75,9 +72,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     final chatId = chatDocs[index].id;
 
                     return ListTile(
-                      leading: CircleAvatar(
+                      leading: const CircleAvatar(
                         // Replace with chat user's profile image
-                        backgroundImage: AssetImage('assets/images/profile.png'),
+                        backgroundImage:
+                            AssetImage('assets/images/profile.png'),
                       ),
                       title: Text(chatData?['chatName'] ?? ''),
                       subtitle: Text(chatData?['lastMessage'] ?? ''),
@@ -119,7 +117,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   Future<String?> _getConversationId(String chatId) async {
-    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+    final currentUser =
+        'current-user-id-here'; // Replace with the actual current user ID
 
     final snapshot = await chatsRef
         .doc(chatId)
