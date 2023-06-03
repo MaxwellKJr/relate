@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
@@ -31,6 +32,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Messages")),
+      drawer: const DrawerMain(),
       body: Column(
         children: [
           Padding(
@@ -56,7 +59,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 final chatDocs = snapshot.data?.docs ?? [];
@@ -88,7 +91,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           MaterialPageRoute(
                             builder: (context) => MessageDetailPage(
                               conversationId: conversationId ?? '',
-                              userId: chatData?['user']['userId'] ?? '',
+                              userId: chatData?['user']['uid'] ?? '',
                               userName: chatData?['chatName'] ?? '',
                             ),
                           ),

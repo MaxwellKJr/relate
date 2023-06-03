@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -39,6 +40,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         title: const Text('User Profiles'),
       ),
+      drawer: const DrawerMain(),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: usersRef.snapshots(),
         builder: (context, snapshot) {
@@ -47,7 +49,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
 
           final userData = snapshot.data?.docs ?? [];
@@ -62,7 +66,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   // Replace with user profile image
                   backgroundImage: NetworkImage(user['profileImageUrl'] ?? ''),
                 ),
-                title: Text(user['name'] ?? ''),
+                title: Text(user['userName'] ?? ''),
                 subtitle: Text(user['email'] ?? ''),
                 trailing: ElevatedButton(
                   onPressed: () async {
@@ -75,8 +79,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         builder: (context) => MessageDetailPage(
                           conversationId:
                               conversationId ?? '', // Handle null value
-                          userId: user['userId'] ?? '',
-                          userName: user['name'] ?? '',
+                          userId: user['uid'] ?? '',
+                          userName: user['userName'] ?? '',
                         ),
                       ),
                     );
