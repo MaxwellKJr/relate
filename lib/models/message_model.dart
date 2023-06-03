@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter/cupertino.dart';
 
 class Message {
@@ -14,7 +13,7 @@ class Message {
     required this.time,
     required this.text,
     required this.imageURL,
-    });
+  });
 
   toJson() {
     return {
@@ -23,6 +22,4 @@ class Message {
       "time": time,
     };
   }
-
 }
-

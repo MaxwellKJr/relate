@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/messages/messages_screen.dart';
 
 class MessageDetailPage extends StatefulWidget {
   final String conversationId;
@@ -43,14 +44,14 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.userName}'),
+        title: Text(widget.userName),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatListScreen(),
+                builder: (context) => const MessagesScreen(),
               ),
             );
           },
@@ -76,7 +77,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                     itemCount: messages.length,
                     itemBuilder: (context, index) {
                       final message =
-                      messages[index].data() as Map<String, dynamic>;
+                          messages[index].data() as Map<String, dynamic>;
                       final text = message['text'];
                       final timestamp = message['timestamp'] as Timestamp;
                       final dateTime = timestamp.toDate();
@@ -108,8 +109,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
 
                       previousDate = currentDate;
 
-                      final isSentMessage =
-                          message['userId'] == widget.userId;
+                      final isSentMessage = message['userId'] == widget.userId;
 
                       return Column(
                         crossAxisAlignment: isSentMessage
@@ -135,7 +135,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           text,
@@ -188,7 +188,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
               controller: _messageController,
               decoration: const InputDecoration(
                 contentPadding:
-                EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 border: InputBorder.none,
                 hintText: 'Type your message...',
               ),

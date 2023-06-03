@@ -201,7 +201,7 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
                   builder: (context) => ChatScreen(
                     groupId: groupId,
                     groupName: groupName,
-                    userName: userName,
+                    // userName: userName,
                   ),
                 ),
               );

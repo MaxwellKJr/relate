@@ -11,12 +11,13 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final CollectionReference<Map<String, dynamic>> usersRef =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
   final CollectionReference<Map<String, dynamic>> conversationsRef =
-  FirebaseFirestore.instance.collection('conversations');
+      FirebaseFirestore.instance.collection('conversations');
 
   Future<String?> _getConversationId(String userId) async {
-    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+    final currentUser =
+        'current-user-id-here'; // Replace with the actual current user ID
 
     final snapshot = await conversationsRef
         .where('participants.$currentUser', isEqualTo: true)
@@ -36,7 +37,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profiles'),
+        title: const Text('User Profiles'),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: usersRef.snapshots(),
@@ -46,7 +47,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
 
           final userData = snapshot.data?.docs ?? [];
@@ -65,20 +66,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 subtitle: Text(user['email'] ?? ''),
                 trailing: ElevatedButton(
                   onPressed: () async {
-                    final conversationId = await _getConversationId(user['userId'] ?? '');
+                    final conversationId =
+                        await _getConversationId(user['userId'] ?? '');
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MessageDetailPage(
-                          conversationId: conversationId ?? '', // Handle null value
+                          conversationId:
+                              conversationId ?? '', // Handle null value
                           userId: user['userId'] ?? '',
                           userName: user['name'] ?? '',
                         ),
                       ),
                     );
                   },
-                  child: Text('Message'),
+                  child: const Text('Message'),
                 ),
               );
             },

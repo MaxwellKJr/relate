@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:relate/screens/messages/messages_screen.dart';
 
 class ConversationList extends StatefulWidget {
   final String name;
@@ -9,7 +10,8 @@ class ConversationList extends StatefulWidget {
   final String time;
   final bool isMessageRead;
 
-  ConversationList({
+  const ConversationList({
+    super.key,
     required this.name,
     required this.text,
     required this.image,
@@ -25,14 +27,18 @@ class _ConversationListState extends State<ConversationList> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {GestureDetector(
-          onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          return ChatScreen();
-        }));
-      },);},
+      onTap: () {
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const MessagesScreen();
+            }));
+          },
+        );
+      },
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Row(
           children: <Widget>[
             Expanded(
@@ -42,7 +48,7 @@ class _ConversationListState extends State<ConversationList> {
                     backgroundImage: NetworkImage(widget.image),
                     maxRadius: 30,
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: Container(
                       color: Colors.transparent,
@@ -51,15 +57,17 @@ class _ConversationListState extends State<ConversationList> {
                         children: <Widget>[
                           Text(
                             widget.name,
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
-                          SizedBox(height: 6),
+                          const SizedBox(height: 6),
                           Text(
                             widget.text,
                             style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey.shade600,
-                              fontWeight: widget.isMessageRead ? FontWeight.bold : FontWeight.normal,
+                              fontWeight: widget.isMessageRead
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
                           ),
                         ],
@@ -71,7 +79,11 @@ class _ConversationListState extends State<ConversationList> {
             ),
             Text(
               widget.time,
-              style: TextStyle(fontSize: 12, fontWeight: widget.isMessageRead ? FontWeight.bold : FontWeight.normal),
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: widget.isMessageRead
+                      ? FontWeight.bold
+                      : FontWeight.normal),
             ),
           ],
         ),
@@ -79,3 +91,4 @@ class _ConversationListState extends State<ConversationList> {
     );
   }
 }
+

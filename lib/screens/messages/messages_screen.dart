@@ -103,12 +103,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => UserProfileScreen(),
+              builder: (context) => const UserProfileScreen(),
             ),
           );
         },

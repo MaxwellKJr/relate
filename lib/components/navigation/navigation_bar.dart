@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
 
 class NavigationBarMain extends StatefulWidget {
@@ -17,8 +18,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
   final screens = [
     const HomeScreen(),
     const CommunityGroupsScreen(),
-    // const ChatScreen(),
-    const ProfileScreen()
+    const MessagesScreen(),
+    const UserProfileScreen()
   ];
 
   @override
