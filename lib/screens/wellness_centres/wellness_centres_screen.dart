@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +17,7 @@ class WellnessCentresApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wellness Centers',
       theme: ThemeData(
+        primaryColor: Colors.blue, // Set the app bar color to blue
         primarySwatch: Colors.blue,
       ),
       home: const WellnessCentresScreen(),
@@ -31,6 +33,13 @@ class WellnessCentresScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('WELLNESS CENTERS'),
+        leading: IconButton(
+          // Add the back arrow button to the top left corner
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         actions: [
           PopupMenuButton<String>(
             itemBuilder: (context) => [
@@ -60,49 +69,74 @@ class WellnessCentresScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: FutureBuilder<QuerySnapshot>(
-          future: getWellnessCenters(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
-            }
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<QuerySnapshot>(
+              future: getWellnessCenters(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
 
-            if (snapshot.hasError) {
-              return const Text('Error retrieving wellness centers');
-            }
+                if (snapshot.hasError) {
+                  return const Text('Error retrieving wellness centers');
+                }
 
-            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return const Text('No wellness centers found');
-            }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Text('No wellness centers found');
+                }
 
-            List<DocumentSnapshot> centers = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: centers.length,
-              itemBuilder: (context, index) {
-                var center = centers[index];
-                var name = center['name'] ?? '';
-                var address = center['address'] ?? '';
+                List<DocumentSnapshot> centers = snapshot.data!.docs;
+                return ListView.separated(
+                  // Use ListView.separated to add separations
+                  itemCount: centers.length,
+                  separatorBuilder: (context, index) =>
+                      const Divider(), // Add a separator between wellness centers
+                  itemBuilder: (context, index) {
+                    var center = centers[index];
+                    var name = center['name'] ?? '';
+                    var address = center['address'] ?? '';
 
-                return ListTile(
-                  title: Text(name),
-                  subtitle: Text(address),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            WellnessDetailsScreen(center: center),
-                      ),
+                    return ListTile(
+                      title: Text(name),
+                      subtitle: Text(address),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                WellnessDetailsScreen(center: center),
+                          ),
+                        );
+                      },
                     );
                   },
                 );
               },
-            );
-          },
-        ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // ignore: deprecated_member_use
+              launchURL('https://renewal.clinic/services');
+            },
+            child: const Text('Find More Wellness Centers'),
+          ),
+          const SizedBox(height: 16.0),
+        ],
       ),
     );
+  }
+
+  void launchURL(String url) async {
+    // ignore: deprecated_member_use
+    if (await canLaunch(url)) {
+      // ignore: deprecated_member_use
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
@@ -111,6 +145,16 @@ class WellnessDetailsScreen extends StatelessWidget {
 
   const WellnessDetailsScreen({required this.center, Key? key})
       : super(key: key);
+
+  void launchURL(String url) async {
+    // ignore: deprecated_member_use
+    if (await canLaunch(url)) {
+      // ignore: deprecated_member_use
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +201,14 @@ class WellnessDetailsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             Text(criteria),
+            const SizedBox(height: 24.0),
+            ElevatedButton(
+              onPressed: () {
+                launchURL(
+                    center['website']); // Use the 'website' field as the URL
+              },
+              child: const Text('Visit the Wellness Center'),
+            ),
           ],
         ),
       ),
