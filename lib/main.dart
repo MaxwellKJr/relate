@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
+import 'package:relate/screens/self_journey/self_journey_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? self_journey_screen() : const WelcomeScreen(),
     );
   }
 }
