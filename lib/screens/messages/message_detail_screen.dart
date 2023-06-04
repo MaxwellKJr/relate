@@ -31,8 +31,9 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   Future<void> _sendMessage(String message) async {
     try {
       if (_attachedImage != null) {
-        final storageRef =
-        FirebaseStorage.instance.ref().child('images/${DateTime.now()}.png');
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('images/${DateTime.now()}.png');
         await storageRef.putFile(_attachedImage!);
         final imageUrl = await storageRef.getDownloadURL();
 
@@ -69,12 +70,27 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
   }
 
   Future<void> _pickImage() async {
-    final pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
+    final pickedImage =
+    await _imagePicker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setState(() {
         _attachedImage = File(pickedImage.path);
       });
+    }
+  }
+
+  Future<void> _deleteMessage(String messageId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('conversations')
+          .doc(widget.conversationId)
+          .collection('messages')
+          .doc(messageId)
+          .delete();
+    } catch (error) {
+      // Handle error
+      print('Failed to delete message: $error');
     }
   }
 
@@ -108,7 +124,6 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final messages = snapshot.data!.docs;
-                  DateTime? previousDate;
 
                   return ListView.builder(
                     reverse: true,
@@ -116,8 +131,10 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                     itemBuilder: (context, index) {
                       final message =
                       messages[index].data() as Map<String, dynamic>;
+                      final messageId = messages[index].id;
                       final text = message['text'];
-                      final timestamp = message['timestamp'] as Timestamp;
+                      final timestamp =
+                      message['timestamp'] as Timestamp;
                       final dateTime = timestamp.toDate();
                       final currentDate = DateTime(
                         dateTime.year,
@@ -125,13 +142,21 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                         dateTime.day,
                       );
 
-                      final formattedTime = DateFormat.Hm().format(dateTime);
-                      final formattedDate = DateFormat.yMd().format(dateTime);
+                      final formattedTime =
+                      DateFormat.Hm().format(dateTime);
+                      final formattedDate =
+                      DateFormat.yMd().format(dateTime);
 
                       Widget dateWidget = Container();
 
-                      if (previousDate == null ||
-                          currentDate.difference(previousDate!).inDays != 0) {
+                      if (index == 0 ||
+                          currentDate
+                              .difference(
+                              messages[index - 1]
+                                  .get('timestamp')
+                                  .toDate())
+                              .inDays !=
+                              0) {
                         dateWidget = Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.symmetric(vertical: 8.0),
@@ -145,62 +170,74 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                         );
                       }
 
-                      previousDate = currentDate;
+                      final isSentMessage =
+                          message['userId'] == widget.userId;
 
-                      final isSentMessage = message['userId'] == widget.userId;
-
-                      return Column(
-                        crossAxisAlignment: isSentMessage
-                            ? CrossAxisAlignment.end
-                            : CrossAxisAlignment.start,
-                        children: [
-                          dateWidget,
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                              vertical: 4.0,
-                              horizontal: 16.0,
-                            ),
-                            child: Wrap(
-                              children: [
-                                Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  color: isSentMessage
-                                      ? Colors.blue
-                                      : Colors.grey[200],
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          text,
-                                          style: TextStyle(
-                                            color: isSentMessage
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
+                      return Dismissible(
+                        key: Key(messageId),
+                        direction: DismissDirection.startToEnd,
+                        background: Container(
+                          color: Colors.red,
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onDismissed: (direction) =>
+                            _deleteMessage(messageId),
+                        child: Column(
+                          crossAxisAlignment: isSentMessage
+                              ? CrossAxisAlignment.end
+                              : CrossAxisAlignment.start,
+                          children: [
+                            dateWidget,
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: 4.0,
+                                bottom: 4.0,
+                                left: isSentMessage ? 64.0 : 16.0,
+                                right: isSentMessage ? 16.0 : 64.0,
+                              ),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                ),
+                                color: isSentMessage
+                                    ? Colors.blue
+                                    : Colors.grey[200],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        text,
+                                        style: TextStyle(
+                                          color: isSentMessage
+                                              ? Colors.white
+                                              : Colors.black,
                                         ),
-                                        SizedBox(height: 4.0),
-                                        Text(
-                                          formattedTime,
-                                          style: TextStyle(
-                                            color: isSentMessage
-                                                ? Colors.white.withOpacity(0.8)
-                                                : Colors.black.withOpacity(0.8),
-                                            fontSize: 12.0,
-                                          ),
+                                      ),
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        formattedTime,
+                                        style: TextStyle(
+                                          color: isSentMessage
+                                              ? Colors.white.withOpacity(0.8)
+                                              : Colors.black.withOpacity(0.8),
+                                          fontSize: 12.0,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     },
                   );
@@ -230,6 +267,7 @@ class _MessageDetailPageState extends State<MessageDetailPage> {
                       border: InputBorder.none,
                       hintText: 'Type your message...',
                     ),
+                    style: TextStyle(color: Colors.black),
                     onSubmitted: (message) => _sendMessage(message),
                   ),
                 ),

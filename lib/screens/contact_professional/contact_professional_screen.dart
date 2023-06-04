@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
+import 'package:relate/screens/home/home_screen.dart';
 
 class ContactProfessionalScreen extends StatefulWidget {
   const ContactProfessionalScreen({Key? key}) : super(key: key);
@@ -34,7 +35,7 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
     return querySnapshot.size > 0;
   }
 
-  void navigateToMessageDetailPage(String professionalId) async {
+  void navigateToMessageDetailPage(String professionalId, String professionalName) async {
     final userId = 'current_user_id'; // Replace with the actual user ID
 
     final querySnapshot = await conversationsRef
@@ -58,8 +59,6 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
         ),
       );
     } else {
-      final professionalName = 'Professional Name'; // Replace with the actual professional name
-
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -76,6 +75,15 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Contact Professionals'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: professionalsRef.snapshots(),
@@ -93,6 +101,8 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
               return Professional(
                 id: doc.id,
                 name: data['name'] ?? '',
+                description: data['description'] ?? '',
+                imageUrl: data['imageUrl'] ?? '',
               );
             }).toList();
 
@@ -101,26 +111,53 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
               itemBuilder: (context, index) {
                 final professional = professionals[index];
 
-                return ListTile(
-                  title: Text(professional.name),
-                  trailing: IconButton(
-                    icon: Icon(Icons.message),
-                    onPressed: () async {
-                      final hasExistingMessages =
-                      await checkExistingMessages(professional.id);
-
-                      if (hasExistingMessages) {
-                        navigateToMessageDetailPage(professional.id);
-                      } else {
-                        // Handle logic when no previous messages exist
-                        // For now, show a snackbar as an example
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('No previous messages'),
+                return GestureDetector(
+                  onTap: () {
+                    navigateToMessageDetailPage(professional.id, professional.name);
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(8.0),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage(professional.imageUrl),
                           ),
-                        );
-                      }
-                    },
+                          SizedBox(width: 8.0),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  professional.name,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 8.0),
+                                Text(
+                                  professional.description,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.message),
+                            onPressed: () async {
+                              final hasExistingMessages = await checkExistingMessages(professional.id);
+                              navigateToMessageDetailPage(professional.id, professional.name);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 );
               },
@@ -135,9 +172,13 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
 class Professional {
   final String id;
   final String name;
+  final String description;
+  final String imageUrl;
 
   Professional({
     required this.id,
     required this.name,
+    required this.description,
+    required this.imageUrl,
   });
 }

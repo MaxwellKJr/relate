@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/screens/profile/profile_screen.dart';
+import 'package:relate/screens/user_profile/user_profile_screen.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -20,7 +20,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   TextEditingController _searchController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>> _searchResults = [];
-  List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = [];
 
   @override
   void dispose() {
@@ -31,75 +30,82 @@ class _MessagesScreenState extends State<MessagesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              decoration: const InputDecoration(
-                labelText: 'Search Chats',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                _searchChats(value);
-              },
-            ),
-          ),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: chatsRef.snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-
-                final chatDocs = snapshot.data?.docs ?? [];
-
-                return ListView.builder(
-                  itemCount: _searchResults.isNotEmpty
-                      ? _searchResults.length
-                      : chatDocs.length,
-                  itemBuilder: (context, index) {
-                    final chatData = _searchResults.isNotEmpty
-                        ? _searchResults[index].data()
-                        : chatDocs[index].data();
-                    final chatId = chatDocs[index].id;
-
-                    return ListTile(
-                      leading: CircleAvatar(
-                        // Replace with chat user's profile image
-                        backgroundImage: AssetImage('assets/images/profile.png'),
-                      ),
-                      title: Text(chatData?['chatName'] ?? ''),
-                      subtitle: Text(chatData?['lastMessage'] ?? ''),
-                      trailing: Text(chatData?['lastMessageTime'] ?? ''),
-                      onTap: () async {
-                        final conversationId = await _getConversationId(chatId);
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MessageDetailPage(
-                              conversationId: conversationId ?? '',
-                              userId: chatData?['user']['userId'] ?? '',
-                              userName: chatData?['chatName'] ?? '',
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                );
-              },
-            ),
+      appBar: AppBar(
+        title: Text('Messages'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              _searchChats(_searchController.text);
+            },
           ),
         ],
+      ),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: chatsRef.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+
+          final chatDocs = snapshot.data?.docs ?? [];
+
+          return ListView.builder(
+            itemCount: _searchResults.isNotEmpty
+                ? _searchResults.length
+                : chatDocs.length,
+            itemBuilder: (context, index) {
+              final chatData = _searchResults.isNotEmpty
+                  ? _searchResults[index].data()
+                  : chatDocs[index].data();
+              final chatId = chatDocs[index].id;
+
+              return Dismissible(
+                key: Key(chatId),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: Colors.red,
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                ),
+                onDismissed: (_) {
+                  _deleteChat(chatId);
+                },
+                child: ListTile(
+                  leading: const CircleAvatar(
+                    // Replace with chat user's profile image
+                    backgroundImage: AssetImage('assets/images/profile.png'),
+                  ),
+                  title: Text(chatData?['chatName'] ?? ''),
+                  subtitle: Text(chatData?['lastMessage'] ?? ''),
+                  trailing: Text(chatData?['lastMessageTime'] ?? ''),
+                  onTap: () async {
+                    final conversationId = await _getConversationId(chatId);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MessageDetailPage(
+                          conversationId: conversationId ?? '',
+                          userId: chatData?['user']['userId'] ?? '',
+                          userName: chatData?['chatName'] ?? '',
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -107,7 +113,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ProfileScreen(),
+              builder: (context) => const UserProfileScreen(),
             ),
           );
         },
@@ -149,6 +155,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
       setState(() {
         _searchResults = snapshot.docs;
       });
+    });
+  }
+
+  void _deleteChat(String chatId) {
+    chatsRef.doc(chatId).delete().then((_) {
+      // Chat deleted successfully
+    }).catchError((error) {
+      // Error occurred while deleting chat
     });
   }
 }
