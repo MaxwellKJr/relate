@@ -95,7 +95,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       MaterialPageRoute(
                         builder: (context) => MessageDetailPage(
                           conversationId: conversationId ?? '',
-                          userId: chatData?['user']['userId'] ?? '',
+                          userId: chatData?['user']['uid'] ?? '',
                           userName: chatData?['chatName'] ?? '',
                         ),
                       ),

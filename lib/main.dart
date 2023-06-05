@@ -80,10 +80,7 @@ class _MyAppState extends State<MyApp> {
         colorSchemeSeed: primaryColor,
       ),
       themeMode: ThemeMode.system,
-      // home: Communities(),
-      // home: MyHomePage()
-      // home: GroupData(),
-      home: isLoggedIn ? const ContactProfessionalScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }
 }
