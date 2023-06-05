@@ -7,20 +7,24 @@ import 'package:relate/screens/post_issue/view_post_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 
-class HomeScreenBody extends StatefulWidget {
-  const HomeScreenBody({Key? key}) : super(key: key);
+class DepressionPostsBody extends StatefulWidget {
+  const DepressionPostsBody({super.key});
 
   @override
-  State<HomeScreenBody> createState() => _HomeScreenBodyState();
+  State<DepressionPostsBody> createState() => _DepressionPostsBodyState();
 }
 
-class _HomeScreenBodyState extends State<HomeScreenBody> {
+class _DepressionPostsBodyState extends State<DepressionPostsBody> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('posts')
+          .where(
+            'focus',
+            isEqualTo: 'Depression',
+          )
           .orderBy('timestamp', descending: true)
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -36,9 +40,9 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           //     .forEach((post) => debugPrint(post.toString()));
 
           return ListView.builder(
-              itemCount: posts?.length,
+              itemCount: posts!.length,
               itemBuilder: (context, index) {
-                final post = posts![index];
+                final post = posts[index];
                 final postId = post.id;
 
                 // debugPrint(postId);
