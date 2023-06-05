@@ -25,8 +25,16 @@ class ChatDatabase {
 
   // modifying here only
   // get user groups
-  getUserGroups() async {
-    return userCollection.doc(uid).snapshots();
+  // getUserGroups() async {
+  //   return userCollection.doc(uid).snapshots();
+  // }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
+    return userCollection.doc(uid).snapshots().asBroadcastStream().map(
+      (DocumentSnapshot<Object?> snapshot) {
+        return snapshot as DocumentSnapshot<Map<String, dynamic>>;
+      },
+    );
   }
 
   // creating a group

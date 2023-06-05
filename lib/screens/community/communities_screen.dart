@@ -32,6 +32,9 @@ class _CommunitiesState extends State<Communities>
   String userName = "";
   String email = "";
   String groupName = "";
+  Stream? allGroupsStream;
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>>? myGroupsStream;
 
   // string manipulation
   String getUsertId(String res) {
@@ -65,6 +68,40 @@ class _CommunitiesState extends State<Communities>
   }
 
   //shared preference
+  // gettingUserData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String storedUserName = prefs.getString('userName') ?? "";
+  //   setState(() {
+  //     userName = storedUserName;
+  //   });
+
+  //   await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+  //       .getUserGroups()
+  //       .then((snapshot) {
+  //     setState(() {
+  //       groups = snapshot.data()!['groups'];
+  //     });
+
+  //     groups!.forEach((groupId) {
+  //       ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+  //           .getAllGroupMembers(groupId)
+  //           .then((groupSnapshot) {
+  //         // Access the group data here
+  //         var groupData = groupSnapshot.data();
+  //         // Perform any necessary operations with the group data
+  //       });
+  //     });
+  //   });
+
+  // await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+  //     .getUserGroups()
+  //     .then((snapshot) {
+  //   setState(() {
+  //     groups = snapshot;
+  //   });
+  //   groups!.forEach((element) {});
+  // });
+
   gettingUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String storedUserName = prefs.getString('userName') ?? "";
@@ -72,32 +109,19 @@ class _CommunitiesState extends State<Communities>
       userName = storedUserName;
     });
 
-    await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
-        .getUserGroups()
-        .then((snapshot) {
-      setState(() {
-        groups = snapshot.data()!['groups'];
-      });
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    ChatDatabase chatDatabase = ChatDatabase(uid: userId);
 
-      groups!.forEach((groupId) {
-        ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
-            .getAllGroupMembers(groupId)
-            .then((groupSnapshot) {
-          // Access the group data here
-          var groupData = groupSnapshot.data();
-          // Perform any necessary operations with the group data
-        });
-      });
-    });
+    myGroupsStream = chatDatabase.getUserGroups();
 
-    // await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
-    //     .getUserGroups()
-    //     .then((snapshot) {
-    //   setState(() {
-    //     groups = snapshot;
-    //   });
-    //   groups!.forEach((element) {});
-    // });
+    // myGroupsStream = chatDatabase.getUserGroups();
+    allGroupsStream = chatDatabase.getAllGroups();
+
+    // void yourFunction() async {
+    //   myGroupsStream = chatDatabase.getUserGroups();
+    // }
+
+    // ...
   }
 
   @override
@@ -141,7 +165,7 @@ class _CommunitiesState extends State<Communities>
               controller: _tabController,
               children: [
                 // Content for My Groups tab
-                groupList(),
+                myGroupList(),
                 // Content for All Groups tab
                 allGroupList(),
               ],
@@ -153,41 +177,85 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
-  Widget groupList() {
-    return StreamBuilder(
-      stream: groups,
-      builder: (context, AsyncSnapshot snapshot) {
-        // make checks
-        if (snapshot.hasData) {
-          if (snapshot.data['groups'] != null) {
-            if (snapshot.data['groups'].length != 0) {
-              // return Text("mabodza");
-
-              return ListView.builder(
-                itemCount: snapshot.data['groups'].length,
-                itemBuilder: (context, index) {
-                  return GroupCards(
-                    groupId: snapshot.data['groups'][index],
-                    userName: userName,
-                    groupName: snapshot.data['groups'][index],
-                  );
-                },
-              );
-            } else {
-              return noGroupWidget();
-            }
-          } else {
-            return noGroupWidget();
-          }
-        } else {
+  Widget myGroupList() {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: myGroupsStream,
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor),
+              color: Theme.of(context).primaryColor,
+            ),
           );
         }
+
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (!snapshot.hasData) {
+          return noGroupWidget();
+        }
+
+        List<String> myGroups = [];
+
+        if (snapshot.data!.exists) {
+          myGroups = List<String>.from(snapshot.data!.get('groups') ?? []);
+        }
+
+        if (myGroups.isEmpty) {
+          return noGroupWidget();
+        }
+
+        return ListView.builder(
+          itemCount: myGroups.length,
+          itemBuilder: (context, index) {
+            return GroupCards(
+              groupId: myGroups[index],
+              userName: userName,
+              groupName: myGroups[index],
+            );
+          },
+        );
       },
     );
   }
+
+  // Widget groupList() {
+  //   return StreamBuilder(
+  //     stream: groups,
+  //     builder: (context, AsyncSnapshot snapshot) {
+  //       // make checks
+  //       if (snapshot.hasData) {
+  //         if (snapshot.data['groups'] != null) {
+  //           if (snapshot.data['groups'].length != 0) {
+  //             // return Text("mabodza");
+
+  //             return ListView.builder(
+  //               itemCount: snapshot.data['groups'].length,
+  //               itemBuilder: (context, index) {
+  //                 return GroupCards(
+  //                   groupId: snapshot.data['groups'][index],
+  //                   userName: userName,
+  //                   groupName: snapshot.data['groups'][index],
+  //                 );
+  //               },
+  //             );
+  //           } else {
+  //             return noGroupWidget();
+  //           }
+  //         } else {
+  //           return noGroupWidget();
+  //         }
+  //       } else {
+  //         return Center(
+  //           child: CircularProgressIndicator(
+  //               color: Theme.of(context).primaryColor),
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
 
   noGroupWidget() {
     return Container(
