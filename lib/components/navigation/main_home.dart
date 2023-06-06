@@ -24,7 +24,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     const HomeScreen(),
     const Communities(),
     const MessagesScreen(),
-    const ProfileScreen()
+    const UserProfileScreen()
   ];
 
   @override

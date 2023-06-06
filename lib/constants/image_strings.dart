@@ -18,7 +18,8 @@ const findProfessionals =
 const relateHeart = "assets/animations/post/relate-heart-v2.json";
 const comment = "assets/animations/post/comment.json";
 
-
-
 //user Profile Animation
 const userProfile = "assets/animations/userProfile/userProfile.json";
+
+//group placeholder
+const placeholderr = "assets/images/placeholderr.jpg";

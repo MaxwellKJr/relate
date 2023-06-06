@@ -4,36 +4,37 @@ import 'package:relate/components/post/comments_section.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
-import 'package:relate/services/post_services.dart';
+import 'package:relate/services/message_services.dart';
+import 'package:flutter/cupertino.dart';
 
-class ViewPost extends StatefulWidget {
-  final String postId, text, focus, image, postedBy, uid, formattedDateTime;
+class ViewMessage extends StatefulWidget {
+  final String message, text, focus, image, sentBy, uid, formattedDateTime;
 
-  const ViewPost(
+  const ViewMessage(
       {super.key,
-      required this.postId,
-      required this.text,
-      required this.focus,
-      required this.image,
-      required this.postedBy,
-      required this.formattedDateTime,
-      required this.uid});
+        required this.message,
+        required this.text,
+        required this.focus,
+        required this.image,
+        required this.sentBy,
+        required this.formattedDateTime,
+        required this.uid});
   @override
-  State<ViewPost> createState() => _ViewPostState();
+  State<ViewMessage> createState() => _ViewMessageState();
 }
 
-class _ViewPostState extends State<ViewPost> {
-  final PostServices postService = PostServices();
+class _ViewMessageState extends State<ViewMessage> {
+  final MessageServices messageService = MessageServices();
 
-  final _postTextController = TextEditingController();
+  final _messageTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final postId = widget.postId;
+    final messageId = widget.message;
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Post")),
+        appBar: AppBar(title: const Text("uid")),
         body: GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
@@ -57,7 +58,7 @@ class _ViewPostState extends State<ViewPost> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.postedBy,
+                                        widget.sentBy,
                                         style: GoogleFonts.poppins(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
@@ -90,26 +91,24 @@ class _ViewPostState extends State<ViewPost> {
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     widget.text,
-                                    style: GoogleFonts.poppins(fontSize: 14),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14, color: Colors.black87),
                                   ),
                                   if (widget.image != '')
                                     Container(
                                         padding: const EdgeInsets.only(top: 10),
                                         child: ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(20.0),
+                                          BorderRadius.circular(20.0),
                                           child: Image.network(
                                             widget.image,
                                             fit: BoxFit.cover,
                                           ),
                                         ))
                                   else
-                                    // Container(),
-                                    // PostBottomIcons(
-                                    //   postId: postId,
-                                    //   relates: const [],
-                                    // ),
-                                    CommentsSection(postId: postId),
+                                    Container(),
+                                  const PostBottomIcons(),
+                                  CommentsSection(postId: messageId),
                                 ],
                               ),
                               Align(
@@ -117,6 +116,10 @@ class _ViewPostState extends State<ViewPost> {
                                   child: Form(
                                       key: _formKey,
                                       child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                         children: [
                                           Flexible(
                                             child: Container(
@@ -126,32 +129,32 @@ class _ViewPostState extends State<ViewPost> {
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
-                                                        return 'Comment cannot be blank';
+                                                        return 'Enter some text';
                                                       }
                                                       return null;
                                                     },
                                                     controller:
-                                                        _postTextController,
+                                                    _messageTextController,
                                                     decoration: InputDecoration(
                                                         contentPadding:
-                                                            const EdgeInsets
-                                                                .all(5),
+                                                        const EdgeInsets
+                                                            .all(5),
                                                         border:
-                                                            OutlineInputBorder(
+                                                        OutlineInputBorder(
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  borderRadius),
+                                                          BorderRadius.circular(
+                                                              borderRadius),
                                                         ),
-                                                        hintText: "Comment"))),
+                                                        hintText: "Reply"))),
                                           ),
                                           IconButton(
                                             onPressed: () {
                                               if (_formKey.currentState!
                                                   .validate()) {
-                                                postService.submitComment(
+                                                messageService.sendMessage(
                                                     context,
-                                                    _postTextController,
-                                                    widget.postId);
+                                                    _messageTextController,
+                                                    widget.message);
                                               }
                                             },
                                             icon: const Icon(

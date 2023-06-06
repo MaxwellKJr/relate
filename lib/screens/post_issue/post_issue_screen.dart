@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:relate/constants/size_values.dart';
 
 class PostIssueScreen extends StatefulWidget {
   const PostIssueScreen({super.key});
@@ -19,6 +20,7 @@ class PostIssueScreen extends StatefulWidget {
 class _PostIssueScreenState extends State<PostIssueScreen> {
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  // final String focus = 'General';
   bool isEmpty = false;
 
   final _focusController = TextEditingController();
@@ -28,22 +30,39 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
   Future<void> sendPost() async {
     final user = FirebaseAuth.instance;
     final uid = user.currentUser?.uid;
+
     final userDoc =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final userName = userDoc.data()!['userName'];
+
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+    String? userName;
+
+    if (userDoc.exists) {
+      userName = userDoc.data()!['userName'];
+    } else if (professionalDoc.exists) {
+      userName = professionalDoc.data()!['userName'];
+    }
 
     final text = _postTextController.text;
     final currentTime = DateTime.now();
 
     final focus = _focusController.text;
 
+    // if (focus == '') {
+    //   focus = "general";
+    // }
+
     final post = {
       'text': text,
       'focus': focus,
       'image': imageUrl,
       'timestamp': Timestamp.fromDate(currentTime),
-      'uid': uid, // Add the user's UID and userName to the post document
-      'postedBy': userName
+      'uid': uid,
+      'postedBy': userName,
+      'relates': []
     };
 
     if (text.isNotEmpty) {
@@ -74,7 +93,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56.0),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.only(right: layoutPadding - 2),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -140,6 +159,9 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                   children: [
                     Flexible(
                       child: CustomDropdown(
+                        fillColor: Colors.transparent,
+                        listItemStyle: const TextStyle(color: blackColor),
+                        selectedStyle: const TextStyle(color: Colors.teal),
                         hintText: 'Choose focus',
                         items: const [
                           'General',

@@ -6,6 +6,14 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/authentication/get_user_data_screen.dart';
+
+import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/chat/group_chat_info.dart';
+import 'package:relate/screens/chat/message_detail_page.dart';
+import 'package:relate/screens/community/group_info.dart';
+import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
+
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/community/tab.dart';
@@ -61,6 +69,7 @@ class _MyAppState extends State<MyApp> {
     //         : Colors.white, // set color for light theme
     //   ),
     // );
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
         Colors.transparent // Set your desired color for the system buttons

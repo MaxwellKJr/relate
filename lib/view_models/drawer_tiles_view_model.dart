@@ -13,7 +13,7 @@ class DrawerTilesViewModel {
   final List<Map<String, dynamic>> dataList = [
     {
       'leading': const Icon(
-        Icons.thumb_up,
+        Icons.favorite,
         color: primaryColor,
       ),
       'title': tWellnessCentres,
@@ -24,21 +24,13 @@ class DrawerTilesViewModel {
       'title': tSelfJourney,
       'destination': const SelfJourneyScreen()
     },
-    // {
-    //   'leading': const Icon(
-    //     Icons.people,
-    //     color: primaryColor,
-    //   ),
-    //   'title': tCommunityGroups,
-    //   'destination': const Communities(),
-    // },
     {
       'leading': const Icon(
         Icons.send_sharp,
         color: primaryColor,
       ),
       'title': tContactAProfessional,
-      'destination': const ContactProfessionalScreen()
+      'destination': ProfessionalsScreen()
     },
     {
       'leading': const Icon(

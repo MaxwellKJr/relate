@@ -7,40 +7,28 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:relate/constants/colors.dart';
 
-class PostServices {
+class MessageServices {
   final context = BuildContext;
 
-  Future<void> submitComment(context, postTextController, String postId) async {
+  Future<void> sendMessage(context, messageTextController, String messageId) async {
     try {
-      final commentBody = postTextController.text;
+      final replyBody = messageTextController.text;
 
       final user = FirebaseAuth.instance;
       final uid = user.currentUser?.uid;
-
       final userDoc =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final userName = userDoc.data()!['userName'];
 
-      final professionalDoc = await FirebaseFirestore.instance
-          .collection('professionals')
-          .doc(uid)
-          .get();
-      String? userName;
-
-      if (userDoc.exists) {
-        userName = userDoc.data()!['userName'];
-      } else if (professionalDoc.exists) {
-        userName = professionalDoc.data()!['userName'];
-      }
-
-      final comment = {
+      final reply = {
         'uid': uid,
         'userName': userName,
-        'commentBody': commentBody,
+        'messageBody': replyBody,
         'timestamp': Timestamp.now(),
       };
 
-      final postRef =
-          FirebaseFirestore.instance.collection('posts').doc(postId);
+      final messageRef =
+      FirebaseFirestore.instance.collection('Messages').doc(messageId);
 
       // if (commentBody != null) {
       //   Fluttertoast.showToast(
@@ -52,17 +40,17 @@ class PostServices {
       //       textColor: Colors.white,
       //       fontSize: 16.0);
       // } else {
-      await postRef.collection('comments').add(comment).then((value) =>
+      await messageRef.collection('reply').add(reply).then((value) =>
           Fluttertoast.showToast(
-              msg: "Comment Submitted",
+              msg: "response Submitted",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
               timeInSecForIosWeb: 1,
               backgroundColor: primaryColor,
               textColor: Colors.white,
               fontSize: 16.0));
-      postTextController.clear();
-      postTextController.unfocus();
+      messageTextController.clear();
+      messageTextController.unfocus();
       // }
     } on FirebaseFirestore catch (error) {
       print(error);

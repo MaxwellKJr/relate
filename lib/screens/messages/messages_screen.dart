@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/screens/user_profile/user_profile_screen.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
+import 'package:relate/components/navigation/drawer/drawer_main.dart';
+import 'package:relate/constants/text_string.dart';
+import 'package:relate/constants/colors.dart';
+import 'package:relate/screens/chat/message_detail_page.dart';
+import 'package:relate/screens/profile/profile_screen.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
@@ -110,6 +115,88 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.pushNamed(context, UserProfileScreen.userProfile);
+      appBar: AppBar(title: const Text("Messages")),
+      drawer: const DrawerMain(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                labelText: 'Search Chats',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (value) {
+                _searchChats(value);
+              },
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: chatsRef.snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final chatDocs = snapshot.data?.docs ?? [];
+
+                return ListView.builder(
+                  itemCount: _searchResults.isNotEmpty
+                      ? _searchResults.length
+                      : chatDocs.length,
+                  itemBuilder: (context, index) {
+                    final chatData = _searchResults.isNotEmpty
+                        ? _searchResults[index].data()
+                        : chatDocs[index].data();
+                    final chatId = chatDocs[index].id;
+
+                    return ListTile(
+                      leading: const CircleAvatar(
+                        // Replace with chat user's profile image
+                        backgroundImage:
+                            AssetImage('assets/images/profile.png'),
+                      ),
+                      title: Text(chatData?['chatName'] ?? ''),
+                      subtitle: Text(chatData?['lastMessage'] ?? ''),
+                      trailing: Text(chatData?['lastMessageTime'] ?? ''),
+                      onTap: () async {
+                        final conversationId = await _getConversationId(chatId);
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MessageDetailPage(
+                              conversationId: conversationId ?? '',
+                              userId: chatData?['user']['uid'] ?? '',
+                              userName: chatData?['chatName'] ?? '',
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserProfileScreen(),
+            ),
+          );
         },
       ),
     );
@@ -151,7 +238,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
       });
     });
   }
-
   void _deleteChat(String chatId) {
     chatsRef.doc(chatId).delete().then((_) {
       // Chat deleted successfully

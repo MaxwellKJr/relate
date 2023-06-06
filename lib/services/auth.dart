@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:relate/constants/colors.dart';
+import 'package:relate/screens/authentication/get_user_data_screen.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -55,10 +56,11 @@ class Auth {
           'email': email,
           'phoneNumber': phoneNumber,
           'groups': [],
+          'relatesTo': []
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen()));
+            builder: (BuildContext context) => const GetUserDataScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
@@ -126,11 +128,12 @@ class Auth {
           'specializedIn': [],
           'isAssociatedWith': [],
           'phoneNumber': phoneNumber,
+          'relatesTo': [],
           // 'consultancyName': consultancyName,
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen()));
+            builder: (BuildContext context) => const GetUserDataScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
