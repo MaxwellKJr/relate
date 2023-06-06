@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:relate/constants/colors.dart';
 
 class PostServices {
@@ -14,9 +16,21 @@ class PostServices {
 
       final user = FirebaseAuth.instance;
       final uid = user.currentUser?.uid;
+
       final userDoc =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final userName = userDoc.data()!['userName'];
+
+      final professionalDoc = await FirebaseFirestore.instance
+          .collection('professionals')
+          .doc(uid)
+          .get();
+      String? userName;
+
+      if (userDoc.exists) {
+        userName = userDoc.data()!['userName'];
+      } else if (professionalDoc.exists) {
+        userName = professionalDoc.data()!['userName'];
+      }
 
       final comment = {
         'uid': uid,
@@ -54,4 +68,5 @@ class PostServices {
       print(error);
     }
   }
+
 }

@@ -90,8 +90,7 @@ class _ViewPostState extends State<ViewPost> {
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     widget.text,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 14, color: Colors.black87),
+                                    style: GoogleFonts.poppins(fontSize: 14),
                                   ),
                                   if (widget.image != '')
                                     Container(
@@ -105,9 +104,12 @@ class _ViewPostState extends State<ViewPost> {
                                           ),
                                         ))
                                   else
-                                    Container(),
-                                  const PostBottomIcons(),
-                                  CommentsSection(postId: postId),
+                                    // Container(),
+                                    // PostBottomIcons(
+                                    //   postId: postId,
+                                    //   relates: const [],
+                                    // ),
+                                    CommentsSection(postId: postId),
                                 ],
                               ),
                               Align(
@@ -115,10 +117,6 @@ class _ViewPostState extends State<ViewPost> {
                                   child: Form(
                                       key: _formKey,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
                                         children: [
                                           Flexible(
                                             child: Container(
@@ -128,7 +126,7 @@ class _ViewPostState extends State<ViewPost> {
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
-                                                        return 'Enter some text';
+                                                        return 'Comment cannot be blank';
                                                       }
                                                       return null;
                                                     },

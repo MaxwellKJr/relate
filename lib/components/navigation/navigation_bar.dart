@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+// import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/community/community_groups.dart';
+import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/screens/messages/messages_screen.dart';
+import 'package:relate/screens/profile/profile_screen.dart';
 
 class NavigationBarMain extends StatefulWidget {
   const NavigationBarMain({super.key});
@@ -9,6 +14,13 @@ class NavigationBarMain extends StatefulWidget {
 
 class _NavigationBarMainState extends State<NavigationBarMain> {
   int currentPageIndex = 0;
+
+  final screens = [
+    const HomeScreen(),
+    const CommunityGroupsScreen(),
+    const MessagesScreen(),
+    const UserProfileScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +34,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
             icon: Icon(Icons.person_rounded), label: "Profile"),
       ],
       selectedIndex: currentPageIndex,
-      onDestinationSelected: (int index) {
-        setState(() {
-          currentPageIndex = index;
-        });
-      },
+      onDestinationSelected: (currentPageIndex) =>
+          setState(() => this.currentPageIndex = currentPageIndex),
     );
   }
 }
