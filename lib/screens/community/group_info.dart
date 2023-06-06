@@ -6,14 +6,14 @@ import 'package:relate/services/chat_database_services.dart';
 import 'package:relate/services/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SearchAndJoin extends StatefulWidget {
-  const SearchAndJoin({super.key});
+class GroupInfo extends StatefulWidget {
+  const GroupInfo({super.key});
 
   @override
-  State<SearchAndJoin> createState() => _SearchAndJoinState();
+  State<GroupInfo> createState() => _GroupInfoState();
 }
 
-class _SearchAndJoinState extends State<SearchAndJoin> {
+class _GroupInfoState extends State<GroupInfo> {
   TextEditingController searchController = TextEditingController();
   bool isLoading = false;
   QuerySnapshot? searchSnapshot;
@@ -69,87 +69,114 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
               fontSize: 27, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Theme.of(context).primaryColor,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Search groups....",
-                        hintStyle:
-                            TextStyle(color: Colors.white, fontSize: 16)),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    initiateSearchMethod();
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(40)),
-                    child: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor),
-                )
-              : groupList(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('groups').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData) {
+            return Center(child: Text('No data available'));
+          }
+
+          List<DocumentSnapshot> groups = snapshot.data!.docs;
+
+          if (groups.isEmpty) {
+            return noGroupWidget();
+          }
+
+          return ListView.builder(
+            itemCount: groups.length,
+            itemBuilder: (context, index) {
+              String groupId = groups[index]['id'];
+              String groupName = groups[index]['groupName'];
+
+              return groupTile(
+                userName,
+                groupId,
+                groupName,
+                groups[index]['admin'],
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  noGroupWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Text(
+            "You've not joined any groups, tap on the add icon to create a group or also search from top search button.",
+            textAlign: TextAlign.center,
+          )
         ],
       ),
     );
   }
 
-  initiateSearchMethod() async {
-    if (searchController.text.isNotEmpty) {
-      setState(() {
-        isLoading = true;
-      });
-      await ChatDatabase()
-          .searchGroupName(searchController.text)
-          .then((snapshot) {
-        setState(() {
-          searchSnapshot = snapshot;
-          isLoading = false;
-          hasUserSearched = true;
-        });
-      });
-    }
-  }
+//  Widget allGroupList() {
+//     return StreamBuilder<List<Map<String, dynamic>>>(
+//       stream: ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+//           .getAllGroups(),
+//       builder: (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const CircularProgressIndicator();
+//         }
+//         if (snapshot.hasError) {
+//           return Text('Error: ${snapshot.error}');
+//         }
+//         if (!snapshot.hasData) {
+//           return const Text('No data available');
+//         }
 
-  groupList() {
-    return hasUserSearched
-        ? ListView.builder(
-            shrinkWrap: true,
-            itemCount: searchSnapshot!.docs.length,
-            itemBuilder: (context, index) {
-              return groupTile(
-                userName,
-                searchSnapshot!.docs[index]['groupId'],
-                searchSnapshot!.docs[index]['groupName'],
-                searchSnapshot!.docs[index]['admin'],
-              );
-            },
-          )
-        : Container();
-  }
+//         List<Map<String, dynamic>> groups = snapshot.data!;
+
+//         if (groups.isEmpty) {
+//           return noGroupWidget();
+//         }
+
+//         return ListView.builder(
+//           itemCount: groups.length,
+//           itemBuilder: (context, index) {
+//             String groupId = groups[index]['id'];
+//             String groupName = groups[index]['groupName'];
+
+//             return GroupCards(
+//               groupId: groupId,
+//               userName: userName,
+//               groupName: groupName,
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+
+  // groupList() {
+  //   return hasUserSearched
+  //       ? ListView.builder(
+  //           shrinkWrap: true,
+  //           itemCount: searchSnapshot!.docs.length,
+  //           itemBuilder: (context, index) {
+  //             return groupTile(
+  //               userName,
+  //               searchSnapshot!.docs[index]['groupId'],
+  //               searchSnapshot!.docs[index]['groupName'],
+  //               searchSnapshot!.docs[index]['admin'],
+  //             );
+  //           },
+  //         )
+  //       : Container();
+  // }
 
   joinedOrNot(
       String userName, String groupId, String groupname, String admin) async {

@@ -17,3 +17,6 @@ const findProfessionals =
 // Post Related Animations
 const relateHeart = "assets/animations/post/relate-heart-v2.json";
 const comment = "assets/animations/post/comment.json";
+
+//group placeholder
+const placeholderr = "assets/images/placeholderr.jpg";
