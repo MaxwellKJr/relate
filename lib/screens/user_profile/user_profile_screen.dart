@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 
 class UserProfileScreen extends StatefulWidget {
+  static const String userProfile = '/userProfile';
   const UserProfileScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,7 +17,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   FirebaseFirestore.instance.collection('conversations');
 
   Future<String?> _getConversationId(String userId) async {
-    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+    final currentUser = 'current-user-id-here';
 
     final snapshot = await conversationsRef
         .where('participants.$currentUser', isEqualTo: true)
@@ -36,7 +37,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Profiles'),
+        title: const Text('User Profiles'),
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: usersRef.snapshots(),
@@ -46,7 +47,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }
 
           final userData = snapshot.data?.docs ?? [];
@@ -58,20 +59,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
               return ListTile(
                 leading: CircleAvatar(
-                  // Replace with user profile image
-                  backgroundImage: NetworkImage(user['profileImageUrl'] ?? ''),
+                  radius: 30,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  child: Container(), // Empty container as the child
                 ),
-                title: Text(user['name'] ?? ''),
+                title: Text(user['userName'] ?? ''),
                 subtitle: Text(user['email'] ?? ''),
                 trailing: ElevatedButton(
                   onPressed: () async {
-                    final conversationId = await _getConversationId(user['userId'] ?? '');
+                    final conversationId =
+                    await _getConversationId(user['userId'] ?? '');
 
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MessageDetailPage(
-                          conversationId: conversationId ?? '', // Handle null value
+                          conversationId: conversationId ?? '',
                           userId: user['userId'] ?? '',
                           userName: user['name'] ?? '',
                         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
-import 'package:relate/screens/home/home_screen.dart';
 
 class ContactProfessionalScreen extends StatefulWidget {
   const ContactProfessionalScreen({Key? key}) : super(key: key);
@@ -27,7 +25,7 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
     final userId = 'current_user_id'; // Replace with the actual user ID
 
     final querySnapshot = await conversationsRef
-        .where('userId', isEqualTo: userId)
+        .where('uid', isEqualTo: userId)
         .where('professionalId', isEqualTo: professionalId)
         .limit(1)
         .get();
@@ -39,7 +37,7 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
     final userId = 'current_user_id'; // Replace with the actual user ID
 
     final querySnapshot = await conversationsRef
-        .where('userId', isEqualTo: userId)
+        .where('uid', isEqualTo: userId)
         .where('professionalId', isEqualTo: professionalId)
         .limit(1)
         .get();

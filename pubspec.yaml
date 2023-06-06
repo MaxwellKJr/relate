@@ -90,6 +90,8 @@ flutter:
     - assets/images/welcome/
     - assets/animations/onboarding/
     - assets/animations/post/
+    - assets/images/profiles/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:relate/constants/text_string.dart';
-import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/user_profile/user_profile_screen.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 
@@ -80,9 +78,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
                   _deleteChat(chatId);
                 },
                 child: ListTile(
-                  leading: const CircleAvatar(
-                    // Replace with chat user's profile image
-                    backgroundImage: AssetImage('assets/images/profile.png'),
+                  leading: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    child: Container(), // Empty container as the child
                   ),
                   title: Text(chatData?['chatName'] ?? ''),
                   subtitle: Text(chatData?['lastMessage'] ?? ''),
@@ -110,12 +109,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const UserProfileScreen(),
-            ),
-          );
+          Navigator.pushNamed(context, UserProfileScreen.userProfile);
         },
       ),
     );

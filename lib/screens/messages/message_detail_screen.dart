@@ -9,6 +9,7 @@ import 'dart:io';
 import 'messages_screen.dart';
 
 class MessageDetailPage extends StatefulWidget {
+  static const String messageDetail = '/messageDetail';
   final String conversationId;
   final String userId;
   final String userName;
