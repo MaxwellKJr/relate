@@ -83,7 +83,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const GetUserDataScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }
 }

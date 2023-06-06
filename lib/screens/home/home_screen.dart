@@ -5,6 +5,7 @@ import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/home/addiction_posts_body.dart';
+import 'package:relate/screens/home/motivation_posts_body.dart';
 import 'package:relate/screens/post_issue/post_issue_screen.dart';
 import 'package:relate/screens/home/home_screen_body.dart';
 import 'package:relate/screens/home/depression_posts_body.dart';
@@ -53,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   HomeScreenBody(),
                   DepressionPostsBody(),
                   AddictionPostsBody(),
-                  HomeScreenBody()
+                  MotivationPostsBody()
                 ]),
               ),
             ],

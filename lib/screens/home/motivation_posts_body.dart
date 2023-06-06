@@ -96,7 +96,7 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(10))),
                                       child: Container(
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(
                                               color: Colors.teal,

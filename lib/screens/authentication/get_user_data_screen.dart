@@ -63,6 +63,33 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
     "Alcohol",
   ];
 
+  Future<void> updateUserDetails() async {
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
+
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+
+    if (userDoc.exists) {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      await userRef.update({'interests': interestTags, 'hobbies': hobbiesTags});
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const HomeScreen()));
+    } else if (professionalDoc.exists) {
+      final professionalRef =
+          FirebaseFirestore.instance.collection('professionals').doc(uid);
+      await professionalRef
+          .update({'interests': interestTags, 'hobbies': hobbiesTags});
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const HomeScreen()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,25 +247,8 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                       width: double.infinity,
                       height: tButtonHeight,
                       child: FilledButton(
-                          onPressed: () async {
-                            final user = FirebaseAuth.instance;
-                            final uid = user.currentUser?.uid;
-
-                            if (user.currentUser != null) {
-                              final userRef = FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(uid);
-
-                              await userRef.update({
-                                'interests': interestTags,
-                                'hobbies': hobbiesTags
-                              });
-
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          const HomeScreen()));
-                            }
+                          onPressed: () {
+                            updateUserDetails();
                           },
                           child: const Text("Continue")),
                     )
