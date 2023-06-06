@@ -129,7 +129,6 @@ class Auth {
           'phoneNumber': phoneNumber,
           'relatesTo': [],
           // 'consultancyName': consultancyName,
-
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
