@@ -57,6 +57,7 @@ dependencies:
   firebase_storage: ^11.1.2
   animated_custom_dropdown: ^1.5.0
   flutter_chat_ui: ^1.6.6
+  chips_choice_null_safety: ^2.0.6
 
 dev_dependencies:
   flutter_test:

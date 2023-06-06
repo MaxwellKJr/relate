@@ -6,6 +6,7 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/authentication/get_user_data_screen.dart';
 
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/chat/group_chat_info.dart';
@@ -85,10 +86,6 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      // home: Communities(),
-      // home: MyHomePage()
-      // home: GroupData(),''
-      // home: GroupInfo(),
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }
