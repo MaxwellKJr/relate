@@ -6,7 +6,6 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
-
 class ViewPost extends StatefulWidget {
   final String postId, text, focus, image, postedBy, uid, formattedDateTime;
 
@@ -106,11 +105,11 @@ class _ViewPostState extends State<ViewPost> {
                                         ))
                                   else
                                     // Container(),
-                                    PostBottomIcons(
-                                      postId: postId,
-                                      relates: const [],
-                                    ),
-                                  CommentsSection(postId: postId),
+                                    // PostBottomIcons(
+                                    //   postId: postId,
+                                    //   relates: const [],
+                                    // ),
+                                    CommentsSection(postId: postId),
                                 ],
                               ),
                               Align(

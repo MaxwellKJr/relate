@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:relate/constants/size_values.dart';
 
 class PostIssueScreen extends StatefulWidget {
   const PostIssueScreen({super.key});
@@ -19,6 +20,7 @@ class PostIssueScreen extends StatefulWidget {
 class _PostIssueScreenState extends State<PostIssueScreen> {
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  // final String focus = 'General';
   bool isEmpty = false;
 
   final _focusController = TextEditingController();
@@ -48,6 +50,10 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
     final currentTime = DateTime.now();
 
     final focus = _focusController.text;
+
+    // if (focus == '') {
+    //   focus = "general";
+    // }
 
     final post = {
       'text': text,
@@ -87,7 +93,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(56.0),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.only(right: layoutPadding - 2),
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
@@ -154,8 +160,8 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                     Flexible(
                       child: CustomDropdown(
                         fillColor: Colors.transparent,
-                        listItemStyle: TextStyle(color: blackColor),
-                        selectedStyle: TextStyle(color: Colors.teal),
+                        listItemStyle: const TextStyle(color: blackColor),
+                        selectedStyle: const TextStyle(color: Colors.teal),
                         hintText: 'Choose focus',
                         items: const [
                           'General',
