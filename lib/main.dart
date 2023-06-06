@@ -16,12 +16,13 @@ import 'package:relate/screens/contact_professional/contact_professional_screen.
 
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
-// import 'package:relate/screens/community/GroupInfo.dart';
-// import 'package:relate/screens/create_group/CreateGroup.dart';
+import 'package:relate/screens/community/tab.dart';
+import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
+import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/screens/home/home_screen.dart';
-
+import 'package:relate/screens/messages/message_detail_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
-import 'package:relate/screens/profile/profile_screen.dart';
+import 'package:relate/screens/user_profile/user_profile_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
 
 Future<void> main() async {
@@ -31,7 +32,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -71,20 +72,25 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
-            Colors.transparent // Set your desired color for the system buttons
-        ));
+        Colors.transparent // Set your desired color for the system buttons
+    ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Relate',
       theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.light,
-          colorSchemeSeed: primaryColor),
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorSchemeSeed: primaryColor,
+      ),
+       routes: {
+        UserProfileScreen.userProfile: (context) => UserProfileScreen(),
+        MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)},
       darkTheme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorSchemeSeed: primaryColor),
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorSchemeSeed: primaryColor,
+      ),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
