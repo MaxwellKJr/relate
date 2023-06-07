@@ -6,23 +6,25 @@ import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
-class ViewPost extends StatefulWidget {
-  final String postId, text, focus, image, postedBy, uid, formattedDateTime;
+class ViewWellnessCentreScreen extends StatefulWidget {
+  final String postId, name, address, background, criteria, services, website;
 
-  const ViewPost(
-      {super.key,
-      required this.postId,
-      required this.text,
-      required this.focus,
-      required this.image,
-      required this.postedBy,
-      required this.formattedDateTime,
-      required this.uid});
+  const ViewWellnessCentreScreen({
+    super.key,
+    required this.postId,
+    required this.name,
+    required this.address,
+    required this.background,
+    required this.criteria,
+    required this.services,
+    required this.website,
+  });
   @override
-  State<ViewPost> createState() => _ViewPostState();
+  State<ViewWellnessCentreScreen> createState() =>
+      _ViewWellnessCentreScreenState();
 }
 
-class _ViewPostState extends State<ViewPost> {
+class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
   final PostServices postService = PostServices();
 
   final _postTextController = TextEditingController();
@@ -57,7 +59,7 @@ class _ViewPostState extends State<ViewPost> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.postedBy,
+                                        widget.name,
                                         style: GoogleFonts.poppins(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
@@ -74,7 +76,7 @@ class _ViewPostState extends State<ViewPost> {
                                         width: 5,
                                       ),
                                       Text(
-                                        widget.focus,
+                                        widget.name,
                                         style: GoogleFonts.poppins(
                                             color: primaryColor,
                                             fontSize: 15,
@@ -83,32 +85,32 @@ class _ViewPostState extends State<ViewPost> {
                                     ],
                                   ),
                                   Text(
-                                    widget.formattedDateTime,
+                                    widget.criteria,
                                     style: GoogleFonts.poppins(
                                         fontSize: 12, color: primaryColor),
                                   ),
                                   const SizedBox(height: elementSpacing),
                                   Text(
-                                    widget.text,
+                                    widget.services,
                                     style: GoogleFonts.poppins(fontSize: 14),
                                   ),
-                                  if (widget.image != '')
-                                    Container(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          child: Image.network(
-                                            widget.image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                  else
-                                    // Container(),
-                                    PostBottomIcons(
-                                      postId: postId,
-                                      relates: const [],
-                                    ),
+                                  // if (widget.image != '')
+                                  //   Container(
+                                  //       padding: const EdgeInsets.only(top: 10),
+                                  //       child: ClipRRect(
+                                  //         borderRadius:
+                                  //             BorderRadius.circular(20.0),
+                                  //         child: Image.network(
+                                  //           widget.image,
+                                  //           fit: BoxFit.cover,
+                                  //         ),
+                                  //       ))
+                                  // else
+                                  //   // Container(),
+                                  //   // PostBottomIcons(
+                                  //   //   postId: postId,
+                                  //   //   relates: const [],
+                                  //   // ),
                                   CommentsSection(postId: postId),
                                 ],
                               ),

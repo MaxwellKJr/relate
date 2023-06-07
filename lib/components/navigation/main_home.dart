@@ -9,6 +9,7 @@ import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
+import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -23,8 +24,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   final screens = [
     const HomeScreen(),
     const Communities(),
-    // const MessagesScreen(),
-    // const UserProfileScreen()
+    const MessagesScreen(),
+    const WellnessCentresScreen(),
   ];
 
   @override
@@ -41,7 +42,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             NavigationDestination(
                 icon: Icon(Icons.message_rounded), label: "Messages"),
             NavigationDestination(
-                icon: Icon(Icons.person_rounded), label: "Profile"),
+                icon: Icon(Icons.waving_hand), label: "Discover"),
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>
