@@ -31,7 +31,7 @@ class _GroupCardsState extends State<GroupCards> {
               builder: (context) => ChatScreen(
                 groupId: widget.groupId,
                 groupName: widget.groupName,
-                // userName: widget.userName,
+                userName: widget.userName,
               ),
             ));
       },

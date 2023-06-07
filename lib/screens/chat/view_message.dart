@@ -5,19 +5,20 @@
 // import 'package:relate/constants/colors.dart';
 // import 'package:relate/constants/size_values.dart';
 // import 'package:relate/services/message_services.dart';
+// import 'package:flutter/cupertino.dart';
 
 // class ViewMessage extends StatefulWidget {
 //   final String message, text, focus, image, sentBy, uid, formattedDateTime;
 
 //   const ViewMessage(
 //       {super.key,
-//       required this.message,
-//       required this.text,
-//       required this.focus,
-//       required this.image,
-//       required this.sentBy,
-//       required this.formattedDateTime,
-//       required this.uid});
+//         required this.message,
+//         required this.text,
+//         required this.focus,
+//         required this.image,
+//         required this.sentBy,
+//         required this.formattedDateTime,
+//         required this.uid});
 //   @override
 //   State<ViewMessage> createState() => _ViewMessageState();
 // }
@@ -98,7 +99,7 @@
 //                                         padding: const EdgeInsets.only(top: 10),
 //                                         child: ClipRRect(
 //                                           borderRadius:
-//                                               BorderRadius.circular(20.0),
+//                                           BorderRadius.circular(20.0),
 //                                           child: Image.network(
 //                                             widget.image,
 //                                             fit: BoxFit.cover,
@@ -106,6 +107,7 @@
 //                                         ))
 //                                   else
 //                                     Container(),
+//                                   const PostBottomIcons(),
 //                                   CommentsSection(postId: messageId),
 //                                 ],
 //                               ),
@@ -115,9 +117,9 @@
 //                                       key: _formKey,
 //                                       child: Row(
 //                                         mainAxisAlignment:
-//                                             MainAxisAlignment.spaceBetween,
+//                                         MainAxisAlignment.spaceBetween,
 //                                         crossAxisAlignment:
-//                                             CrossAxisAlignment.center,
+//                                         CrossAxisAlignment.center,
 //                                         children: [
 //                                           Flexible(
 //                                             child: Container(
@@ -132,16 +134,16 @@
 //                                                       return null;
 //                                                     },
 //                                                     controller:
-//                                                         _messageTextController,
+//                                                     _messageTextController,
 //                                                     decoration: InputDecoration(
 //                                                         contentPadding:
-//                                                             const EdgeInsets
-//                                                                 .all(5),
+//                                                         const EdgeInsets
+//                                                             .all(5),
 //                                                         border:
-//                                                             OutlineInputBorder(
+//                                                         OutlineInputBorder(
 //                                                           borderRadius:
-//                                                               BorderRadius.circular(
-//                                                                   borderRadius),
+//                                                           BorderRadius.circular(
+//                                                               borderRadius),
 //                                                         ),
 //                                                         hintText: "Reply"))),
 //                                           ),
