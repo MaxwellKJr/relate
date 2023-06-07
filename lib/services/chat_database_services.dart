@@ -1,4 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rxdart/rxdart.dart';
+
+// extension DocumentSnapshotExtension<T> on DocumentSnapshot<T> {
+//   DocumentSnapshot<T> copyWith({
+//     dynamic data,
+//     SnapshotMetadata? metadata,
+//     bool? exists,
+//     String? id,
+//   }) {
+//     return DocumentSnapshot<T>(
+//       this.firestore,
+//       this.reference,
+//       data ?? this.data(),
+//       metadata ?? this.metadata,
+//       exists ?? this.exists,
+//     );
+//   }
+// }
 
 class ChatDatabase {
   final String? uid;
@@ -29,6 +47,7 @@ class ChatDatabase {
   //   return userCollection.doc(uid).snapshots();
   // }
 
+//working individual user
   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
     return userCollection.doc(uid).snapshots().asBroadcastStream().map(
       (DocumentSnapshot<Object?> snapshot) {
@@ -37,13 +56,43 @@ class ChatDatabase {
     );
   }
 
+  // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
+  //   return userCollection.doc(uid).snapshots().asBroadcastStream().switchMap(
+  //     (userSnapshot) {
+  //       String groupId = userSnapshot.data()!['groupId'] as String;
+
+  //       if (groupId.isNotEmpty) {
+  //         return groupCollection.doc(groupId).snapshots().map(
+  //           (groupSnapshot) {
+  //             String groupName = groupSnapshot.data()!['groupName'] as String;
+
+  //             // Adding the groupName field to the userSnapshot data
+  //             Map<String, dynamic> userData =
+  //                 Map<String, dynamic>.from(userSnapshot.data()!);
+  //             userData['groupName'] = groupName;
+
+  //             return userSnapshot.copyWith(data: userData);
+  //           },
+  //         );
+  //       } else {
+  //         return Stream.value(
+  //           userSnapshot.copyWith(data: {}),
+  //         );
+  //       }
+  //     },
+  //   );
+  // }
+
   // creating a group
-  Future createGroup(
-      String userName, String id, String groupName, String email) async {
+  Future createGroup(String userName, String id, String groupName, String email,
+      String purpose, String rules, String description) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
-      // used this inplace of usernam
       "email": "$email",
+      //add
+      "purpose": purpose,
+      "rules": rules,
+      "description": description,
       "groupIcon": "",
       "admin": "${id}_${userName}",
       "members": [],
@@ -98,12 +147,17 @@ class ChatDatabase {
     });
   }
 
-  //new content
-
-  Stream<List<String>> getAllGroups() {
+  Stream<List<Map<String, dynamic>>> getAllGroups() {
     return groupCollection.snapshots().map((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
-        return documentSnapshot.id;
+        String documentId = documentSnapshot.id;
+        String groupName = documentSnapshot
+            .get("groupName"); // Replace "groupName" with the actual field name
+
+        return {
+          "id": documentId,
+          "groupName": groupName,
+        };
       }).toList();
     });
   }

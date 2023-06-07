@@ -8,12 +8,14 @@ import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:relate/screens/chat/chat_screen.dart';
+import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/screens/chat/message_detail_page.dart';
+import 'package:relate/screens/community/group_info.dart';
 import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
 
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
-import 'package:relate/screens/community/tab.dart';
+// import 'package:relate/screens/community/GroupInfo.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/screens/home/home_screen.dart';
 
@@ -65,6 +67,7 @@ class _MyAppState extends State<MyApp> {
     //         : Colors.white, // set color for light theme
     //   ),
     // );
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
             Colors.transparent // Set your desired color for the system buttons
@@ -84,7 +87,8 @@ class _MyAppState extends State<MyApp> {
       themeMode: ThemeMode.system,
       // home: Communities(),
       // home: MyHomePage()
-      // home: GroupData(),
+      // home: GroupData(),''
+      // home: GroupInfo(),
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );
   }

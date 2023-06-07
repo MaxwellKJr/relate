@@ -4,6 +4,9 @@ import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//image
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class CreateGroup extends StatefulWidget {
   const CreateGroup({Key? key}) : super(key: key);
@@ -19,6 +22,13 @@ class _CreateGroupState extends State<CreateGroup> {
   Stream? groups;
   bool _isLoading = false;
   String groupName = "";
+
+  //text editing controllers
+  TextEditingController rulesController = TextEditingController();
+  TextEditingController purposeController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  File? _selectedImage;
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +73,52 @@ class _CreateGroupState extends State<CreateGroup> {
                       padding: EdgeInsets.only(left: 5, right: 5),
                       children: [
                         Center(
+                          // child: Stack(
+                          //   children: [
+                          //     Container(
+                          //       width: 130,
+                          //       height: 139,
+                          //       decoration: BoxDecoration(
+                          //         border:
+                          //             Border.all(width: 4, color: Colors.white),
+                          //         boxShadow: [
+                          //           BoxShadow(
+                          //             spreadRadius: 2,
+                          //             blurRadius: 10,
+                          //             color: Colors.black.withOpacity(0.1),
+                          //           ),
+                          //         ],
+                          //         shape: BoxShape.circle,
+                          //         image: DecorationImage(
+                          //           image: _selectedImage != null
+                          //               ? FileImage(_selectedImage!)
+                          //               : NetworkImage(
+                          //                   'https://cdn.pixabay.com/photo/2023/05/01/15/17/water-7963286_960_720.jpg',
+                          //                 ),
+                          //           fit: BoxFit.cover,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Positioned(
+                          //       bottom: 0,
+                          //       right: 0,
+                          //       child: IconButton(
+                          //         onPressed: () async {
+                          //           final picker = ImagePicker();
+                          //           final pickedImage = await picker.getImage(
+                          //               source: ImageSource.gallery);
+                          //           if (pickedImage != null) {
+                          //             setState(() {
+                          //               _selectedImage = File(pickedImage.path);
+                          //             });
+                          //           }
+                          //         },
+                          //         icon: Icon(Icons.edit, color: Colors.white),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+
                           child: Stack(
                             children: [
                               Container(
@@ -118,7 +174,27 @@ class _CreateGroupState extends State<CreateGroup> {
                           children: [
                             SizedBox(width: 50),
                             ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cancel'),
+                              style: ElevatedButton.styleFrom(
+                                fixedSize: Size(110, 20),
+                                primary: Colors.red,
+                                onPrimary: Colors.white,
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
                               onPressed: () async {
+                                //adding the controllers here
+                                String purpose = purposeController.text;
+                                String rules = rulesController.text;
+                                String description = descriptionController.text;
+
                                 if (groupName != "") {
                                   innerSetState(() {
                                     _isLoading = true;
@@ -130,7 +206,10 @@ class _CreateGroupState extends State<CreateGroup> {
                                       userName,
                                       FirebaseAuth.instance.currentUser!.uid,
                                       groupName,
-                                      email);
+                                      email,
+                                      purpose,
+                                      rules,
+                                      description);
 
                                   innerSetState(() {
                                     _isLoading = false;
@@ -147,21 +226,6 @@ class _CreateGroupState extends State<CreateGroup> {
                               child: const Text("Create Group"),
                             ),
                             SizedBox(width: 20),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Cancel'),
-                              style: ElevatedButton.styleFrom(
-                                fixedSize: Size(110, 20),
-                                primary: Colors.red,
-                                onPrimary: Colors.white,
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ],
@@ -206,6 +270,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   Widget purposeTextField() {
     return TextFormField(
+      controller: purposeController,
       maxLines: null,
       decoration: const InputDecoration(
         border: OutlineInputBorder(
@@ -233,6 +298,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   Widget descriptionTextField() {
     return TextFormField(
+      controller: descriptionController,
       maxLines: null,
       decoration: const InputDecoration(
         border: OutlineInputBorder(
@@ -260,6 +326,7 @@ class _CreateGroupState extends State<CreateGroup> {
 
   Widget rulesTextField() {
     return TextFormField(
+      controller: rulesController,
       maxLines: null,
       decoration: const InputDecoration(
         border: OutlineInputBorder(
