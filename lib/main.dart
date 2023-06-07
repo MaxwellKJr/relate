@@ -16,7 +16,7 @@ import 'package:relate/screens/contact_professional/contact_professional_screen.
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 // import 'package:relate/screens/community/GroupInfo.dart';
-import 'package:relate/screens/create_group/CreateGroup.dart';
+// import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/screens/home/home_screen.dart';
 
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
