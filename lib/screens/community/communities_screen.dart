@@ -11,6 +11,7 @@ import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/group_cards.dart';
+import 'package:relate/screens/community/group_info_card.dart';
 import 'package:relate/screens/community/search_and_join%20_screen.dart';
 // import 'package:relate/screens/community/section_divider.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
@@ -33,6 +34,9 @@ class _CommunitiesState extends State<Communities>
   String userName = "";
   String email = "";
   String groupName = "";
+  String purpose = "";
+  String description = "";
+  String rules = "";
   Stream? allGroupsStream;
   Stream<DocumentSnapshot<Map<String, dynamic>>>? myGroupsStream;
   //new alterations
@@ -222,7 +226,7 @@ class _CommunitiesState extends State<Communities>
         }
 
         List<Map<String, dynamic>> groups = snapshot.data!;
-
+        // print("THE GROUPS ARE:::::::::::::" + groups);
         if (groups.isEmpty) {
           return noGroupWidget();
         }
@@ -232,11 +236,20 @@ class _CommunitiesState extends State<Communities>
           itemBuilder: (context, index) {
             String groupId = groups[index]['id'];
             String groupName = groups[index]['groupName'];
+            String purpose =
+                groups[index]['purpose'] ?? 'lemon'; // handle null case
+            String description =
+                groups[index]['description'] ?? 'hie'; // handle null case
+            String rules =
+                groups[index]['rules'] ?? 'ginger'; // handle null case
 
-            return GroupCards(
+            return GroupInfoCard(
               groupId: groupId,
               userName: userName,
               groupName: groupName,
+              purpose: purpose,
+              description: description,
+              rules: rules,
             );
           },
         );
@@ -246,3 +259,21 @@ class _CommunitiesState extends State<Communities>
 
 //alterations
 }
+  // return ListView.builder(
+  //         itemCount: groups.length,
+  //         itemBuilder: (context, index) {
+  //           String groupId = groups[index]['id'];
+  //           String groupName = groups[index]['groupName'];
+  //           String purpose = groups[index]['purpose'];
+  //           String description = groups[index]['description'];
+  //           String rules = groups[index]['rules'];
+
+  //           return GroupInfoCard(
+  //             groupId: groupId,
+  //             userName: userName,
+  //             groupName: groupName,
+  //             purpose: purpose,
+  //             description: description,
+  //             rules: rules,
+  //           );
+  //         },

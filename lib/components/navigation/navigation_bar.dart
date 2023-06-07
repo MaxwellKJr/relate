@@ -18,8 +18,8 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
   final screens = [
     const HomeScreen(),
     const CommunityGroupsScreen(),
-    const MessagesScreen(),
-    const UserProfileScreen()
+    // const MessagesScreen(),
+    // const UserProfileScreen()
   ];
 
   @override

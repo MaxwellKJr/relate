@@ -151,12 +151,19 @@ class ChatDatabase {
     return groupCollection.snapshots().map((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
         String documentId = documentSnapshot.id;
-        String groupName = documentSnapshot
-            .get("groupName"); // Replace "groupName" with the actual field name
+        String groupName = documentSnapshot.get("groupName");
+        String description = documentSnapshot.get("description");
+        String rules = documentSnapshot.get("rules");
+        String purpose = documentSnapshot.get("purpose");
+
+        // Replace "groupName" with the actual field name
 
         return {
           "id": documentId,
           "groupName": groupName,
+          "description": description,
+          "rules": rules,
+          "purpose": purpose
         };
       }).toList();
     });

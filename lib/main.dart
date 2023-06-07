@@ -1,29 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:relate/screens/authentication/get_user_data_screen.dart';
-
-import 'package:relate/screens/chat/chat_screen.dart';
-import 'package:relate/screens/chat/group_chat_info.dart';
-import 'package:relate/screens/chat/message_detail_page.dart';
-import 'package:relate/screens/community/group_info.dart';
-import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
-
-import 'package:relate/screens/community/alllgroups.dart';
-import 'package:relate/screens/community/communities_screen.dart';
-import 'package:relate/screens/community/tab.dart';
-import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
-import 'package:relate/screens/create_group/CreateGroup.dart';
-import 'package:relate/screens/home/home_screen.dart';
-import 'package:relate/screens/messages/message_detail_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
-import 'package:relate/screens/user_profile/user_profile_screen.dart';
-import 'package:relate/view_models/post_view_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,8 +54,8 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
-        Colors.transparent // Set your desired color for the system buttons
-    ));
+            Colors.transparent // Set your desired color for the system buttons
+        ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -83,9 +65,10 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         colorSchemeSeed: primaryColor,
       ),
-       routes: {
-        UserProfileScreen.userProfile: (context) => UserProfileScreen(),
-        MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)},
+      //  routes: {
+      //   UserProfileScreen.userProfile: (context) => UserProfileScreen(),
+      //   // MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)
+      //   },
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
