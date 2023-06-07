@@ -23,8 +23,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   final screens = [
     const HomeScreen(),
     const Communities(),
-    const MessagesScreen(),
-    const UserProfileScreen()
+    // const MessagesScreen(),
+    // const UserProfileScreen()
   ];
 
   @override
