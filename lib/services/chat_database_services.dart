@@ -42,45 +42,64 @@ class ChatDatabase {
   // getting user data
 
   // modifying here only
-  // get user groups
-  // getUserGroups() async {
-  //   return userCollection.doc(uid).snapshots();
-  // }
 
-//working individual user
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
-    return userCollection.doc(uid).snapshots().asBroadcastStream().map(
-      (DocumentSnapshot<Object?> snapshot) {
-        return snapshot as DocumentSnapshot<Map<String, dynamic>>;
+// //working individual user
+//   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
+//     return groupCollection.doc(uid).snapshots().asBroadcastStream().map(
+//       (DocumentSnapshot<Object?> snapshot) {
+//         return snapshot as DocumentSnapshot<Map<String, dynamic>>;
+//       },
+//     );
+//   }
+
+  Stream<List<DocumentSnapshot<Map<String, dynamic>>>> getUserGroups() {
+    return userCollection.doc(uid).snapshots().switchMap(
+      (DocumentSnapshot<Object?> userSnapshot) {
+        final Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        final List<String> groupIds =
+            List<String>.from(userData['groups'] ?? []);
+
+        final List<Stream<DocumentSnapshot<Map<String, dynamic>>>>
+            groupStreams = groupIds.map((groupId) {
+          return groupCollection.doc(groupId).snapshots().map(
+            (DocumentSnapshot<Object?> groupSnapshot) {
+              return groupSnapshot as DocumentSnapshot<Map<String, dynamic>>;
+            },
+          );
+        }).toList();
+
+        return CombineLatestStream.list(groupStreams);
       },
     );
   }
 
   // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
-  //   return userCollection.doc(uid).snapshots().asBroadcastStream().switchMap(
-  //     (userSnapshot) {
-  //       String groupId = userSnapshot.data()!['groupId'] as String;
+  //   return userCollection.doc(uid).snapshots().asyncMap(
+  //     (snapshot) async {
+  //       if (snapshot.exists) {
+  //         final data = snapshot.data() as Map<String, dynamic>;
+  //         final groupIds = List<String>.from(data['groups'] ?? []);
+  //         final groupData = <String, dynamic>{};
 
-  //       if (groupId.isNotEmpty) {
-  //         return groupCollection.doc(groupId).snapshots().map(
-  //           (groupSnapshot) {
-  //             String groupName = groupSnapshot.data()!['groupName'] as String;
+  //         for (final groupId in groupIds) {
+  //           final groupSnapshot = await groupCollection.doc(groupId).get();
+  //           if (groupSnapshot.exists) {
+  //             final groupName = groupSnapshot.data()!['groupName'] as String;
+  //             groupData[groupId] = groupName;
+  //           }
+  //         }
 
-  //             // Adding the groupName field to the userSnapshot data
-  //             Map<String, dynamic> userData =
-  //                 Map<String, dynamic>.from(userSnapshot.data()!);
-  //             userData['groupName'] = groupName;
-
-  //             return userSnapshot.copyWith(data: userData);
-  //           },
+  //         return DocumentSnapshot<Map<String, dynamic>>(
+  //           groupData,
+  //           snapshot.metadata,
+  //           reference: snapshot.reference,
   //         );
   //       } else {
-  //         return Stream.value(
-  //           userSnapshot.copyWith(data: {}),
-  //         );
+  //         return DocumentSnapshot<Map<String, dynamic>>.fromSnapshot(snapshot);
   //       }
   //     },
-  //   );
+  //   ).asBroadcastStream();
   // }
 
   // creating a group

@@ -39,7 +39,10 @@ class _CommunitiesState extends State<Communities>
   String description = "";
   String rules = "";
   Stream? allGroupsStream;
-  Stream<DocumentSnapshot<Map<String, dynamic>>>? myGroupsStream;
+  // Stream<DocumentSnapshot<Map<String, dynamic>>>? myGroupsStream;
+  Stream<List<DocumentSnapshot<Map<String, dynamic>>>>?
+      myGroupsStream; // Updated type
+
   //new alterations
   bool hasUserSearched = false;
   bool isJoined = false;
@@ -151,10 +154,54 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
+  // Widget myGroupList() {
+  //   return StreamBuilder<DocumentSnapshot>(
+  //     stream: myGroupsStream,
+  //     builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+  //       if (snapshot.connectionState == ConnectionState.waiting) {
+  //         return Center(
+  //           child: CircularProgressIndicator(
+  //             color: Theme.of(context).primaryColor,
+  //           ),
+  //         );
+  //       }
+
+  //       if (snapshot.hasError) {
+  //         return Text('Error: ${snapshot.error}');
+  //       }
+
+  //       if (!snapshot.hasData) {
+  //         return noGroupWidget();
+  //       }
+
+  //       List<String> myGroups = [];
+
+  //       if (snapshot.data!.exists) {
+  //         myGroups = List<String>.from(snapshot.data!.get('groups') ?? []);
+  //       }
+
+  //       if (myGroups.isEmpty) {
+  //         return noGroupWidget();
+  //       }
+
+  //       return ListView.builder(
+  //         itemCount: myGroups.length,
+  //         itemBuilder: (context, index) {
+  //           return GroupCards(
+  //             groupId: myGroups[index],
+  //             userName: userName,
+  //             groupName: myGroups[index],
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget myGroupList() {
-    return StreamBuilder<DocumentSnapshot>(
-      stream: myGroupsStream,
-      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    return StreamBuilder<List<DocumentSnapshot>>(
+      stream: myGroupsStream, // Updated stream type
+      builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: CircularProgressIndicator(
@@ -167,27 +214,22 @@ class _CommunitiesState extends State<Communities>
           return Text('Error: ${snapshot.error}');
         }
 
-        if (!snapshot.hasData) {
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return noGroupWidget();
         }
 
-        List<String> myGroups = [];
-
-        if (snapshot.data!.exists) {
-          myGroups = List<String>.from(snapshot.data!.get('groups') ?? []);
-        }
-
-        if (myGroups.isEmpty) {
-          return noGroupWidget();
-        }
+        List<DocumentSnapshot> myGroups = snapshot.data!;
 
         return ListView.builder(
           itemCount: myGroups.length,
           itemBuilder: (context, index) {
+            String groupId = myGroups[index].id;
+            String groupName = myGroups[index].get('groupName');
             return GroupCards(
-              groupId: myGroups[index],
+              // groupId: myGroups[index].id,
+              groupId: groupId,
               userName: userName,
-              groupName: myGroups[index],
+              groupName: groupName,
             );
           },
         );
