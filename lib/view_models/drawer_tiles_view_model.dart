@@ -24,14 +24,14 @@ class DrawerTilesViewModel {
       'title': tSelfJourney,
       'destination': const SelfJourneyScreen()
     },
-    // {
-    //   'leading': const Icon(
-    //     Icons.send_sharp,
-    //     color: primaryColor,
-    //   ),
-    //   'title': tContactAProfessional,
-    //   'destination': ProfessionalsScreen()
-    // },
+    {
+      'leading': const Icon(
+        Icons.send_sharp,
+        color: primaryColor,
+      ),
+      'title': tContactAProfessional,
+      'destination': const ContactProfessionalScreen()
+    },
     {
       'leading': const Icon(
         Icons.settings,
