@@ -30,7 +30,7 @@ class DrawerTilesViewModel {
         color: primaryColor,
       ),
       'title': tContactAProfessional,
-      'destination': ProfessionalsScreen()
+      'destination': const ContactProfessionalScreen()
     },
     {
       'leading': const Icon(

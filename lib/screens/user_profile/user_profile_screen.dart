@@ -12,9 +12,9 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final CollectionReference<Map<String, dynamic>> usersRef =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
   final CollectionReference<Map<String, dynamic>> conversationsRef =
-  FirebaseFirestore.instance.collection('conversations');
+      FirebaseFirestore.instance.collection('conversations');
 
   Future<String?> _getConversationId(String userId) async {
     final currentUser = 'current-user-id-here';
@@ -68,7 +68,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 trailing: ElevatedButton(
                   onPressed: () async {
                     final conversationId =
-                    await _getConversationId(user['userId'] ?? '');
+                        await _getConversationId(user['userId'] ?? '');
 
                     Navigator.push(
                       context,

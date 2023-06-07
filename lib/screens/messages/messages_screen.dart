@@ -5,8 +5,8 @@ import 'package:relate/screens/messages/message_detail_screen.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/screens/chat/message_detail_page.dart';
-import 'package:relate/screens/profile/profile_screen.dart';
+// import 'package:relate/screens/chat/message_detail_page.dart';
+// import 'package:relate/screens/profile/profile_screen.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
@@ -17,9 +17,9 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final CollectionReference<Map<String, dynamic>> chatsRef =
-  FirebaseFirestore.instance.collection('chats');
+      FirebaseFirestore.instance.collection('chats');
   final CollectionReference<Map<String, dynamic>> usersRef =
-  FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection('users');
 
   TextEditingController _searchController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>> _searchResults = [];
@@ -44,78 +44,73 @@ class _MessagesScreenState extends State<MessagesScreen> {
           ),
         ],
       ),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: chatsRef.snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
+      // body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      //   stream: chatsRef.snapshots(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.hasError) {
+      //       return Text('Error: ${snapshot.error}');
+      //     }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return CircularProgressIndicator();
+      //     }
 
-          final chatDocs = snapshot.data?.docs ?? [];
+      //     final chatDocs = snapshot.data?.docs ?? [];
 
-          return ListView.builder(
-            itemCount: _searchResults.isNotEmpty
-                ? _searchResults.length
-                : chatDocs.length,
-            itemBuilder: (context, index) {
-              final chatData = _searchResults.isNotEmpty
-                  ? _searchResults[index].data()
-                  : chatDocs[index].data();
-              final chatId = chatDocs[index].id;
+      //     return ListView.builder(
+      //       itemCount: _searchResults.isNotEmpty
+      //           ? _searchResults.length
+      //           : chatDocs.length,
+      //       itemBuilder: (context, index) {
+      //         final chatData = _searchResults.isNotEmpty
+      //             ? _searchResults[index].data()
+      //             : chatDocs[index].data();
+      //         final chatId = chatDocs[index].id;
 
-              return Dismissible(
-                key: Key(chatId),
-                direction: DismissDirection.endToStart,
-                background: Container(
-                  color: Colors.red,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
-                onDismissed: (_) {
-                  _deleteChat(chatId);
-                },
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Container(), // Empty container as the child
-                  ),
-                  title: Text(chatData?['chatName'] ?? ''),
-                  subtitle: Text(chatData?['lastMessage'] ?? ''),
-                  trailing: Text(chatData?['lastMessageTime'] ?? ''),
-                  onTap: () async {
-                    final conversationId = await _getConversationId(chatId);
+      //         return Dismissible(
+      //           key: Key(chatId),
+      //           direction: DismissDirection.endToStart,
+      //           background: Container(
+      //             color: Colors.red,
+      //             alignment: Alignment.centerRight,
+      //             padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      //             child: Icon(
+      //               Icons.delete,
+      //               color: Colors.white,
+      //             ),
+      //           ),
+      //           onDismissed: (_) {
+      //             _deleteChat(chatId);
+      //           },
+      //           child: ListTile(
+      //             leading: CircleAvatar(
+      //               radius: 30,
+      //               backgroundColor: Theme.of(context).primaryColor,
+      //               child: Container(), // Empty container as the child
+      //             ),
+      //             title: Text(chatData?['chatName'] ?? ''),
+      //             subtitle: Text(chatData?['lastMessage'] ?? ''),
+      //             trailing: Text(chatData?['lastMessageTime'] ?? ''),
+      //             onTap: () async {
+      //               final conversationId = await _getConversationId(chatId);
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MessageDetailPage(
-                          conversationId: conversationId ?? '',
-                          userId: chatData?['user']['uid'] ?? '',
-                          userName: chatData?['chatName'] ?? '',
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, UserProfileScreen.userProfile);
-      appBar: AppBar(title: const Text("Messages")),
+      //               Navigator.push(
+      //                 context,
+      //                 MaterialPageRoute(
+      //                   builder: (context) => MessageDetailPage(
+      //                     conversationId: conversationId ?? '',
+      //                     userId: chatData?['user']['uid'] ?? '',
+      //                     userName: chatData?['chatName'] ?? '',
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
       drawer: const DrawerMain(),
       body: Column(
         children: [
@@ -163,9 +158,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         backgroundImage:
                             AssetImage('assets/images/profile.png'),
                       ),
-                      title: Text(chatData?['chatName'] ?? ''),
-                      subtitle: Text(chatData?['lastMessage'] ?? ''),
-                      trailing: Text(chatData?['lastMessageTime'] ?? ''),
+                      title: Text(chatData['chatName'] ?? ''),
+                      subtitle: Text(chatData['lastMessage'] ?? ''),
+                      trailing: Text(chatData['lastMessageTime'] ?? ''),
                       onTap: () async {
                         final conversationId = await _getConversationId(chatId);
 
@@ -174,8 +169,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                           MaterialPageRoute(
                             builder: (context) => MessageDetailPage(
                               conversationId: conversationId ?? '',
-                              userId: chatData?['user']['uid'] ?? '',
-                              userName: chatData?['chatName'] ?? '',
+                              userId: chatData['user']['uid'] ?? '',
+                              userName: chatData['chatName'] ?? '',
                             ),
                           ),
                         );
@@ -203,7 +198,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
   }
 
   Future<String?> _getConversationId(String chatId) async {
-    final currentUser = 'current-user-id-here'; // Replace with the actual current user ID
+    final currentUser =
+        'current-user-id-here'; // Replace with the actual current user ID
 
     final snapshot = await chatsRef
         .doc(chatId)
@@ -238,6 +234,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       });
     });
   }
+
   void _deleteChat(String chatId) {
     chatsRef.doc(chatId).delete().then((_) {
       // Chat deleted successfully

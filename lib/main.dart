@@ -72,8 +72,8 @@ class _MyAppState extends State<MyApp> {
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
-        Colors.transparent // Set your desired color for the system buttons
-    ));
+            Colors.transparent // Set your desired color for the system buttons
+        ));
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -83,9 +83,10 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         colorSchemeSeed: primaryColor,
       ),
-       routes: {
+      routes: {
         UserProfileScreen.userProfile: (context) => UserProfileScreen(),
-        MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)},
+        // MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)
+      },
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
