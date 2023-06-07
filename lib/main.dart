@@ -5,6 +5,7 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
 Future<void> main() async {
@@ -76,6 +77,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
+      // home: AllGroups(),
     );
   }
 }

@@ -8,6 +8,8 @@ class GroupInfoCard extends StatefulWidget {
   final String purpose;
   final String description;
   final String rules;
+  //
+
   const GroupInfoCard({
     Key? key,
     required this.purpose,
@@ -16,6 +18,7 @@ class GroupInfoCard extends StatefulWidget {
     required this.userName,
     required this.groupName,
     required this.groupId,
+//
   }) : super(key: key);
   @override
   State<GroupInfoCard> createState() => _GroupInfoCardState();
@@ -53,12 +56,25 @@ class _GroupInfoCardState extends State<GroupInfoCard> {
                   color: Colors.white, fontWeight: FontWeight.w500),
             ),
           ),
-          title: Text(
-            widget.groupName,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          title: Row(
+            children: [
+              Text(
+                widget.groupName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                width: 140,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Text('cwscwcswv'),
+              ),
+            ],
           ),
           subtitle: Text(
-            // "Join the conversation as ",
             widget.description,
             style: const TextStyle(fontSize: 13),
           ),
@@ -67,3 +83,7 @@ class _GroupInfoCardState extends State<GroupInfoCard> {
     );
   }
 }
+//  ElevatedButton(
+//             onPressed: joinCallback,
+//             child: Text('Join'),
+//           ),

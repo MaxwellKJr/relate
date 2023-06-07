@@ -93,7 +93,7 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
                   },
                   child: Container(
                     width: 40,
-                    height: 40,
+                    height: 30,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(40)),
@@ -205,13 +205,6 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
                   ),
                 ),
               );
-
-              // nextScreen(
-              //     context,
-              //     ChatScreen(
-              //         groupId: groupId,
-              //         groupName: groupName,
-              //         userName: userName));
             });
           } else {
             setState(() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/group_cards.dart';
 // import 'package:relate/screens/community/search_and_join_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -212,6 +211,55 @@ class _CommunitiesState extends State<Communities>
   }
 
   Widget allGroupList() {
-    return AllGroups();
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+          .getAllGroups(),
+      builder: (context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (!snapshot.hasData) {
+          return const Text('No data available');
+        }
+
+        List<Map<String, dynamic>> groups = snapshot.data!;
+        // print("THE GROUPS ARE:::::::::::::" + groups);
+        if (groups.isEmpty) {
+          return noGroupWidget();
+        }
+
+        return ListView.builder(
+          itemCount: groups.length,
+          itemBuilder: (context, index) {
+            String groupId = groups[index]['id'];
+            String groupName = groups[index]['groupName'];
+            String purpose =
+                groups[index]['purpose'] ?? 'lemon'; // handle null case
+            String description =
+                groups[index]['description'] ?? 'hie'; // handle null case
+            String rules =
+                groups[index]['rules'] ?? 'ginger'; // handle null case
+
+            return GroupInfoCard(
+                groupId: groupId,
+                userName: userName,
+                groupName: groupName,
+                purpose: purpose,
+                description: description,
+                rules: rules,
+                joinCallback: () async {
+                  // toggleGroupJoin(groupId, userName, groupName);
+                  await chatDatabase.toggleGroupJoin(
+                      groupId, userName, groupName);
+                });
+          },
+        );
+      },
+    );
   }
+
+//alterations
 }
