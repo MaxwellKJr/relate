@@ -35,7 +35,7 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
     final postId = widget.postId;
 
     return Scaffold(
-        appBar: AppBar(title: const Text("Post")),
+        appBar: AppBar(title: Text(widget.name)),
         body: GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
@@ -47,15 +47,18 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                 child: Padding(
                     padding: const EdgeInsets.all(layoutPadding),
                     child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
                           child: ListView(
-                            shrinkWrap: true,
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -64,32 +67,25 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
                                       ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      const Icon(
-                                        Icons.circle_rounded,
-                                        color: Colors.grey,
-                                        size: 6,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        widget.name,
-                                        style: GoogleFonts.poppins(
-                                            color: primaryColor,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800),
-                                      ),
                                     ],
                                   ),
+
+                                  const SizedBox(height: elementSpacing),
                                   Text(
-                                    widget.criteria,
+                                    "Background",
+                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    widget.background,
                                     style: GoogleFonts.poppins(
-                                        fontSize: 12, color: primaryColor),
+                                      fontSize: 14,
+                                    ),
                                   ),
                                   const SizedBox(height: elementSpacing),
+                                  Text(
+                                    "Services",
+                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),
+                                  ),
                                   Text(
                                     widget.services,
                                     style: GoogleFonts.poppins(fontSize: 14),
@@ -114,55 +110,6 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                   CommentsSection(postId: postId),
                                 ],
                               ),
-                              Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Form(
-                                      key: _formKey,
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                            child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    top: layoutPadding),
-                                                child: TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'Comment cannot be blank';
-                                                      }
-                                                      return null;
-                                                    },
-                                                    controller:
-                                                        _postTextController,
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  borderRadius),
-                                                        ),
-                                                        hintText: "Comment"))),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                postService.submitComment(
-                                                    context,
-                                                    _postTextController,
-                                                    widget.postId);
-                                              }
-                                            },
-                                            icon: const Icon(
-                                              Icons.send_sharp,
-                                              color: primaryColor,
-                                            ),
-                                          )
-                                        ],
-                                      )))
                             ],
                           ),
                         )

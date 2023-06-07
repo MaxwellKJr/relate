@@ -42,7 +42,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             NavigationDestination(
                 icon: Icon(Icons.message_rounded), label: "Messages"),
             NavigationDestination(
-                icon: Icon(Icons.waving_hand), label: "Discover"),
+                icon: Icon(Icons.search_outlined), label: "Discover"),
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>
