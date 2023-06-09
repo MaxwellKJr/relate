@@ -154,50 +154,6 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
-  // Widget myGroupList() {
-  //   return StreamBuilder<DocumentSnapshot>(
-  //     stream: myGroupsStream,
-  //     builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return Center(
-  //           child: CircularProgressIndicator(
-  //             color: Theme.of(context).primaryColor,
-  //           ),
-  //         );
-  //       }
-
-  //       if (snapshot.hasError) {
-  //         return Text('Error: ${snapshot.error}');
-  //       }
-
-  //       if (!snapshot.hasData) {
-  //         return noGroupWidget();
-  //       }
-
-  //       List<String> myGroups = [];
-
-  //       if (snapshot.data!.exists) {
-  //         myGroups = List<String>.from(snapshot.data!.get('groups') ?? []);
-  //       }
-
-  //       if (myGroups.isEmpty) {
-  //         return noGroupWidget();
-  //       }
-
-  //       return ListView.builder(
-  //         itemCount: myGroups.length,
-  //         itemBuilder: (context, index) {
-  //           return GroupCards(
-  //             groupId: myGroups[index],
-  //             userName: userName,
-  //             groupName: myGroups[index],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget myGroupList() {
     return StreamBuilder<List<DocumentSnapshot>>(
       stream: myGroupsStream, // Updated stream type
@@ -254,6 +210,6 @@ class _CommunitiesState extends State<Communities>
   }
 
   Widget allGroupList() {
-    return AllGroups();
+    return const AllGroups();
   }
 }

@@ -4,11 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:relate/services/chat_database_services.dart';
 
-class GroupChatInfor extends StatefulWidget {
+class GroupJoinedChatInfor extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String adminName;
-  const GroupChatInfor(
+  const GroupJoinedChatInfor(
       {Key? key,
       required this.adminName,
       required this.groupName,
@@ -16,10 +16,10 @@ class GroupChatInfor extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<GroupChatInfor> createState() => _GroupChatInforState();
+  State<GroupJoinedChatInfor> createState() => _GroupJoinedChatInforState();
 }
 
-class _GroupChatInforState extends State<GroupChatInfor> {
+class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
   Stream? members;
 
   @override

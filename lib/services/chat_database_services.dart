@@ -157,7 +157,18 @@ class ChatDatabase {
     return groupCollection.doc(groupId).snapshots();
   }
 
+  // sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
+  //   groupCollection.doc(groupId).collection("messages").add(chatMessageData);
+  //   groupCollection.doc(groupId).update({
+  //     "recentMessage": chatMessageData['message'],
+  //     "recentMessageSender": chatMessageData['sender'],
+  //     "recentMessageTime": chatMessageData['time'].toString(),
+  //   });
+  // }
+
   sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
+    chatMessageData["timeStamp"] =
+        DateTime.now(); // Add timestamp to the message data
     groupCollection.doc(groupId).collection("messages").add(chatMessageData);
     groupCollection.doc(groupId).update({
       "recentMessage": chatMessageData['message'],
@@ -165,55 +176,23 @@ class ChatDatabase {
       "recentMessageTime": chatMessageData['time'].toString(),
     });
   }
-// /the reall deaL
-  // Stream<List<Map<String, dynamic>>> getAllGroups() {
-  //   return groupCollection.snapshots().map((QuerySnapshot querySnapshot) {
-  //     return querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
-  //       String documentId = documentSnapshot.id;
-  //       String groupName = documentSnapshot.get("groupName");
-  //       String description = documentSnapshot.get("description");
-  //       String rules = documentSnapshot.get("rules");
-  //       String purpose = documentSnapshot.get("purpose");
 
-  //       // Replace "groupName" with the actual field name
-
-  //       return {
-  //         "id": documentId,
-  //         "groupName": groupName,
-  //         "description": description,
-  //         "rules": rules,
-  //         "purpose": purpose
-  //       };
-  //     }).toList();
-  //   });
-  // }
-
-  // Stream<List<Map<String, dynamic>>> getAllGroups() {
-  //   return groupCollection.snapshots().map((QuerySnapshot querySnapshot) {
-  //     return querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
-  //       String documentId = documentSnapshot.id;
-  //       String groupName = documentSnapshot.get("groupName");
-  //       String description = documentSnapshot.get("description");
-  //       String rules = documentSnapshot.get("rules");
-  //       String purpose = documentSnapshot.get("purpose");
-
-  //       return {
-  //         "id": documentId,
-  //         "groupName": groupName,
-  //         "description": description,
-  //         "rules": rules,
-  //         "purpose": purpose
-  //       };
-  //     }).toList();
-  //   });
-  // }
-
+//retrieve all groups
   Stream<List<Map<String, dynamic>>> getAllGroups() {
     return FirebaseFirestore.instance
         .collection('groups')
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
   }
+
+  // //retrieve groups where the user is not in there
+  // Stream<List<Map<String, dynamic>>> getAllGroupss(String currentUserUid) {
+  //   return FirebaseFirestore.instance
+  //       .collection('groups')
+  //       .where('members', isNotIn: [currentUserUid])
+  //       .snapshots()
+  //       .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
+  // }
 
 //This function is used to search groups
   searchGroupName(String groupName) {
@@ -234,36 +213,6 @@ class ChatDatabase {
       return false;
     }
   }
-
-  // Future toggleGroupJoin(
-  //     String groupId, String userName, String groupName) async {
-  //   // doc reference
-  //   DocumentReference userDocumentReference = userCollection.doc(uid);
-  //   DocumentReference groupDocumentReference = groupCollection.doc(groupId);
-
-  //   DocumentSnapshot documentSnapshot = await userDocumentReference.get();
-  //   List<dynamic> groups = await documentSnapshot['groups'];
-
-  //   print('Current groups: $groups');
-
-  //   if (groups.contains(groupId)) {
-  //     print('User is already a member of the group');
-  //     await userDocumentReference.update({
-  //       "groups": FieldValue.arrayRemove([groupId])
-  //     });
-  //     await groupDocumentReference.update({
-  //       "members": FieldValue.arrayRemove([uid])
-  //     });
-  //   } else {
-  //     print('User is not a member of the group');
-  //     await userDocumentReference.update({
-  //       "groups": FieldValue.arrayUnion([groupId])
-  //     });
-  //     await groupDocumentReference.update({
-  //       "members": FieldValue.arrayUnion([uid])
-  //     });
-  //   }
-  // }
 
   //This function is used to add or remove a user
   // Future toggleGroupJoin(
