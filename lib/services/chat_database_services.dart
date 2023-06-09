@@ -268,20 +268,16 @@ class ChatDatabase {
     // if (groups.contains("${groupId}_$groupName")) {
     if (groups.contains("${groupId}")) {
       await userDocumentReference.update({
-        // "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
         "groups": FieldValue.arrayRemove(["${groupId}"])
       });
       await groupDocumentReference.update({
-        // "members": FieldValue.arrayRemove(["${uid}_$userName"])
         "members": FieldValue.arrayRemove(["${uid}"])
       });
     } else {
       await userDocumentReference.update({
-        // "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
         "groups": FieldValue.arrayUnion(["${groupId}"])
       });
       await groupDocumentReference.update({
-        // "members": FieldValue.arrayUnion(["${uid}_$userName"])
         "members": FieldValue.arrayUnion(["${uid}"])
       });
     }

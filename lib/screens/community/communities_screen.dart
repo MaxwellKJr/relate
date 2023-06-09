@@ -35,6 +35,7 @@ class _CommunitiesState extends State<Communities>
   String userName = "";
   String email = "";
   String groupName = "";
+  String groupId = "";
   String purpose = "";
   String description = "";
   String rules = "";
@@ -105,7 +106,16 @@ class _CommunitiesState extends State<Communities>
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SearchAndJoin()),
+                MaterialPageRoute(
+                    builder: (context) => SearchAndJoin(
+                          groupId: groupId,
+                          // admin: admin,
+                          groupName: groupName,
+                          userName: userName,
+                          description: description,
+                          purpose: purpose,
+                          rules: rules,
+                        )),
               );
             },
           ),
@@ -182,7 +192,7 @@ class _CommunitiesState extends State<Communities>
             String groupId = myGroups[index].id;
             String groupName = myGroups[index].get('groupName');
             String purpose = myGroups[index].get('purpose');
-
+            String admin = myGroups[index].get('admin');
             String description = myGroups[index].get('description');
 
             String rules = myGroups[index].get('rules');
@@ -193,6 +203,7 @@ class _CommunitiesState extends State<Communities>
                 userName: userName,
                 groupName: groupName,
                 rules: rules,
+                admin: admin,
                 description: description,
                 purpose: purpose);
           },

@@ -7,7 +7,21 @@ import 'package:relate/services/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchAndJoin extends StatefulWidget {
-  const SearchAndJoin({super.key});
+  final String description; // Add the description property
+  final String groupId;
+  final String groupName;
+  final String purpose;
+  final String rules;
+  final String userName;
+  const SearchAndJoin({
+    Key? key,
+    required this.description,
+    required this.userName,
+    required this.groupId,
+    required this.groupName,
+    required this.purpose,
+    required this.rules,
+  }) : super(key: key);
 
   @override
   State<SearchAndJoin> createState() => _SearchAndJoinState();
@@ -55,6 +69,15 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
 
   String getId(String res) {
     return res.substring(0, res.indexOf("_"));
+  }
+
+  void showSnackbar(BuildContext context, Color color, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: color,
+      ),
+    );
   }
 
   @override
@@ -193,22 +216,23 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
                 backgroundColor: Colors.green,
               ),
             );
-            // showSnackbar(context, Colors.green, "Successfully joined he group");
-            // Future.delayed(const Duration(seconds: 2), () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => ChatScreen(
-            //         groupId: groupId,
-            //         groupName: groupName,
-            //         userName: userName,
-            //         description: widget.description,
-            //         purpose: widget.purpose,
-            //         rules: widget.rules,
-            //       ),
-            //     ),
-            //   );
-            // });
+            showSnackbar(context, Colors.green, "Successfully joined he group");
+            Future.delayed(const Duration(seconds: 2), () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatScreen(
+                    groupId: groupId,
+                    admin: admin,
+                    groupName: groupName,
+                    userName: userName,
+                    description: widget.description,
+                    purpose: widget.purpose,
+                    rules: widget.rules,
+                  ),
+                ),
+              );
+            });
           } else {
             setState(() {
               isJoined = !isJoined;

@@ -174,9 +174,11 @@ class ChatScreen extends StatefulWidget {
   final String description;
   final String rules;
   final String purpose;
+  final String admin;
   const ChatScreen(
       {Key? key,
       required this.groupId,
+      required this.admin,
       required this.groupName,
       required this.userName,
       required this.description,
@@ -233,7 +235,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (context) => GroupJoinedChatInfor(
                       groupId: widget.groupId,
                       groupName: widget.groupName,
-                      adminName: admin,
+                      admin: admin,
                       purpose: widget.purpose,
                       rules: widget.rules,
                       description: widget.description),

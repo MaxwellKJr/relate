@@ -141,8 +141,9 @@ class _AllGroupsState extends State<AllGroups> {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text("Left the group $groupName"),
-                    backgroundColor: Colors.red,
+                    // content: Text("Left the group $groupName"),
+                    content: Text("Successfully joined the group $groupName"),
+                    backgroundColor: Colors.green,
                   ),
                 );
               }
