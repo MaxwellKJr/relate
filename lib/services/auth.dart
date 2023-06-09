@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/authentication/get_user_data_screen.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
@@ -11,6 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
   final context = BuildContext;
+
+  String? userName;
 
   void signUp(
     context,
@@ -234,8 +237,70 @@ class Auth {
         ));
   }
 
-  void getCurrentUserData() {
+  Future<void> getCurrentUserData() async {
     final user = FirebaseAuth.instance;
     final uid = user.currentUser?.uid;
+
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+
+    if (userDoc.exists) {
+      userName = userDoc.data()!['userName'];
+      print(userName);
+    } else if (professionalDoc.exists) {
+      userName = professionalDoc.data()!['userName'];
+      final isVerified = professionalDoc.data()!['isVerified'];
+      print(userName);
+    }
+  }
+
+  String imageUrl = '';
+
+  void updateProfessionalDetails(BuildContext context, bioController,
+      phonenumberController, locationController, imageUrl) async {
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
+
+    final bio = bioController.text.trim();
+    final phoneNumber = phonenumberController.text.trim();
+    final location = locationController.text.trim();
+
+    final userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+
+    if (userDoc.exists) {
+      final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
+      await userRef.update({
+        'bio': bio,
+        'phoneNumber': phoneNumber,
+        'location': location,
+        'profilePicture': imageUrl
+      });
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const MainHomeScreen()));
+    } else if (professionalDoc.exists) {
+      final professionalRef =
+          FirebaseFirestore.instance.collection('professionals').doc(uid);
+
+      await professionalRef.update({
+        'bio': bio,
+        'phoneNumber': phoneNumber,
+        'location': location,
+        'profilePicture': imageUrl
+      });
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (BuildContext context) => const MainHomeScreen()));
+    }
   }
 }

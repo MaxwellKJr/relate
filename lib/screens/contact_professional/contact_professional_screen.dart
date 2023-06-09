@@ -23,34 +23,33 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Contact Profesional")),
-      drawer: const DrawerMain(),
+      appBar: AppBar(title: const Text(tContactAProfessional)),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(
-              //       top: layoutPadding, left: layoutPadding, bottom: 5),
-              //   child: Text(
-              //     "Contact Professional",
-              //     style: GoogleFonts.poppins(
-              //       fontSize: 20,
-              //       fontWeight: FontWeight.w800,
+              // padding(
+              //   padding: const edgeinsets.only(
+              //       top: layoutpadding, left: layoutpadding, bottom: 5),
+              //   child: text(
+              //     "contact professional",
+              //     style: googlefonts.poppins(
+              //       fontsize: 20,
+              //       fontweight: fontweight.w800,
               //     ),
               //   ),
               // ),
               Container(
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.all(layoutPadding - 10),
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('professionals')
                       .snapshots(),
                   builder: (
-                      context,
-                      AsyncSnapshot<QuerySnapshot> snapshot,
-                      ) {
+                    context,
+                    AsyncSnapshot<QuerySnapshot> snapshot,
+                  ) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
                         child: CircularProgressIndicator(),
@@ -58,24 +57,25 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
                     } else {
                       final professionals = snapshot.data?.docs;
                       return SizedBox(
-                        height: MediaQuery.of(context).size.height - 100, // Adjust the height as needed
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical, // Change to vertical scroll
+                        height: MediaQuery.of(context).size.height -
+                            100, // Adjust the height as needed
+                        child: GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2, crossAxisSpacing: 5),
                           itemCount: professionals?.length,
                           itemBuilder: (context, index) {
                             final professional = professionals![index];
+
                             final String uid = professional['uid'];
                             final String email = professional['email'];
                             final isVerified = professional['isVerified'];
                             final phoneNumber = professional['phoneNumber'];
                             final String userName = professional['userName'];
                             return SizedBox(
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: layoutPadding,
-                                ),
+                              child: Container(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     GestureDetector(
                                       onTap: () async {
@@ -84,57 +84,70 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 ViewProfessionalDetailsScreen(
-                                                  email: email,
-                                                  uid: uid,
-                                                  userName: userName,
-                                                  isVerified: isVerified,
-                                                  phoneNumber: phoneNumber,
-                                                ),
+                                              email: email,
+                                              uid: uid,
+                                              userName: userName,
+                                              isVerified: isVerified,
+                                              phoneNumber: phoneNumber,
+                                            ),
                                           ),
                                         );
                                       },
                                       child: SizedBox(
-                                        width: 350,
                                         child: Card(
-                                          elevation: 10,
+                                          elevation: 5,
                                           shape: const RoundedRectangleBorder(
                                             borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
+                                              Radius.circular(20),
                                             ),
                                           ),
                                           child: Container(
                                             padding: const EdgeInsets.only(
                                               top: layoutPadding + 5,
-                                              bottom: layoutPadding + 5,
                                               left: layoutPadding,
                                               right: layoutPadding,
                                             ),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.center,
                                               mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Row(
                                                   mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
                                                     Text(
                                                       userName,
-                                                      maxLines: 3,
                                                       textWidthBasis:
-                                                      TextWidthBasis.parent,
-                                                      style: GoogleFonts.poppins(
+                                                          TextWidthBasis.parent,
+                                                      style:
+                                                          GoogleFonts.poppins(
                                                         fontSize: 17,
                                                         fontWeight:
-                                                        FontWeight.w800,
+                                                            FontWeight.w800,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
                                                 Container(
-                                                    child: isVerified ? Text("Verified", style: GoogleFonts.poppins(color: primaryColor),) : Text("Not Verified", style: GoogleFonts.poppins(color: Colors.red),)
-                                                ),
+                                                    child: isVerified
+                                                        ? Text(
+                                                            "Verified",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                    color:
+                                                                        primaryColor),
+                                                          )
+                                                        : Text(
+                                                            "Not Verified",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                    color: Colors
+                                                                        .red),
+                                                          )),
                                                 const SizedBox(height: 10),
                                                 Text(
                                                   email,
@@ -145,6 +158,13 @@ class _ContactProfessionalScreenState extends State<ContactProfessionalScreen> {
                                                   ),
                                                 ),
                                                 const SizedBox(height: 10),
+                                                SizedBox(
+                                                  height: 30,
+                                                  child: OutlinedButton(
+                                                      onPressed: () {},
+                                                      child: Text("Message")),
+                                                ),
+                                                const SizedBox(height: 20),
                                               ],
                                             ),
                                           ),

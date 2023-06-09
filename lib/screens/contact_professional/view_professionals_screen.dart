@@ -7,7 +7,7 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
 
 class ViewProfessionalDetailsScreen extends StatefulWidget {
-  final String email, phoneNumber,  uid, userName;
+  final String email, phoneNumber, uid, userName;
   final bool isVerified;
 
   const ViewProfessionalDetailsScreen({
@@ -23,7 +23,8 @@ class ViewProfessionalDetailsScreen extends StatefulWidget {
       _ViewProfessionalDetailsScreenState();
 }
 
-class _ViewProfessionalDetailsScreenState extends State<ViewProfessionalDetailsScreen> {
+class _ViewProfessionalDetailsScreenState
+    extends State<ViewProfessionalDetailsScreen> {
   final PostServices postService = PostServices();
 
   final _postTextController = TextEditingController();
@@ -57,19 +58,31 @@ class _ViewProfessionalDetailsScreenState extends State<ViewProfessionalDetailsS
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
-                                        child: widget.isVerified ? Text("Verified", style: GoogleFonts.poppins(color: primaryColor),) : Text("Not Verified", style: GoogleFonts.poppins(color: Colors.red),)
-                                      ),
+                                          child: widget.isVerified
+                                              ? Text(
+                                                  "Verified",
+                                                  style: GoogleFonts.poppins(
+                                                      color: primaryColor),
+                                                )
+                                              : Text(
+                                                  "Not Verified",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.red),
+                                                )),
                                     ],
                                   ),
 
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     "phoneNumber",
-                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                   // Text(
                                   //   widget.phoneNumber,
