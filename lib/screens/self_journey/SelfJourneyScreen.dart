@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:bulleted_list/bulleted_list.dart';
 
-class SelfJourneyAddictionScreen extends StatelessWidget {
+class SelfJourneyDepressionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,7 @@ class SelfJourneyAddictionScreen extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
-                      text: 'Addiction',
+                      text: 'Depression',
                       style: TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,
@@ -44,7 +44,7 @@ class SelfJourneyAddictionScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'An addiction is a chronic dysfunction of the brain system that involves reward, motivation, and memory. It’s about the way your body craves a substance or behavior, especially if it causes a compulsive or obsessive pursuit of "reward" and lack of concern over consequences.',
+                    'Depression is a mood disorder that causes a persistent feeling of sadness and loss of interest. It affects how you feel, think, and behave and can lead to various emotional and physical problems.',
                     textAlign: TextAlign.justify,
                   ),
                 ],
@@ -55,7 +55,7 @@ class SelfJourneyAddictionScreen extends StatelessWidget {
                 children: [
                   Container(
                     child: Text(
-                      'Steps of recovery',
+                      'Steps to Recovery',
                       textAlign: TextAlign.left,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
@@ -65,9 +65,10 @@ class SelfJourneyAddictionScreen extends StatelessWidget {
                       children: [
                         // BulletedList(
                         //   listItems: [
-                        //     'medical services, to help treat serious complications of addiction, like withdrawal during detox',
-                        //     'psychotherapy, including behavioral, talk, and group therapies',
-                        //     'medications, for mental disorders such as depression or schizophrenia',
+                        //     'Seek professional help: Reach out to a mental health professional or your primary care physician for an accurate diagnosis and appropriate treatment plan.',
+                        //     'Build a support network: Surround yourself with understanding and supportive people who can provide emotional support and encouragement throughout your recovery.',
+                        //     'Engage in therapy: Consider therapy options such as cognitive-behavioral therapy (CBT) or interpersonal therapy (IPT) to learn coping skills, address negative thoughts, and develop healthier behaviors.',
+                        //     'Practice self-care: Prioritize self-care activities like regular exercise, maintaining a balanced diet, getting enough sleep, and engaging in activities you enjoy.',
                         //   ],
                         // ),
                       ],
@@ -109,19 +110,31 @@ class SelfJourneyAddictionScreen extends StatelessWidget {
                   ),
                   Container(
                     child: Text(
-                      'The decision to change is one of the most important steps in overcoming an addiction. By acknowledging that a change is needed, it means that you recognize that there is a problem and have a desire to address it',
+                      'If you experience a relapse in your depression symptoms, it\'s important to take action:',
                       textAlign: TextAlign.justify,
                     ),
                   ),
                   Container(
                     child: Text(
-                      'Making the decision to change and deciding what that will look like is a process that often takes time. This is known as the contemplation stage because it involves thinking about whether to change and how.',
+                      '1. Reach out for help: Contact your mental health professional or support network and let them know what you\'re going through.',
                       textAlign: TextAlign.justify,
                     ),
                   ),
                   Container(
                     child: Text(
-                      'Consulting a doctor, addiction counselor, or psychologist is particularly helpful at this stage as they can help you understand the risks and what can help alleviate them.',
+                      '2. Review your treatment plan: Evaluate your current treatment plan with a healthcare professional to determine if any adjustments or modifications are necessary.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      '3. Practice self-care: Prioritize self-care activities, continue engaging in healthy coping strategies, and ensure you\'re taking care of your physical and emotional well-being.',
+                      textAlign: TextAlign.justify,
+                    ),
+                  ),
+                  Container(
+                    child: Text(
+                      '4. Stay connected: Maintain regular contact with your support network and lean on them for guidance and encouragement.',
                       textAlign: TextAlign.justify,
                     ),
                   ),
