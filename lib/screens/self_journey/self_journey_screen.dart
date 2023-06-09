@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:bulleted_list/bulleted_list.dart';
 
-class SelfJourneyScreen extends StatelessWidget {
+class SelfJourneyAddictionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

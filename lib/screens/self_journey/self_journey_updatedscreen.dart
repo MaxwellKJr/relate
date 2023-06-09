@@ -11,6 +11,7 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
@@ -44,7 +45,7 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SelfJourneyUpdatedScreen()),
+                      builder: (context) => SelfJourneyAddictionScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -67,7 +68,7 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SelfJourneyUpdatedScreen()),
+                      builder: (context) => SelfJourneyDepressionScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
