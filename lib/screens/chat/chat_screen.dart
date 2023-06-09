@@ -161,6 +161,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/services/chat_database_services.dart';
 
@@ -170,12 +171,18 @@ class ChatScreen extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String userName;
-  const ChatScreen({
-    Key? key,
-    required this.groupId,
-    required this.groupName,
-    required this.userName,
-  }) : super(key: key);
+  final String description;
+  final String rules;
+  final String purpose;
+  const ChatScreen(
+      {Key? key,
+      required this.groupId,
+      required this.groupName,
+      required this.userName,
+      required this.description,
+      required this.purpose,
+      required this.rules})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -215,7 +222,7 @@ class _ChatScreenState extends State<ChatScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        title: Text(widget.groupName),
+        title: Text(widget.groupName, style: TextStyle(color: Colors.white)),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
@@ -224,10 +231,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => GroupJoinedChatInfor(
-                    groupId: widget.groupId,
-                    groupName: widget.groupName,
-                    adminName: admin,
-                  ),
+                      groupId: widget.groupId,
+                      groupName: widget.groupName,
+                      adminName: admin,
+                      purpose: widget.purpose,
+                      rules: widget.rules,
+                      description: widget.description),
                 ),
               );
             },

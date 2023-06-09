@@ -44,13 +44,13 @@ class ChatDatabase {
   // modifying here only
 
 // //working individual user
-//   Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
-//     return groupCollection.doc(uid).snapshots().asBroadcastStream().map(
-//       (DocumentSnapshot<Object?> snapshot) {
-//         return snapshot as DocumentSnapshot<Map<String, dynamic>>;
-//       },
-//     );
-//   }
+  // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
+  //   return groupCollection.doc(uid).snapshots().asBroadcastStream().map(
+  //     (DocumentSnapshot<Object?> snapshot) {
+  //       return snapshot as DocumentSnapshot<Map<String, dynamic>>;
+  //     },
+  //   );
+  // }
 
   Stream<List<DocumentSnapshot<Map<String, dynamic>>>> getUserGroups() {
     return userCollection.doc(uid).snapshots().switchMap(
@@ -74,33 +74,45 @@ class ChatDatabase {
     );
   }
 
-  // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
-  //   return userCollection.doc(uid).snapshots().asyncMap(
-  //     (snapshot) async {
-  //       if (snapshot.exists) {
-  //         final data = snapshot.data() as Map<String, dynamic>;
-  //         final groupIds = List<String>.from(data['groups'] ?? []);
-  //         final groupData = <String, dynamic>{};
+//latest trial
+  Stream<List<Map<String, dynamic>>> filteredList() {
+    return userCollection.doc(uid).snapshots().switchMap(
+      (DocumentSnapshot<Object?> userSnapshot) {
+        final Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        final List<String> groupId =
+            List<String>.from(userData['groups'] ?? ["dgrg"]);
 
-  //         for (final groupId in groupIds) {
-  //           final groupSnapshot = await groupCollection.doc(groupId).get();
-  //           if (groupSnapshot.exists) {
-  //             final groupName = groupSnapshot.data()!['groupName'] as String;
-  //             groupData[groupId] = groupName;
-  //           }
-  //         }
+        final List<Stream<DocumentSnapshot<Map<String, dynamic>>>>
+            groupStreams = groupId.map((groupId) {
+          return groupCollection.doc(groupId).snapshots().map(
+            (DocumentSnapshot<Object?> groupSnapshot) {
+              return groupSnapshot as DocumentSnapshot<Map<String, dynamic>>;
+            },
+          );
+        }).toList();
 
-  //         return DocumentSnapshot<Map<String, dynamic>>(
-  //           groupData,
-  //           snapshot.metadata,
-  //           reference: snapshot.reference,
-  //         );
-  //       } else {
-  //         return DocumentSnapshot<Map<String, dynamic>>.fromSnapshot(snapshot);
-  //       }
-  //     },
-  //   ).asBroadcastStream();
-  // }
+        return CombineLatestStream.list(groupStreams).map(
+          (groupSnapshotsList) {
+            final List<Map<String, dynamic>> filteredGroups = groupSnapshotsList
+                .where(
+                  (groupSnapshot) {
+                    final List<dynamic> members = List<dynamic>.from(
+                        groupSnapshot.data()!['members'] ?? []);
+                    return !members.contains(uid);
+                  },
+                )
+                .map(
+                  (groupSnapshot) => groupSnapshot.data()!,
+                )
+                .toList();
+            print(filteredGroups);
+            return filteredGroups;
+          },
+        );
+      },
+    );
+  }
 
   // creating a group
   Future createGroup(String userName, String id, String groupName, String email,
@@ -113,7 +125,9 @@ class ChatDatabase {
       "rules": rules,
       "description": description,
       "groupIcon": "",
-      "admin": "${id}_${userName}",
+      // "admin": "${id}_${userName}",
+      "admin": "${id}",
+
       "members": [],
       "groupId": "",
       "recentMessage": "",
@@ -157,15 +171,6 @@ class ChatDatabase {
     return groupCollection.doc(groupId).snapshots();
   }
 
-  // sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
-  //   groupCollection.doc(groupId).collection("messages").add(chatMessageData);
-  //   groupCollection.doc(groupId).update({
-  //     "recentMessage": chatMessageData['message'],
-  //     "recentMessageSender": chatMessageData['sender'],
-  //     "recentMessageTime": chatMessageData['time'].toString(),
-  //   });
-  // }
-
   sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
     chatMessageData["timeStamp"] =
         DateTime.now(); // Add timestamp to the message data
@@ -186,7 +191,7 @@ class ChatDatabase {
   }
 
   // //retrieve groups where the user is not in there
-  // Stream<List<Map<String, dynamic>>> getAllGroupss(String currentUserUid) {
+  // Stream<List<Map<String, dynamic>>> getAllGroups(String currentUserUid) {
   //   return FirebaseFirestore.instance
   //       .collection('groups')
   //       .where('members', isNotIn: [currentUserUid])

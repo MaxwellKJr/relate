@@ -194,18 +194,21 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
               ),
             );
             // showSnackbar(context, Colors.green, "Successfully joined he group");
-            Future.delayed(const Duration(seconds: 2), () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ChatScreen(
-                    groupId: groupId,
-                    groupName: groupName,
-                    userName: userName,
-                  ),
-                ),
-              );
-            });
+            // Future.delayed(const Duration(seconds: 2), () {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => ChatScreen(
+            //         groupId: groupId,
+            //         groupName: groupName,
+            //         userName: userName,
+            //         description: widget.description,
+            //         purpose: widget.purpose,
+            //         rules: widget.rules,
+            //       ),
+            //     ),
+            //   );
+            // });
           } else {
             setState(() {
               isJoined = !isJoined;

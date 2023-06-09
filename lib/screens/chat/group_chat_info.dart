@@ -2,16 +2,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/services/chat_database_services.dart';
 
 class GroupJoinedChatInfor extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String adminName;
+  final String rules;
+  final String description;
+  final String purpose;
   const GroupJoinedChatInfor(
       {Key? key,
       required this.adminName,
       required this.groupName,
+      required this.purpose,
+      required this.rules,
+      required this.description,
       required this.groupId})
       : super(key: key);
 
@@ -75,24 +82,30 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                               color: Colors.red,
                             ),
                           ),
-                          // IconButton(
-                          //   onPressed: () async {
-                          //     ChatDatabase(
-                          //             uid: FirebaseAuth
-                          //                 .instance.currentUser!.uid)
-                          //         .toggleGroupJoin(
-                          //             widget.groupId,
-                          //             getName(widget.adminName),
-                          //             widget.groupName)
-                          //         .whenComplete(() {
-                          //       nextScreenReplace(context, const HomePage());
-                          //     });
-                          //   },
-                          //   icon: const Icon(
-                          //     Icons.done,
-                          //     color: Colors.green,
-                          //   ),
-                          // ),
+                          IconButton(
+                            onPressed: () async {
+                              await ChatDatabase(
+                                      uid: FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                  .toggleGroupJoin(
+                                      widget.groupId,
+                                      getName(widget.adminName),
+                                      widget.groupName)
+                                  .whenComplete(() {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MainHomeScreen(),
+                                  ),
+                                );
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.done,
+                              color: Colors.green,
+                            ),
+                          ),
                         ],
                       );
                     });
@@ -134,12 +147,50 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text("Admin: ${getName(widget.adminName)}")
+                      Text("Admin: ${widget.adminName}")
                     ],
                   )
                 ],
               ),
             ),
+            //start
+
+            const Text(
+              'Purpose:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              widget.purpose,
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            const Text(
+              'Description:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              widget.description,
+              style: TextStyle(fontSize: 16),
+            ),
+            SizedBox(height: 16),
+            const Text(
+              'Rules:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            Text(
+              widget.rules,
+              style: TextStyle(fontSize: 16),
+            ),
+
             // memberUsersList(),
           ],
         ),

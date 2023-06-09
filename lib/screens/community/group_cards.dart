@@ -6,14 +6,18 @@ class GroupCards extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String userName;
-  // final String email;
-  // final String adminName;
+  final String purpose;
+  final String rules;
+  final String description;
   const GroupCards({
     Key? key,
     // required this.adminName,
     required this.userName,
     required this.groupName,
     required this.groupId,
+    required this.description,
+    required this.purpose,
+    required this.rules,
   }) : super(key: key);
 
   @override
@@ -32,6 +36,9 @@ class _GroupCardsState extends State<GroupCards> {
                 groupId: widget.groupId,
                 groupName: widget.groupName,
                 userName: widget.userName,
+                description: widget.description,
+                purpose: widget.purpose,
+                rules: widget.rules,
               ),
             ));
       },

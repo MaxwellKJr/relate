@@ -133,6 +133,7 @@ class _NotJoinedGroupinfoState extends State<NotJoinedGroupinfo> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          //start
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
@@ -172,6 +173,7 @@ class _NotJoinedGroupinfoState extends State<NotJoinedGroupinfo> {
             ),
           ],
         ),
+        //here
       ),
     );
   }

@@ -45,6 +45,7 @@ class _AllGroupsState extends State<AllGroups> {
           Expanded(
             child: StreamBuilder<List<Map<String, dynamic>>>(
               stream: ChatDatabase().getAllGroups(),
+              // stream: ChatDatabase.fil,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

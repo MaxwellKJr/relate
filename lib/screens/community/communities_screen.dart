@@ -181,12 +181,20 @@ class _CommunitiesState extends State<Communities>
           itemBuilder: (context, index) {
             String groupId = myGroups[index].id;
             String groupName = myGroups[index].get('groupName');
+            String purpose = myGroups[index].get('purpose');
+
+            String description = myGroups[index].get('description');
+
+            String rules = myGroups[index].get('rules');
+
             return GroupCards(
-              // groupId: myGroups[index].id,
-              groupId: groupId,
-              userName: userName,
-              groupName: groupName,
-            );
+                // groupId: myGroups[index].id,
+                groupId: groupId,
+                userName: userName,
+                groupName: groupName,
+                rules: rules,
+                description: description,
+                purpose: purpose);
           },
         );
       },
@@ -210,6 +218,6 @@ class _CommunitiesState extends State<Communities>
   }
 
   Widget allGroupList() {
-    return const AllGroups();
+    return AllGroups();
   }
 }
