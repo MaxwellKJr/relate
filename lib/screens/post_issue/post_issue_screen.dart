@@ -51,10 +51,6 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     final focus = _focusController.text;
 
-    // if (focus == '') {
-    //   focus = "general";
-    // }
-
     final post = {
       'text': text,
       'focus': focus,

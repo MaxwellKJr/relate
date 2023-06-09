@@ -22,6 +22,7 @@ class _DrawerMainState extends State<DrawerMain> {
   @override
   void initState() {
     super.initState();
+    auth.getCurrentUserData().then((value) => {setState(() {})});
     _viewModel = DrawerTilesViewModel();
   }
 
@@ -34,12 +35,28 @@ class _DrawerMainState extends State<DrawerMain> {
         child: ListView(
           children: [
             DrawerHeader(
-              child: Text("Relate",
-                  style: GoogleFonts.poppins(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: primaryColor)),
-            ),
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Relate",
+                    style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w800,
+                        color: primaryColor)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Text(""),
+                    Text(
+                      auth.userName ?? '',
+                      style: GoogleFonts.roboto(
+                          fontSize: 30, fontWeight: FontWeight.w400),
+                    ),
+                  ],
+                )
+              ],
+            )),
             SizedBox(
               height: 350,
               child: ListView.builder(
