@@ -194,6 +194,13 @@ class _ChatScreenState extends State<ChatScreen> {
   String admin = "";
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+  final List<String> bannedKeywords = [
+    'fuck',
+    'sex',
+    'keyword3',
+  ];
+  bool hasBannedKeyword = false;
 
   @override
   void initState() {
@@ -201,6 +208,43 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
   }
 
+  //implementations for checking
+  void checkAndSendMessage() {
+    String message = messageController.text;
+    hasBannedKeyword = checkForBannedKeywords(message, bannedKeywords);
+
+    if (hasBannedKeyword) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Content Violation'),
+          content: Text('Your message contains banned keywords.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Proceed with sending the message
+      sendMessage();
+    }
+  }
+
+  bool checkForBannedKeywords(String content, List<String> bannedKeywords) {
+    for (String keyword in bannedKeywords) {
+      if (content.toLowerCase().contains(keyword.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  ///checked
   getChatandAdmin() {
     ChatDatabase().getConversations(widget.groupId).then((val) {
       setState(() {
@@ -276,7 +320,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      sendMessage();
+                      checkAndSendMessage();
                     },
                     child: Container(
                       height: 50,
