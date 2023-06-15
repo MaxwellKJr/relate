@@ -5,6 +5,7 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/screens/create_group/flag_keywords.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
-      // home: Flag_Keyword(),
+      // home: GroupDescriptionPage(),
     );
   }
 }

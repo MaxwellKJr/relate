@@ -195,26 +195,31 @@ class _ChatScreenState extends State<ChatScreen> {
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   // final _formKey = GlobalKey<FormState>();
-  List<String> bannedKeywords = [];
+  // List<String> bannedKeywords = [];
   bool hasBannedKeyword = false;
 
   @override
   void initState() {
     getChatandAdmin();
     super.initState();
-    fetchBannedKeywords();
+    // fetchBannedKeywords();
   }
 
-  Future<void> fetchBannedKeywords() async {
-    final snapshot = await FirebaseFirestore.instance
-        .collection('bannedwords')
-        .doc('keywords')
-        .get();
-    final data = snapshot.data() as Map<String, dynamic>;
-    setState(() {
-      bannedKeywords = List<String>.from(data['keywords']);
-    });
-  }
+  final List<String> bannedKeywords = [
+    'fuck',
+    'ass',
+    'keyword3',
+  ];
+  // Future<void> fetchBannedKeywords() async {
+  //   final snapshot = await FirebaseFirestore.instance
+  //       .collection('bannedwords')
+  //       .doc('keywords')
+  //       .get();
+  //   final data = snapshot.data() as Map<String, dynamic>;
+  //   setState(() {
+  //     bannedKeywords = List<String>.from(data['keywords']);
+  //   });
+  // }
 
   //implementations for checking
   void checkAndSendMessage() {
@@ -309,11 +314,20 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
               width: MediaQuery.of(context).size.width,
-              color: Colors.grey[700],
+              // color: Colors.grey[700],
               child: Row(
                 children: [
                   Expanded(
+                      child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          10), // Adjust the radius value as needed
+                      color: Colors.grey[700], // Change the color as desired
+                    ),
                     child: TextFormField(
+                      maxLines: null,
                       controller: messageController,
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
@@ -322,7 +336,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         border: InputBorder.none,
                       ),
                     ),
-                  ),
+                  )),
                   const SizedBox(
                     width: 12,
                   ),

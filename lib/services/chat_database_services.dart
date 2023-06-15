@@ -151,10 +151,71 @@ class ChatDatabase {
     return documentSnapshot['admin'];
   }
 
+  // Future<List<String>> getAllUserNames(String groupId) async {
+  //   List<String> memberIds = [];
+  //   List<String> userNames = [];
+
+  //   DocumentSnapshot groupSnapshot = await groupCollection.doc(groupId).get();
+  //   if (groupSnapshot.exists) {
+  //     final data = groupSnapshot.data()
+  //         as Map<String, dynamic>?; // Explicit type annotation
+  //     memberIds = List<String>.from(data?['members'] ?? []);
+  //   }
+
+  //   QuerySnapshot userSnapshot =
+  //       await userCollection.where('userId', whereIn: memberIds).get();
+  //   userSnapshot.docs.forEach((userDoc) {
+  //     final userName = (userDoc.data() as Map<String, dynamic>)['userName'];
+  //     if (userName != null) {
+  //       userNames.add(userName);
+  //     }
+  //   });
+
+  //   return userNames;
+  // }
+
+  // Stream<List<String>> getAllUserNames(String groupId) {
+  //   return groupCollection.doc(groupId).snapshots().map((groupSnapshot) {
+  //     List<String> memberIds = [];
+  //     List<String> userNames = [];
+
+  //     if (groupSnapshot.exists) {
+  //       final groupData = groupSnapshot.data()
+  //           as Map<String, dynamic>?; // Explicit type annotation
+  //       memberIds = List<String>.from(groupData?['members'] ?? []);
+  //     }
+
+  //     userCollection
+  //         .where('userId', whereIn: memberIds)
+  //         .get()
+  //         .then((userSnapshot) {
+  //       userSnapshot.docs.forEach((userDoc) {
+  //         final userName = (userDoc.data() as Map<String, dynamic>)['userName'];
+  //         if (userName != null) {
+  //           userNames.add(userName);
+  //         }
+  //       });
+  //     });
+
+  //     return userNames;
+  //   });
+  // }
+
   //used to get every member in a group
   getAllGroupMembers(groupId) async {
     return groupCollection.doc(groupId).snapshots();
   }
+  // Future<QuerySnapshot> getAllGroupMembers(String groupId) async {
+  //   // Fetch group members from the group collection
+  //   DocumentSnapshot groupSnapshot = await groupCollection.doc(groupId).get();
+  //   List<String> memberIds = List<String>.from(groupSnapshot.data()['members']);
+
+  //   // Fetch user information from the user collection
+  //   QuerySnapshot userSnapshot =
+  //       await userCollection.where('userId', whereIn: memberIds).get();
+
+  //   return userSnapshot;
+  // }
 
   sendMessage(String groupId, Map<String, dynamic> chatMessageData) async {
     chatMessageData["timeStamp"] =

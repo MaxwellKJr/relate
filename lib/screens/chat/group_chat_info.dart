@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -111,86 +112,90 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
               icon: const Icon(Icons.exit_to_app))
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).primaryColor.withOpacity(0.2)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      widget.groupName.substring(0, 1).toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/placeholderr.jpg'),
+                ),
+                title: Text(
+                  widget.groupName,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    width: 20,
+                ),
+                subtitle: const Text(
+                  '4 members',
+                  style: TextStyle(fontSize: 19),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Description',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.description,
+                  style: const TextStyle(
+                    fontSize: 16,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Group: ${widget.groupName}",
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Admin: ${widget.admin}")
-                    ],
-                  )
-                ],
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-            //start
-
-            const Text(
-              'Purpose:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 16),
+              const Text(
+                'Purpose',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              widget.purpose,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Description:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.purpose,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-            Text(
-              widget.description,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Rules:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 16),
+              const Text(
+                'Rules',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              widget.rules,
-              style: TextStyle(fontSize: 16),
-            ),
-
-            // memberUsersList(),
-          ],
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.rules,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              const SizedBox(height: 8),
+              memberUsersList(),
+            ],
+          ),
         ),
       ),
     );
@@ -215,7 +220,7 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                         radius: 30,
                         backgroundColor: Theme.of(context).primaryColor,
                         child: Text(
-                          getName(snapshot.data['members'][index])
+                          (snapshot.data['members'][index])
                               .substring(0, 1)
                               .toUpperCase(),
                           style: const TextStyle(
@@ -224,8 +229,8 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      title: Text(getName(snapshot.data['members'][index])),
-                      subtitle: Text(getId(snapshot.data['members'][index])),
+                      title: Text((snapshot.data['members'][index])),
+                      subtitle: Text((snapshot.data['members'][index])),
                     ),
                   );
                 },
@@ -250,3 +255,64 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
     );
   }
 }
+
+
+// class GroupDescriptionPage extends StatefulWidget {
+//   @override
+//   _GroupDescriptionPageState createState() => _GroupDescriptionPageState();
+// }
+
+// class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
+//   String groupName = 'Flutter Group';
+//   String description =
+//       'This is a Flutter group for discussing Flutter development and related topics.';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Group Description'),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.all(16.0),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               ListTile(
+//                 leading: CircleAvatar(
+//                   backgroundImage: AssetImage('assets/images/placeholderr.jpg'),
+//                 ),
+//                 title: Text(
+//                   groupName,
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 subtitle: Text(
+//                   '4 members',
+//                   style: TextStyle(fontSize: 16),
+//                 ),
+//               ),
+//               SizedBox(height: 16),
+//               Text(
+//                 'Description',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//               SizedBox(height: 8),
+//               Text(
+//                 description,
+//                 style: TextStyle(fontSize: 16),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
