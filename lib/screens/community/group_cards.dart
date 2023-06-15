@@ -9,9 +9,10 @@ class GroupCards extends StatefulWidget {
   final String purpose;
   final String rules;
   final String description;
+  final String admin;
   const GroupCards({
     Key? key,
-    // required this.adminName,
+    required this.admin,
     required this.userName,
     required this.groupName,
     required this.groupId,
@@ -33,13 +34,13 @@ class _GroupCardsState extends State<GroupCards> {
             context,
             MaterialPageRoute(
               builder: (context) => ChatScreen(
-                groupId: widget.groupId,
-                groupName: widget.groupName,
-                userName: widget.userName,
-                description: widget.description,
-                purpose: widget.purpose,
-                rules: widget.rules,
-              ),
+                  groupId: widget.groupId,
+                  groupName: widget.groupName,
+                  userName: widget.userName,
+                  description: widget.description,
+                  purpose: widget.purpose,
+                  rules: widget.rules,
+                  admin: widget.admin),
             ));
       },
       child: Container(

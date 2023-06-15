@@ -174,9 +174,11 @@ class ChatScreen extends StatefulWidget {
   final String description;
   final String rules;
   final String purpose;
+  final String admin;
   const ChatScreen(
       {Key? key,
       required this.groupId,
+      required this.admin,
       required this.groupName,
       required this.userName,
       required this.description,
@@ -192,13 +194,65 @@ class _ChatScreenState extends State<ChatScreen> {
   String admin = "";
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
+  // final _formKey = GlobalKey<FormState>();
+  List<String> bannedKeywords = [];
+  bool hasBannedKeyword = false;
 
   @override
   void initState() {
     getChatandAdmin();
     super.initState();
+    fetchBannedKeywords();
   }
 
+  Future<void> fetchBannedKeywords() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('bannedwords')
+        .doc('keywords')
+        .get();
+    final data = snapshot.data() as Map<String, dynamic>;
+    setState(() {
+      bannedKeywords = List<String>.from(data['keywords']);
+    });
+  }
+
+  //implementations for checking
+  void checkAndSendMessage() {
+    String message = messageController.text;
+    hasBannedKeyword = checkForBannedKeywords(message, bannedKeywords);
+
+    if (hasBannedKeyword) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Content Violation'),
+          content: Text('Your message contains banned keywords.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      // Proceed with sending the message
+      sendMessage();
+    }
+  }
+
+  bool checkForBannedKeywords(String content, List<String> bannedKeywords) {
+    for (String keyword in bannedKeywords) {
+      if (content.toLowerCase().contains(keyword.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  ///checked
   getChatandAdmin() {
     ChatDatabase().getConversations(widget.groupId).then((val) {
       setState(() {
@@ -233,7 +287,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (context) => GroupJoinedChatInfor(
                       groupId: widget.groupId,
                       groupName: widget.groupName,
-                      adminName: admin,
+                      admin: admin,
                       purpose: widget.purpose,
                       rules: widget.rules,
                       description: widget.description),
@@ -274,7 +328,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      sendMessage();
+                      checkAndSendMessage();
                     },
                     child: Container(
                       height: 50,

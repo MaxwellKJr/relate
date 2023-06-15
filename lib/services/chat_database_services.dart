@@ -1,21 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
-// extension DocumentSnapshotExtension<T> on DocumentSnapshot<T> {
-//   DocumentSnapshot<T> copyWith({
-//     dynamic data,
-//     SnapshotMetadata? metadata,
-//     bool? exists,
-//     String? id,
-//   }) {
-//     return DocumentSnapshot<T>(
-//       this.firestore,
-//       this.reference,
-//       data ?? this.data(),
-//       metadata ?? this.metadata,
-//       exists ?? this.exists,
-//     );
-//   }
 // }
 
 class ChatDatabase {
@@ -268,20 +253,16 @@ class ChatDatabase {
     // if (groups.contains("${groupId}_$groupName")) {
     if (groups.contains("${groupId}")) {
       await userDocumentReference.update({
-        // "groups": FieldValue.arrayRemove(["${groupId}_$groupName"])
         "groups": FieldValue.arrayRemove(["${groupId}"])
       });
       await groupDocumentReference.update({
-        // "members": FieldValue.arrayRemove(["${uid}_$userName"])
         "members": FieldValue.arrayRemove(["${uid}"])
       });
     } else {
       await userDocumentReference.update({
-        // "groups": FieldValue.arrayUnion(["${groupId}_$groupName"])
         "groups": FieldValue.arrayUnion(["${groupId}"])
       });
       await groupDocumentReference.update({
-        // "members": FieldValue.arrayUnion(["${uid}_$userName"])
         "members": FieldValue.arrayUnion(["${uid}"])
       });
     }

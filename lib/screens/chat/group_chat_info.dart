@@ -8,13 +8,13 @@ import 'package:relate/services/chat_database_services.dart';
 class GroupJoinedChatInfor extends StatefulWidget {
   final String groupId;
   final String groupName;
-  final String adminName;
+  final String admin;
   final String rules;
   final String description;
   final String purpose;
   const GroupJoinedChatInfor(
       {Key? key,
-      required this.adminName,
+      required this.admin,
       required this.groupName,
       required this.purpose,
       required this.rules,
@@ -87,10 +87,8 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                               await ChatDatabase(
                                       uid: FirebaseAuth
                                           .instance.currentUser!.uid)
-                                  .toggleGroupJoin(
-                                      widget.groupId,
-                                      getName(widget.adminName),
-                                      widget.groupName)
+                                  .toggleGroupJoin(widget.groupId,
+                                      getName(widget.admin), widget.groupName)
                                   .whenComplete(() {
                                 Navigator.pushReplacement(
                                   context,
@@ -147,7 +145,7 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                       const SizedBox(
                         height: 5,
                       ),
-                      Text("Admin: ${widget.adminName}")
+                      Text("Admin: ${widget.admin}")
                     ],
                   )
                 ],
