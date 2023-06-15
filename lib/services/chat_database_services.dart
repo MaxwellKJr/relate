@@ -1,21 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 
-// extension DocumentSnapshotExtension<T> on DocumentSnapshot<T> {
-//   DocumentSnapshot<T> copyWith({
-//     dynamic data,
-//     SnapshotMetadata? metadata,
-//     bool? exists,
-//     String? id,
-//   }) {
-//     return DocumentSnapshot<T>(
-//       this.firestore,
-//       this.reference,
-//       data ?? this.data(),
-//       metadata ?? this.metadata,
-//       exists ?? this.exists,
-//     );
-//   }
 // }
 
 class ChatDatabase {

@@ -195,17 +195,25 @@ class _ChatScreenState extends State<ChatScreen> {
   Stream<QuerySnapshot>? chats;
   TextEditingController messageController = TextEditingController();
   // final _formKey = GlobalKey<FormState>();
-  final List<String> bannedKeywords = [
-    'fuck',
-    'sex',
-    'keyword3',
-  ];
+  List<String> bannedKeywords = [];
   bool hasBannedKeyword = false;
 
   @override
   void initState() {
     getChatandAdmin();
     super.initState();
+    fetchBannedKeywords();
+  }
+
+  Future<void> fetchBannedKeywords() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('bannedwords')
+        .doc('keywords')
+        .get();
+    final data = snapshot.data() as Map<String, dynamic>;
+    setState(() {
+      bannedKeywords = List<String>.from(data['keywords']);
+    });
   }
 
   //implementations for checking
