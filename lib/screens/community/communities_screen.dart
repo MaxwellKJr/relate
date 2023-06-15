@@ -168,13 +168,13 @@ class _CommunitiesState extends State<Communities>
     return StreamBuilder<List<DocumentSnapshot>>(
       stream: myGroupsStream, // Updated stream type
       builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).primaryColor,
-            ),
-          );
-        }
+        // if (snapshot.connectionState == ConnectionState.waiting) {
+        //   return Center(
+        //     child: CircularProgressIndicator(
+        //       color: Theme.of(context).primaryColor,
+        //     ),
+        //   );
+        // }
 
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
