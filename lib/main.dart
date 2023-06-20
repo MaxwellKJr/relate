@@ -5,8 +5,6 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:relate/screens/chat/group_chat_info.dart';
-import 'package:relate/screens/create_group/flag_keywords.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 
 Future<void> main() async {
@@ -16,7 +14,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -45,15 +43,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final theme = Theme.of(context);
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   SystemUiOverlayStyle(
-    //     statusBarColor: theme.brightness == Brightness.dark
-    //         ? Colors.black // set color for dark theme
-    //         : Colors.white, // set color for light theme
-    //   ),
-    // );
-
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         systemNavigationBarColor:
             Colors.transparent // Set your desired color for the system buttons
@@ -67,10 +56,6 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         colorSchemeSeed: primaryColor,
       ),
-      //  routes: {
-      //   UserProfileScreen.userProfile: (context) => UserProfileScreen(),
-      //   // MessageDetailPage.messageDetail: (context) => MessageDetailPage(conversationId: '', userId: '', userName: '',)
-      //   },
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -78,7 +63,6 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
-      // home: GroupDescriptionPage(),
     );
   }
 }

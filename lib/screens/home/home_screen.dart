@@ -69,9 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     duration: const Duration(milliseconds: 400),
                     child: const PostIssueScreen(),
                   )
-                  // MaterialPageRoute(
-                  //   builder: (context) => const PostIssueScreen(),
-                  // ),
                   );
             },
             backgroundColor: primaryColor,
@@ -81,7 +78,6 @@ class _HomeScreenState extends State<HomeScreen> {
               color: whiteColor,
             ),
           ),
-          // bottomNavigationBar: const NavigationBarMain(),
         ));
   }
 }
