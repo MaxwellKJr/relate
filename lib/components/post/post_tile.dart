@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
+import 'package:relate/models/post.dart';
 import 'package:relate/screens/post_issue/view_post_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -120,12 +121,6 @@ class PostTile extends StatelessWidget {
                                   ))
                             else
                               Container(),
-                            // Container(
-                            //     padding:
-                            //         EdgeInsets.only(top: 10),
-                            //     child: Image.network(
-                            //         post['image'])),
-
                             PostBottomIcons(
                               postId: postId,
                               relates: List<String>.from(post['relates'] ?? []),
