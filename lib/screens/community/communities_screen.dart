@@ -20,6 +20,7 @@ import 'package:relate/services/chat_database_services.dart';
 import 'package:relate/services/helper_functions.dart';
 // import 'section_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 
 class Communities extends StatefulWidget {
   const Communities({Key? key}) : super(key: key);

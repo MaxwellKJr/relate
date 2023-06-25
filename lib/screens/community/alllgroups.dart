@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/screens/community/NotJoinedGroupInfo.dart';
+import 'package:relate/screens/community/trialpage.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:relate/services/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,53 +41,74 @@ class _AllGroupsState extends State<AllGroups> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: StreamBuilder<List<Map<String, dynamic>>>(
-              stream: ChatDatabase().getAllGroups(),
-              // stream: ChatDatabase.fil,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  );
-                }
+      body: StreamBuilder<List<Map<String, dynamic>>>(
+        stream: ChatDatabase().getAllGroups(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            );
+          }
 
-                if (snapshot.hasData) {
-                  final groups = snapshot.data!;
+          if (snapshot.hasData) {
+            final groups = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: groups.length,
-                    itemBuilder: (context, index) {
-                      final group = groups[index];
-                      final groupId = group['groupId'];
-                      final groupName = group['groupName'];
-                      final admin = group['admin'];
-                      final purpose = group['purpose'];
-                      final description = group['description'];
-                      final rules = group['rules'];
+            return ListView.builder(
+              itemCount: groups.length,
+              itemBuilder: (context, index) {
+                final group = groups[index];
+                final groupId = group['groupId'];
+                final groupName = group['groupName'];
+                final admin = group['admin'];
+                final purpose = group['purpose'];
+                final description = group['description'];
+                final rules = group['rules'];
 
-                      return groupTile(
-                        userName,
-                        groupId,
-                        groupName,
-                        admin,
-                        purpose,
-                        description,
-                        rules,
-                      );
-                    },
-                  );
-                }
+                return StreamBuilder<DocumentSnapshot>(
+                  stream: ChatDatabase().getGroupData(groupId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox();
+                    }
 
-                return Container();
+                    if (snapshot.hasData) {
+                      final groupData = snapshot.data!;
+
+                      final isMember =
+                          groupData['members'].contains(user?.uid ?? '');
+
+                      return isMember
+                          ? joinedGroupTile(
+                              userName,
+                              groupId,
+                              groupName,
+                              admin,
+                              purpose,
+                              description,
+                              rules,
+                            )
+                          : groupTile(
+                              userName,
+                              groupId,
+                              groupName,
+                              admin,
+                              purpose,
+                              description,
+                              rules,
+                            );
+                    }
+
+                    return const SizedBox();
+                  },
+                );
               },
-            ),
-          ),
-        ],
+            );
+          }
+
+          return Container();
+        },
       ),
     );
   }
@@ -94,12 +116,11 @@ class _AllGroupsState extends State<AllGroups> {
   Widget groupTile(String userName, String groupId, String groupName,
       String admin, String purpose, String description, String rules) {
     return GestureDetector(
-      //edit
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NotJoinedGroupinfo(
+            builder: (context) => TrialPage(
               groupId: groupId,
               groupName: groupName,
               purpose: purpose,
@@ -107,7 +128,7 @@ class _AllGroupsState extends State<AllGroups> {
               rules: rules,
             ),
           ),
-        ); //dghdthdth
+        );
       },
       child: ListTile(
         contentPadding:
@@ -120,34 +141,20 @@ class _AllGroupsState extends State<AllGroups> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        title: Text(groupName,
-            style: const TextStyle(fontWeight: FontWeight.w600)),
-        subtitle: Text("Admin: ${getName(admin)}"),
+        title: Text(
+          groupName,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         trailing: InkWell(
           onTap: () async {
             await ChatDatabase(uid: user!.uid)
                 .toggleGroupJoin(groupId, userName, groupName);
-            final isJoined = await ChatDatabase(uid: user!.uid)
-                .isUserJoined(groupName, groupId, userName);
-
-            setState(() {
-              if (isJoined) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text("Successfully joined the group"),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    // content: Text("Left the group $groupName"),
-                    content: Text("Successfully joined the group $groupName"),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              }
-            });
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Successfully joined the group"),
+                backgroundColor: Colors.green,
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -165,7 +172,33 @@ class _AllGroupsState extends State<AllGroups> {
     );
   }
 
-  String getName(String r) {
-    return r.substring(r.indexOf("_") + 1);
+  Widget joinedGroupTile(String userName, String groupId, String groupName,
+      String admin, String purpose, String description, String rules) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: Theme.of(context).primaryColor,
+        child: Text(
+          groupName.substring(0, 1).toUpperCase(),
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+      title: Text(
+        groupName,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      trailing: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.grey[400],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: const Text(
+          'Already Joined',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 }

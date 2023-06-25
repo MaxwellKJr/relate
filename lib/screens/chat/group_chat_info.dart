@@ -1,8 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:relate/components/navigation/main_home.dart';
+import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
 
 class GroupJoinedChatInfor extends StatefulWidget {
@@ -12,21 +12,24 @@ class GroupJoinedChatInfor extends StatefulWidget {
   final String rules;
   final String description;
   final String purpose;
-  const GroupJoinedChatInfor(
-      {Key? key,
-      required this.admin,
-      required this.groupName,
-      required this.purpose,
-      required this.rules,
-      required this.description,
-      required this.groupId})
-      : super(key: key);
+
+  const GroupJoinedChatInfor({
+    Key? key,
+    required this.admin,
+    required this.groupName,
+    required this.purpose,
+    required this.rules,
+    required this.description,
+    required this.groupId,
+  }) : super(key: key);
 
   @override
   State<GroupJoinedChatInfor> createState() => _GroupJoinedChatInforState();
 }
 
 class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
+  bool get isAdmin => FirebaseAuth.instance.currentUser!.uid == widget.admin;
+
   Stream? members;
 
   @override
@@ -36,13 +39,17 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
   }
 
   getUserMembers() async {
-    ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
-        .getAllGroupMembers(widget.groupId)
-        .then((val) {
+    try {
+      List<String> val =
+          await ChatDatabase(uid: FirebaseAuth.instance.currentUser!.uid)
+              .groupMembers(widget.groupId)
+              .first;
       setState(() {
-        members = val;
+        members = val as Stream?;
       });
-    });
+    } catch (error) {
+      print('Error: $error');
+    }
   }
 
   String getName(String r) {
@@ -63,134 +70,142 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
         title: const Text("Group Info"),
         actions: [
           IconButton(
-              onPressed: () {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Exit"),
-                        content:
-                            const Text("Are you sure you exit the group? "),
-                        actions: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(
-                              Icons.cancel,
-                              color: Colors.red,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () async {
-                              await ChatDatabase(
-                                      uid: FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                  .toggleGroupJoin(widget.groupId,
-                                      getName(widget.admin), widget.groupName)
-                                  .whenComplete(() {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MainHomeScreen(),
-                                  ),
-                                );
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.done,
-                              color: Colors.green,
-                            ),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              icon: const Icon(Icons.exit_to_app))
+            onPressed: () {
+              showDialog(
+                barrierDismissible: false,
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("Exit"),
+                    content:
+                        const Text("Are you sure you want to exit the group?"),
+                    actions: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.cancel,
+                          color: Colors.red,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () async {
+                          await ChatDatabase(
+                            uid: FirebaseAuth.instance.currentUser!.uid,
+                          )
+                              .toggleGroupJoin(
+                            widget.groupId,
+                            getName(widget.admin),
+                            widget.groupName,
+                          )
+                              .whenComplete(() {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Communities(),
+                              ),
+                            );
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.done,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.exit_to_app),
+          ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Theme.of(context).primaryColor.withOpacity(0.2)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(context).primaryColor,
-                    child: Text(
-                      widget.groupName.substring(0, 1).toUpperCase(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: const CircleAvatar(
+                  radius: 50,
+                  backgroundImage: AssetImage('assets/images/placeholderr.jpg'),
+                ),
+                title: Text(
+                  widget.groupName,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(
-                    width: 20,
+                ),
+                subtitle: const Text(
+                  '4 members',
+                  style: TextStyle(fontSize: 19),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Description',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.description,
+                  style: const TextStyle(
+                    fontSize: 16,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Group: ${widget.groupName}",
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text("Admin: ${widget.admin}")
-                    ],
-                  )
-                ],
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-            //start
-
-            const Text(
-              'Purpose:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 16),
+              const Text(
+                'Purpose',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              widget.purpose,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Description:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.purpose,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-            Text(
-              widget.description,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            const Text(
-              'Rules:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              const SizedBox(height: 16),
+              const Text(
+                'Rules',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            Text(
-              widget.rules,
-              style: TextStyle(fontSize: 16),
-            ),
-
-            // memberUsersList(),
-          ],
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  widget.rules,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+              const SizedBox(height: 8),
+              memberUsersList(),
+            ],
+          ),
         ),
       ),
     );
