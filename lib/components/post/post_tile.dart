@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
@@ -20,6 +21,19 @@ class PostTile extends StatelessWidget {
       required this.postedBy,
       required this.uid,
       required this.formattedDateTime});
+
+  displayProfessionalIcon() async {
+    final professionalDoc = await FirebaseFirestore.instance
+        .collection('professionals')
+        .doc(uid)
+        .get();
+
+    if (professionalDoc.exists) {
+      return Icons.check;
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {

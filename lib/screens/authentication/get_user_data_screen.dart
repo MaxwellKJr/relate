@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -135,21 +134,6 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                             ),
                           ],
                         )),
-                    ChipsChoice<String>.multiple(
-                      value: interestTags,
-                      onChanged: (val) => setState(() => interestTags = val),
-                      choiceItems: C2Choice.listFrom(
-                          source: _interests,
-                          value: (i, v) => v,
-                          label: (i, v) => v),
-                      choiceActiveStyle: const C2ChoiceStyle(
-                          color: whiteColor,
-                          backgroundColor: primaryColor,
-                          borderColor: primaryColor),
-                      choiceStyle: const C2ChoiceStyle(
-                          color: primaryColor, avatarBorderColor: primaryColor),
-                      wrapped: true,
-                    ),
                   ],
                 ),
                 const SizedBox(
@@ -179,21 +163,6 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                             ),
                           ],
                         )),
-                    ChipsChoice<String>.multiple(
-                      value: hobbiesTags,
-                      onChanged: (val) => setState(() => hobbiesTags = val),
-                      choiceItems: C2Choice.listFrom(
-                          source: _hobbies,
-                          value: (i, v) => v,
-                          label: (i, v) => v),
-                      choiceActiveStyle: const C2ChoiceStyle(
-                          color: whiteColor,
-                          backgroundColor: primaryColor,
-                          borderColor: primaryColor),
-                      choiceStyle: const C2ChoiceStyle(
-                          color: primaryColor, avatarBorderColor: primaryColor),
-                      wrapped: true,
-                    ),
                   ],
                 ),
                 const SizedBox(
@@ -223,21 +192,6 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                             ),
                           ],
                         )),
-                    ChipsChoice<String>.multiple(
-                      value: dislikesTags,
-                      onChanged: (val) => setState(() => dislikesTags = val),
-                      choiceItems: C2Choice.listFrom(
-                          source: _dislikes,
-                          value: (i, v) => v,
-                          label: (i, v) => v),
-                      choiceActiveStyle: const C2ChoiceStyle(
-                          color: whiteColor,
-                          backgroundColor: primaryColor,
-                          borderColor: primaryColor),
-                      choiceStyle: const C2ChoiceStyle(
-                          color: primaryColor, avatarBorderColor: primaryColor),
-                      wrapped: true,
-                    ),
                   ],
                 ),
                 Container(
