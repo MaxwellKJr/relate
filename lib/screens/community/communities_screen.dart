@@ -14,11 +14,9 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/group_cards.dart';
 import 'package:relate/screens/community/group_info_card.dart';
 import 'package:relate/screens/community/search_and_join%20_screen.dart';
-// import 'package:relate/screens/community/section_divider.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:relate/services/helper_functions.dart';
-// import 'section_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 

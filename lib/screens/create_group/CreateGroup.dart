@@ -409,8 +409,8 @@ class _CreateGroupState extends State<CreateGroup> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Content Violation'),
-          content: Text('Your message contains banned keywords.'),
+          title: const Text('Content Violation'),
+          content: const Text('Your message contains banned keywords.'),
           actions: [
             TextButton(
               onPressed: () {
@@ -480,14 +480,14 @@ class _CreateGroupState extends State<CreateGroup> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Content Violation'),
-          content: Text('One or more fields contain banned keywords.'),
+          title: const Text('Content Violation'),
+          content: const Text('One or more fields contain banned keywords.'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),

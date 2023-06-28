@@ -13,6 +13,9 @@ class ChatDatabase {
   final CollectionReference groupCollection =
       FirebaseFirestore.instance.collection("groups");
 
+  final CollectionReference reasonsCollection =
+      FirebaseFirestore.instance.collection('reasons');
+
   // saving the userdata
   Future savingUserData(String userName, String email) async {
     return await userCollection.doc(uid).set({
@@ -25,18 +28,7 @@ class ChatDatabase {
   }
 
   // getting user data
-
-  // modifying here only
-
 // //working individual user
-  // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserGroups() {
-  //   return groupCollection.doc(uid).snapshots().asBroadcastStream().map(
-  //     (DocumentSnapshot<Object?> snapshot) {
-  //       return snapshot as DocumentSnapshot<Map<String, dynamic>>;
-  //     },
-  //   );
-  // }
-
   Stream<List<DocumentSnapshot<Map<String, dynamic>>>> getUserGroups() {
     return userCollection.doc(uid).snapshots().switchMap(
       (DocumentSnapshot<Object?> userSnapshot) {
@@ -136,35 +128,6 @@ class ChatDatabase {
     );
   }
 
-  //dcs
-  // Stream<List<String>> groupMemberss(String groupId) {
-  //   return groupCollection.doc(groupId).snapshots().switchMap(
-  //     (DocumentSnapshot<Object?> groupSnapshot) {
-  //       final List<dynamic> members = List<dynamic>.from((groupSnapshot.data()
-  //               as Map<String, dynamic>)['members'] as List<dynamic>? ??
-  //           []);
-  //       final List<Stream<DocumentSnapshot<Object?>>> userStreams =
-  //           members.map((uid) {
-  //         return userCollection.doc(uid).snapshots();
-  //       }).toList();
-
-  //       return CombineLatestStream.list(userStreams).map(
-  //         (userSnapshotsList) {
-  //           final List<String> userNames = [];
-  //           for (DocumentSnapshot<Object?> userSnapshot in userSnapshotsList) {
-  //             final Map<String, dynamic> userData =
-  //                 userSnapshot.data() as Map<String, dynamic>;
-  //             final String userName = userData['userName'] as String;
-  //             userNames.add(userName);
-  //           }
-  //           print(userNames);
-  //           return userNames;
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
-
   Stream<List<String>> groupMemberss(String groupId) {
     return groupCollection.doc(groupId).snapshots().switchMap(
       (DocumentSnapshot<Object?> groupSnapshot) {
@@ -191,6 +154,16 @@ class ChatDatabase {
         );
       },
     );
+  }
+
+  //creating reasons table
+  Future<void> reasons(String userId, String groupId, String reason) async {
+    await reasonsCollection.add({
+      "userId": userId,
+      "groupId": groupId,
+      "reason": reason,
+      "status": "NotApproved"
+    });
   }
 
   // creating a group
@@ -249,17 +222,7 @@ class ChatDatabase {
   getAllGroupMembers(groupId) async {
     return groupCollection.doc(groupId).snapshots();
   }
-  // Future<QuerySnapshot> getAllGroupMembers(String groupId) async {
-  //   // Fetch group members from the group collection
-  //   DocumentSnapshot groupSnapshot = await groupCollection.doc(groupId).get();
-  //   List<String> memberIds = List<String>.from(groupSnapshot.data()['members']);
 
-  //   // Fetch user information from the user collection
-  //   QuerySnapshot userSnapshot =
-  //       await userCollection.where('userId', whereIn: memberIds).get();
-
-  //   return userSnapshot;
-  // }
   Stream<DocumentSnapshot> getGroupData(String groupId) {
     return FirebaseFirestore.instance
         .collection('groups')
@@ -315,6 +278,36 @@ class ChatDatabase {
     }
   }
 
+  Future<void> toggleGroupJoin(
+      String groupId, String userName, String groupName) async {
+    // doc reference
+    DocumentReference userDocumentReference = userCollection.doc(uid);
+    DocumentReference groupDocumentReference = groupCollection.doc(groupId);
+
+    DocumentSnapshot documentSnapshot = await userDocumentReference.get();
+    List<dynamic> groups = await documentSnapshot['groups'];
+
+    // if user has our groups -> then remove then or also in other part re join
+    // if (groups.contains("${groupId}_$groupName")) {
+    if (groups.contains("${groupId}")) {
+      await userDocumentReference.update({
+        "groups": FieldValue.arrayRemove(["${groupId}"])
+      });
+      await groupDocumentReference.update({
+        "members": FieldValue.arrayRemove(["${uid}"])
+      });
+    } else {
+      await userDocumentReference.update({
+        "groups": FieldValue.arrayUnion(["${groupId}"])
+      });
+      await groupDocumentReference.update({
+        "members": FieldValue.arrayUnion(["${uid}"])
+      });
+    }
+  }
+}
+
+  
   //This function is used to add or remove a user
   // Future toggleGroupJoin(
   //     String groupId, String userName, String groupName) async {
@@ -351,31 +344,3 @@ class ChatDatabase {
   // This function is used to add or remove a user
   // Future toggleGroupJoin(
   //     String groupId, String userName, String groupName) async {'
-  Future<void> toggleGroupJoin(
-      String groupId, String userName, String groupName) async {
-    // doc reference
-    DocumentReference userDocumentReference = userCollection.doc(uid);
-    DocumentReference groupDocumentReference = groupCollection.doc(groupId);
-
-    DocumentSnapshot documentSnapshot = await userDocumentReference.get();
-    List<dynamic> groups = await documentSnapshot['groups'];
-
-    // if user has our groups -> then remove then or also in other part re join
-    // if (groups.contains("${groupId}_$groupName")) {
-    if (groups.contains("${groupId}")) {
-      await userDocumentReference.update({
-        "groups": FieldValue.arrayRemove(["${groupId}"])
-      });
-      await groupDocumentReference.update({
-        "members": FieldValue.arrayRemove(["${uid}"])
-      });
-    } else {
-      await userDocumentReference.update({
-        "groups": FieldValue.arrayUnion(["${groupId}"])
-      });
-      await groupDocumentReference.update({
-        "members": FieldValue.arrayUnion(["${uid}"])
-      });
-    }
-  }
-}

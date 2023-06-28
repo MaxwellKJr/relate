@@ -73,7 +73,7 @@ class _TrialPageState extends State<TrialPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Purpose: Trial',
+              'Purpose: Trial To Reason',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -119,7 +119,13 @@ class _TrialPageState extends State<TrialPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Reason(),
+                      builder: (context) => Reason(
+                        groupId: widget.groupId,
+                        groupName: widget.groupName,
+                        purpose: widget.purpose,
+                        description: widget.description,
+                        rules: widget.rules,
+                      ),
                     ),
                   );
                 },
