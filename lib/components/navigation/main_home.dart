@@ -7,6 +7,7 @@ import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
+import 'package:relate/screens/community/search_and_join _screen.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -25,7 +26,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     const WellnessCentresScreen(),
   ];
 
-  final screenTitle = ["Relate", "Communities", "Messages", "Discover"];
+  final screenTitle = ["Home", "Communities", "Messages", "Discover"];
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +35,21 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
-              style: GoogleFonts.alexBrush(
-                  fontWeight: FontWeight.w500, fontSize: 32)),
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+          actions: currentPageIndex == 1
+              ? [
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+
+                                    // Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             SearchAndJoin()));
+                    },
+                  ),
+                ]
+              : null,
           // bottom:
           backgroundColor: theme.brightness == Brightness.dark
               ? Colors.black12 // set color for dark theme
