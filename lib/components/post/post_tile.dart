@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
@@ -22,17 +24,93 @@ class PostTile extends StatelessWidget {
       required this.uid,
       required this.formattedDateTime});
 
-  displayProfessionalIcon() async {
-    final professionalDoc = await FirebaseFirestore.instance
-        .collection('professionals')
-        .doc(uid)
-        .get();
+  Future<void> morePostOptions(BuildContext context) async {
+    final currentUser = FirebaseAuth.instance.currentUser?.uid;
 
-    if (professionalDoc.exists) {
-      return Icons.check;
+    if (currentUser == uid) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Delete Post"),
+              content: const Text("Are you sure you want to delete this post?"),
+              actions: [
+                TextButton(
+                  child:
+                      const Text('Cancel', style: TextStyle(color: Colors.red)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: const Text('Delete'),
+                  onPressed: () async {
+                    // Delete Comments First
+                    final commentsRef = await FirebaseFirestore.instance
+                        .collection("posts")
+                        .doc(postId)
+                        .collection("comments")
+                        .get();
+
+                    for (var doc in commentsRef.docs) {
+                      await FirebaseFirestore.instance
+                          .collection("posts")
+                          .doc(postId)
+                          .collection("comments")
+                          .doc(doc.id)
+                          .delete();
+                    }
+
+                    // Delete Post
+                    FirebaseFirestore.instance
+                        .collection("posts")
+                        .doc(postId)
+                        .delete()
+                        .then((value) => {
+                              Fluttertoast.showToast(
+                                  msg: "Post Deleted Successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: primaryColor,
+                                  textColor: whiteColor,
+                                  fontSize: 16.0),
+                            });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    } else {
+// Report option
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Report Post'),
+            content: const Text('Are you sure you want to report this post?'),
+            actions: [
+              TextButton(
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.red)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Yes, report'),
+                onPressed: () {
+                  // Implement report functionality here
+                  // Report the post associated with post.uid
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
-
-    return null;
   }
 
   @override
@@ -85,32 +163,41 @@ class PostTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  postedBy,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w800),
+                                Row(
+                                  children: [
+                                    Text(
+                                      postedBy,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    const Icon(
+                                      Icons.circle_rounded,
+                                      color: Colors.grey,
+                                      size: 6,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      focus,
+                                      style: GoogleFonts.poppins(
+                                          color: primaryColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Icon(
-                                  Icons.circle_rounded,
-                                  color: Colors.grey,
-                                  size: 6,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  focus,
-                                  style: GoogleFonts.poppins(
-                                      color: primaryColor,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w800),
-                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      morePostOptions(context);
+                                    },
+                                    icon: const Icon(Icons.more_vert))
                               ],
                             ),
                             Text(
