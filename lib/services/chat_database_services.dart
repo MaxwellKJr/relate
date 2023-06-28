@@ -157,13 +157,36 @@ class ChatDatabase {
   }
 
   //creating reasons table
-  Future<void> reasons(String userId, String groupId, String reason) async {
+  Future<void> reasons(
+      String userId, String groupId, String reason, String userName) async {
     await reasonsCollection.add({
       "userId": userId,
       "groupId": groupId,
       "reason": reason,
-      "status": "NotApproved"
+      "status": "NotApproved",
+      "userName": userName
     });
+  }
+
+  Future<List<Map<String, dynamic>>> retrieveDataByGroupId(
+      String groupId) async {
+    List<Map<String, dynamic>> results = [];
+
+    try {
+      QuerySnapshot querySnapshot =
+          await reasonsCollection.where('groupId', isEqualTo: groupId).get();
+
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> data =
+            doc.data() as Map<String, dynamic>; // Explicit cast
+        results.add(data);
+      });
+    } catch (e) {
+      // Handle error
+      print('Error retrieving data: $e');
+    }
+
+    return results;
   }
 
   // creating a group

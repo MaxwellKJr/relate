@@ -131,6 +131,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   builder: (context) => GroupJoinedChatInfor(
                       groupId: widget.groupId,
                       groupName: widget.groupName,
+                      userName: widget.userName,
                       admin: widget.admin,
                       purpose: widget.purpose,
                       rules: widget.rules,

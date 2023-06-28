@@ -193,7 +193,6 @@ class _CommunitiesState extends State<Communities>
             String purpose = myGroups[index].get('purpose');
             String admin = myGroups[index].get('admin');
             String description = myGroups[index].get('description');
-
             String rules = myGroups[index].get('rules');
 
             return GroupCards(

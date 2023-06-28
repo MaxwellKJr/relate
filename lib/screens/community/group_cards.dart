@@ -60,9 +60,10 @@ class _GroupCardsState extends State<GroupCards> {
             widget.groupName,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: Text(
+          subtitle: const Text(
             "Join the conversation as ",
-            style: const TextStyle(fontSize: 13),
+            // widget.userName,
+            style: TextStyle(fontSize: 13),
           ),
         ),
       ),

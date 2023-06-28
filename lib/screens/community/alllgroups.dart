@@ -121,12 +121,12 @@ class _AllGroupsState extends State<AllGroups> {
           context,
           MaterialPageRoute(
             builder: (context) => TrialPage(
-              groupId: groupId,
-              groupName: groupName,
-              purpose: purpose,
-              description: description,
-              rules: rules,
-            ),
+                groupId: groupId,
+                groupName: groupName,
+                purpose: purpose,
+                description: description,
+                rules: rules,
+                userName: userName),
           ),
         );
       },

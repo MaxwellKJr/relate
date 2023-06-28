@@ -11,14 +11,16 @@ class Reason extends StatefulWidget {
   final String purpose;
   final String description;
   final String rules;
-  const Reason({
-    Key? key,
-    required this.groupId,
-    required this.groupName,
-    required this.purpose,
-    required this.description,
-    required this.rules,
-  }) : super(key: key);
+  final String userName;
+  const Reason(
+      {Key? key,
+      required this.groupId,
+      required this.groupName,
+      required this.purpose,
+      required this.description,
+      required this.rules,
+      required this.userName})
+      : super(key: key);
 
   @override
   State<Reason> createState() => _ReasonState();
@@ -31,12 +33,13 @@ class _ReasonState extends State<Reason> {
   ChatDatabase firebaseReasons = ChatDatabase();
 
   void _submitReason() {
+    String userName = widget.userName;
     String reason = reasonController.text;
     String userId = uid; // Replace 'user_id' with the actual user ID
     String groupId =
         widget.groupId; // Replace 'group_id' with the actual group ID
 
-    firebaseReasons.reasons(userId, groupId, reason);
+    firebaseReasons.reasons(userId, groupId, reason, userName);
 
     // Display a SnackBar
     ScaffoldMessenger.of(context).showSnackBar(

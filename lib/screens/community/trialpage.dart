@@ -10,6 +10,7 @@ class TrialPage extends StatefulWidget {
   final String purpose;
   final String description;
   final String rules;
+  final String userName;
 
   const TrialPage({
     Key? key,
@@ -18,6 +19,7 @@ class TrialPage extends StatefulWidget {
     required this.purpose,
     required this.description,
     required this.rules,
+    required this.userName,
   }) : super(key: key);
 
   @override
@@ -120,12 +122,12 @@ class _TrialPageState extends State<TrialPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Reason(
-                        groupId: widget.groupId,
-                        groupName: widget.groupName,
-                        purpose: widget.purpose,
-                        description: widget.description,
-                        rules: widget.rules,
-                      ),
+                          groupId: widget.groupId,
+                          groupName: widget.groupName,
+                          purpose: widget.purpose,
+                          description: widget.description,
+                          rules: widget.rules,
+                          userName: widget.userName),
                     ),
                   );
                 },
