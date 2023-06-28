@@ -100,10 +100,39 @@ class PostTile extends StatelessWidget {
               ),
               TextButton(
                 child: const Text('Yes, report'),
-                onPressed: () {
-                  // Implement report functionality here
-                  // Report the post associated with post.uid
+                onPressed: () async {
+                  // Get the current post document reference
+                  final postRef = FirebaseFirestore.instance
+                      .collection('posts')
+                      .doc(postId);
+
+                  // Add the current user's ID to the reports field array
+                  await postRef.update({
+                    'reports': FieldValue.arrayUnion([currentUser]),
+                  }).then((value) => {
+                        Fluttertoast.showToast(
+                            msg: "Thank you for reporting.",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: primaryColor,
+                            textColor: whiteColor,
+                            fontSize: 16.0),
+                      });
+
                   Navigator.of(context).pop();
+
+                  // Get the updated post document snapshot
+                  final postSnapshot = await postRef.get();
+
+                  // Get the reports count from the updated post document
+                  final reportsCount =
+                      postSnapshot.data()?['reports']?.length ?? 0;
+
+                  if (reportsCount > 5) {
+                    // Delete the post if there are more than 0 reports
+                    await postRef.delete();
+                  }
                 },
               ),
             ],
