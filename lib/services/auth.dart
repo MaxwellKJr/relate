@@ -251,11 +251,8 @@ class Auth {
 
     if (userDoc.exists) {
       userName = userDoc.data()!['userName'];
-      print(userName);
     } else if (professionalDoc.exists) {
       userName = professionalDoc.data()!['userName'];
-      final isVerified = professionalDoc.data()!['isVerified'];
-      print(userName);
     }
   }
 

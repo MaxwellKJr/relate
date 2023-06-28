@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
-import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/screens/community/communities_screen.dart';
-import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
-import 'package:relate/screens/profile/profile_screen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
+import 'package:relate/screens/community/search_and_join _screen.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -28,9 +26,38 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     const WellnessCentresScreen(),
   ];
 
+  final screenTitle = ["Home", "Communities", "Messages", "Discover"];
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
+        appBar: AppBar(
+          title: Text(screenTitle[currentPageIndex],
+              style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
+          actions: currentPageIndex == 1
+              ? [
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+
+                                    // Navigator.of(context).push(
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             SearchAndJoin()));
+                    },
+                  ),
+                ]
+              : null,
+          // bottom:
+          backgroundColor: theme.brightness == Brightness.dark
+              ? Colors.black12 // set color for dark theme
+              : Colors.white24, // set color for light theme
+          bottomOpacity: 0,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: primaryColor),
+        ),
         body: screens[currentPageIndex],
         drawer: const DrawerMain(),
         bottomNavigationBar: NavigationBar(

@@ -40,10 +40,10 @@ class _DrawerMainState extends State<DrawerMain> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Relate",
-                    style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                        color: primaryColor)),
+                    style: GoogleFonts.alexBrush(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w500,
+                        color: primaryAccent)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

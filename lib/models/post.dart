@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Post {
-  final String? postedBy;
-  final String? text;
-  final String? timestamp;
-  final String? uid;
+  final String postId, text, focus, image, postedBy, uid, timestamp;
 
   const Post(
-      {required this.postedBy,
+      {required this.postId,
       required this.text,
-      required this.timestamp,
-      required this.uid});
+      required this.focus,
+      required this.image,
+      required this.postedBy,
+      required this.uid,
+      required this.timestamp});
 
-  Map<String, dynamic> toJson() =>
-      {"postedBy": postedBy, "text": text, "timestamp": timestamp, "uid": uid};
+  // Map<String, dynamic> toJson() =>
+  //     {"postedBy": postedBy, "text": text, "timestamp": timestamp, "uid": uid};
 }
