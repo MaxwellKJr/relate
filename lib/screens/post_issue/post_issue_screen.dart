@@ -20,10 +20,10 @@ class PostIssueScreen extends StatefulWidget {
 class _PostIssueScreenState extends State<PostIssueScreen> {
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  // final String focus = 'General';
   bool isEmpty = false;
 
   final _focusController = TextEditingController();
+  String focus = '';
 
   String imageUrl = '';
 
@@ -49,11 +49,11 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
     final text = _postTextController.text;
     final currentTime = DateTime.now();
 
-    final focus = _focusController.text;
+    focus = _focusController.text;
 
-    // if (focus == '') {
-    //   focus = "general";
-    // }
+    if (focus == "") {
+      focus = "General";
+    }
 
     final post = {
       'text': text,
@@ -78,7 +78,6 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                     backgroundColor: primaryColor,
                     textColor: whiteColor,
                     fontSize: 16.0),
-                // if (Vibration.hasVibrator()) {Vibration.vibrate()}
               });
       Navigator.pop(context);
     }
@@ -117,7 +116,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                     sendPost();
                   }
                 },
-                child: const Text("Share Issue"),
+                child: const Text("Post"),
               )
             ],
           ),

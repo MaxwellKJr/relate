@@ -292,3 +292,63 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
     );
   }
 }
+
+// class GroupDescriptionPage extends StatefulWidget {
+//   @override
+//   _GroupDescriptionPageState createState() => _GroupDescriptionPageState();
+// }
+
+// class _GroupDescriptionPageState extends State<GroupDescriptionPage> {
+//   String groupName = 'Flutter Group';
+//   String description =
+//       'This is a Flutter group for discussing Flutter development and related topics.';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Group Description'),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.all(16.0),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               ListTile(
+//                 leading: CircleAvatar(
+//                   backgroundImage: AssetImage('assets/images/placeholderr.jpg'),
+//                 ),
+//                 title: Text(
+//                   groupName,
+//                   style: TextStyle(
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 subtitle: Text(
+//                   '4 members',
+//                   style: TextStyle(fontSize: 16),
+//                 ),
+//               ),
+//               SizedBox(height: 16),
+//               Text(
+//                 'Description',
+//                 style: TextStyle(
+//                   fontSize: 18,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//               SizedBox(height: 8),
+//               Text(
+//                 description,
+//                 style: TextStyle(fontSize: 16),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
