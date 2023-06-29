@@ -43,7 +43,7 @@ class _DrawerMainState extends State<DrawerMain> {
                     style: GoogleFonts.alexBrush(
                         fontSize: 40,
                         fontWeight: FontWeight.w500,
-                        color: primaryAccent)),
+                        color: primaryColor)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

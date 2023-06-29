@@ -35,136 +35,140 @@ class _ViewPostState extends State<ViewPost> {
     return Scaffold(
         appBar: AppBar(title: const Text("Post")),
         body: GestureDetector(
-            onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-            },
-            child: SafeArea(
-                child: Padding(
-                    padding: const EdgeInsets.all(layoutPadding),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.postedBy,
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      const Icon(
-                                        Icons.circle_rounded,
-                                        color: Colors.grey,
-                                        size: 6,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        widget.focus,
-                                        style: GoogleFonts.poppins(
-                                            color: primaryColor,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w800),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    widget.formattedDateTime,
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 12, color: primaryColor),
-                                  ),
-                                  const SizedBox(height: elementSpacing),
-                                  Text(
-                                    widget.text,
-                                    style: GoogleFonts.poppins(fontSize: 14),
-                                  ),
-                                  if (widget.image != '')
-                                    Container(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                          child: Image.network(
-                                            widget.image,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ))
-                                  else
-                                    // Container(),
-                                    PostBottomIcons(
-                                      postId: postId,
-                                      relates: const [],
+          onTap: () {
+            FocusScopeNode currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus) {
+              currentFocus.unfocus();
+            }
+          },
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(layoutPadding),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      widget.postedBy,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w800),
                                     ),
-                                  CommentsSection(postId: postId),
-                                ],
-                              ),
-                              Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Form(
-                                      key: _formKey,
-                                      child: Row(
-                                        children: [
-                                          Flexible(
-                                            child: Container(
-                                                padding: const EdgeInsets.only(
-                                                    top: layoutPadding),
-                                                child: TextFormField(
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'Comment cannot be blank';
-                                                      }
-                                                      return null;
-                                                    },
-                                                    controller:
-                                                        _postTextController,
-                                                    decoration: InputDecoration(
-                                                        contentPadding:
-                                                            const EdgeInsets
-                                                                .all(5),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  borderRadius),
-                                                        ),
-                                                        hintText: "Comment"))),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                postService.submitComment(
-                                                    context,
-                                                    _postTextController,
-                                                    widget.postId);
-                                              }
-                                            },
-                                            icon: const Icon(
-                                              Icons.send_sharp,
-                                              color: primaryColor,
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    const Icon(
+                                      Icons.circle_rounded,
+                                      color: Colors.grey,
+                                      size: 6,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      widget.focus,
+                                      style: GoogleFonts.poppins(
+                                          color: primaryColor,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  widget.formattedDateTime,
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12, color: primaryColor),
+                                ),
+                                const SizedBox(height: elementSpacing),
+                                Text(
+                                  widget.text,
+                                  style: GoogleFonts.poppins(fontSize: 14),
+                                ),
+                                if (widget.image != '')
+                                  Container(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        child: Image.network(
+                                          widget.image,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ))
+                                else
+                                  // Container(),
+                                  PostBottomIcons(
+                                    postId: postId,
+                                    relates: const [],
+                                  ),
+                                CommentsSection(postId: postId),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.background,
+                      ),
+                      child: Form(
+                          key: _formKey,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                child: Container(
+                                    padding: const EdgeInsets.only(top: 0),
+                                    child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Comment cannot be blank';
+                                          }
+                                          return null;
+                                        },
+                                        controller: _postTextController,
+                                        decoration: const InputDecoration(
+                                            contentPadding: EdgeInsets.all(15),
+                                            border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.zero,
                                             ),
-                                          )
-                                        ],
-                                      )))
+                                            hintText: "Comment"))),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    postService.submitComment(context,
+                                        _postTextController, widget.postId);
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                                icon: const Icon(
+                                  Icons.send_sharp,
+                                  color: primaryColor,
+                                ),
+                              )
                             ],
-                          ),
-                        )
-                      ],
-                    )))));
+                          ))),
+                )
+              ],
+            ),
+          ),
+        ));
   }
 }
