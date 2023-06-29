@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:relate/screens/about_relate/about_relate_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
 import 'package:relate/view_models/post_view_model.dart';
@@ -66,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
           colorSchemeSeed: primaryColor),
       themeMode: ThemeMode.system,
-      home: isLoggedIn ? const HomeScreen() : const WelcomeScreen(),
+      home: isLoggedIn ? SettingsScreen() : const WelcomeScreen(),
     );
   }
 }
