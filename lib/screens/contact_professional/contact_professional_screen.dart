@@ -3,11 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/screens/contact_professional/view_professionals_screen.dart';
 
 class ContactProfessionalScreen extends StatelessWidget {
+  const ContactProfessionalScreen({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact Professionals'),
+        title: const Text('Contact Professionals'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -16,25 +20,26 @@ class ContactProfessionalScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No verified professionals found.'));
+            return const Center(
+                child: Text('No verified professionals found.'));
           }
 
           final professionals = snapshot.data!.docs;
 
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 8.0,
               mainAxisSpacing: 8.0,
             ),
             itemCount: professionals.length,
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             itemBuilder: (context, index) {
               final professional = professionals[index];
               final userName = professional['userName'] as String;
@@ -58,19 +63,19 @@ class ContactProfessionalScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           userName,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8.0),
-                        Text(
+                        const SizedBox(height: 8.0),
+                        const Text(
                           'Verified',
                           style: TextStyle(
                             fontSize: 14.0,

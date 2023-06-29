@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:relate/components/post/post_tile.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MotivationPostsBody extends StatefulWidget {
   const MotivationPostsBody({super.key});
@@ -48,20 +49,21 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
 
                 //Format date
                 final dateTime = timestamp.toDate();
+                final daysAgo = timeago.format(dateTime);
                 final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
                 final formattedTime = DateFormat.Hm().format(dateTime);
                 final formattedDateTime = "$formattedDate @ $formattedTime";
 
-                return
-                  PostTile(
-                      post: post,
-                      postId: postId,
-                      text: text,
-                      image: image,
-                      focus: focus,
-                      postedBy: postedBy,
-                      uid: uid,
-                      formattedDateTime: formattedDateTime);
+                return PostTile(
+                    post: post,
+                    postId: postId,
+                    text: text,
+                    image: image,
+                    focus: focus,
+                    postedBy: postedBy,
+                    uid: uid,
+                    daysAgo: daysAgo,
+                    formattedDateTime: formattedDateTime);
               });
         }
       },

@@ -63,6 +63,7 @@ dependencies:
   flutter_sound: ^9.2.13
   connectivity_plus: ^4.0.1
   webview_flutter: ^4.2.2
+  timeago: ^3.3.0
 
 dev_dependencies:
   flutter_test:

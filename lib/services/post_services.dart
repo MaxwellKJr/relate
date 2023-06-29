@@ -62,11 +62,10 @@ class PostServices {
               textColor: Colors.white,
               fontSize: 16.0));
       postTextController.clear();
-      postTextController.unfocus();
+      // postTextController.unfocus();
       // }
     } on FirebaseFirestore catch (error) {
       print(error);
     }
   }
-
 }

@@ -26,7 +26,7 @@ class DrawerTilesViewModel {
         Icons.send_sharp,
       ),
       'title': tContactAProfessional,
-      'destination': const ContactProfessionalScreen()
+      'destination': ContactProfessionalScreen()
     },
     {
       'leading': const Icon(

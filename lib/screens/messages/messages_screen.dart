@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 import '../contact_professional/contact_professional_screen.dart';
 
 class MessagesScreen extends StatelessWidget {
-   final String uid;
+  final String uid;
   // final String professionalId;
 
   const MessagesScreen({
+    super.key,
     required this.uid,
     // required this.professionalId
   });
@@ -15,9 +18,6 @@ class MessagesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Messages'),
-      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('conversation1')
@@ -25,13 +25,13 @@ class MessagesScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No conversations found.'));
+            return const Center(child: Text('No conversations found.'));
           }
 
           final conversations = snapshot.data!.docs;
@@ -40,21 +40,29 @@ class MessagesScreen extends StatelessWidget {
             itemCount: conversations.length,
             itemBuilder: (context, index) {
               final conversation = conversations[index];
-              final participants = conversation['participants'] as List<dynamic>;
-              final professionalId = participants.firstWhere((id) => id != uid) as String;
+              final participants =
+                  conversation['participants'] as List<dynamic>;
+              final professionalId =
+                  participants.firstWhere((id) => id != uid) as String;
 
               return ListTile(
                 title: FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance.collection('professionals').doc(professionalId).get(),
+                  future: FirebaseFirestore.instance
+                      .collection('professionals')
+                      .doc(professionalId)
+                      .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text('Loading...');
+                      return const Text('Loading...');
                     }
-                    if (snapshot.hasError || !snapshot.hasData || snapshot.data!.data() == null) {
-                      return Text('Professional not found');
+                    if (snapshot.hasError ||
+                        !snapshot.hasData ||
+                        snapshot.data!.data() == null) {
+                      return const Text('Professional not found');
                     }
 
-                    final professionalData = snapshot.data!.data() as Map<String, dynamic>;
+                    final professionalData =
+                        snapshot.data!.data() as Map<String, dynamic>;
                     final userName = professionalData['userName'] as String;
 
                     return Text(userName);
@@ -64,8 +72,9 @@ class MessagesScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MessageDetailScreen(
-                        userName: '', professionallId: 'professionallId',
+                      builder: (context) => const MessageDetailScreen(
+                        userName: '',
+                        professionallId: 'professionallId',
                       ),
                     ),
                   );
@@ -78,13 +87,19 @@ class MessagesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ContactProfessionalScreen(),
-            ),
-          );
+              context,
+              PageTransition(
+                type: PageTransitionType.rightToLeft,
+                duration: const Duration(milliseconds: 400),
+                child: const ContactProfessionalScreen(),
+              ));
         },
-        child: Icon(Icons.add),
+        backgroundColor: primaryColor,
+        elevation: 3,
+        child: const Icon(
+          Icons.message_rounded,
+          color: whiteColor,
+        ),
       ),
     );
   }
