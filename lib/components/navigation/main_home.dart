@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
@@ -8,6 +10,7 @@ import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/screens/community/search_and_join _screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -19,18 +22,22 @@ class MainHomeScreen extends StatefulWidget {
 class _MainHomeScreenState extends State<MainHomeScreen> {
   int currentPageIndex = 0;
 
-  final screens = [
-    const HomeScreen(),
-    const Communities(),
-    const MessagesScreen(),
-    const WellnessCentresScreen(),
-  ];
-
-  final screenTitle = ["Home", "Communities", "Messages", "Discover"];
+  final uid = FirebaseAuth.instance.currentUser?.uid.toString();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    final screens = [
+      const HomeScreen(),
+      const Communities(),
+      MessagesScreen(
+        uid: uid.toString(),
+      ),
+      const WellnessCentresScreen(),
+    ];
+
+    final screenTitle = ["Home", "Communities", "Messages", "Discover"];
 
     return Scaffold(
         appBar: AppBar(
@@ -41,11 +48,10 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.search),
                     onPressed: () {
-
-                                    // Navigator.of(context).push(
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             SearchAndJoin()));
+                      // Navigator.of(context).push(
+                      //     MaterialPageRoute(
+                      //         builder: (context) =>
+                      //             SearchAndJoin()));
                     },
                   ),
                 ]

@@ -2,11 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:relate/components/post/post_tile.dart';
-import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/size_values.dart';
-import 'package:relate/screens/post_issue/view_post_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:relate/components/post/post_bottom_icons.dart';
 
 class DepressionPostsBody extends StatefulWidget {
   const DepressionPostsBody({super.key});
@@ -63,16 +58,15 @@ class _DepressionPostsBodyState extends State<DepressionPostsBody> {
                 final formattedTime = DateFormat.Hm().format(dateTime);
                 final formattedDateTime = "$formattedDate @ $formattedTime";
 
-                return
-                  PostTile(
-                      post: post,
-                      postId: postId,
-                      text: text,
-                      image: image,
-                      focus: focus,
-                      postedBy: postedBy,
-                      uid: uid,
-                      formattedDateTime: formattedDateTime);
+                return PostTile(
+                    post: post,
+                    postId: postId,
+                    text: text,
+                    image: image,
+                    focus: focus,
+                    postedBy: postedBy,
+                    uid: uid,
+                    formattedDateTime: formattedDateTime);
               });
         }
       },

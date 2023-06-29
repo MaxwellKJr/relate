@@ -20,26 +20,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
-          body: const Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: TabBar(isScrollable: true, tabs: [
-                  Tab(text: "General"),
-                  Tab(text: "Depression"),
-                  Tab(text: "Addiction"),
-                  Tab(text: "Motivation"),
-                ]),
-              ),
-              Expanded(
-                child: TabBarView(children: [
-                  HomeScreenBody(),
-                  DepressionPostsBody(),
-                  AddictionPostsBody(),
-                  MotivationPostsBody()
-                ]),
-              ),
-            ],
+          body: SafeArea(
+            child: const Column(
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: TabBar(isScrollable: true, tabs: [
+                    Tab(text: "General"),
+                    Tab(text: "Depression"),
+                    Tab(text: "Addiction"),
+                    Tab(text: "Motivation"),
+                  ]),
+                ),
+                Expanded(
+                  child: TabBarView(children: [
+                    HomeScreenBody(),
+                    DepressionPostsBody(),
+                    AddictionPostsBody(),
+                    MotivationPostsBody()
+                  ]),
+                ),
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

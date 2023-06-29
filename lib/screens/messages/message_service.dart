@@ -18,7 +18,8 @@ class MessageService extends ChangeNotifier {
       time: 'timestamp',
       text: message,
       uid: receiverId,
-      receiverUserName: '', receiverId: uid, // Replace with the actual receiver's username
+      receiverUserName: '',
+      receiverId: uid, // Replace with the actual receiver's username
     );
 
     List<String> ids = [currentUserId, receiverId];
