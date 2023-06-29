@@ -19,10 +19,7 @@ class _WebviewForWellnessCentresState extends State<WebviewForWellnessCentres> {
       // ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-            // Update loading bar.
-            // return CircularProgressIndicator();
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
@@ -34,7 +31,7 @@ class _WebviewForWellnessCentresState extends State<WebviewForWellnessCentres> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('${widget.website}'));
+      ..loadRequest(Uri.parse(widget.website));
 
     return Scaffold(
       appBar: AppBar(
