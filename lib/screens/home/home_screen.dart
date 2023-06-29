@@ -20,20 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
-          //   appBar:
-          // AppBar(
-          //     title: Text(tRelate,
-          //         style: GoogleFonts.alexBrush(
-          //             fontWeight: FontWeight.w500, fontSize: 32)),
-          //     // bottom:
-          //     backgroundColor: theme.brightness == Brightness.dark
-          //         ? Colors.black12 // set color for dark theme
-          //         : Colors.white24, // set color for light theme
-          //     bottomOpacity: 0,
-          //     elevation: 0,
-          //     iconTheme: const IconThemeData(color: primaryColor),
-          //   ),
-          //   drawer: const DrawerMain(),
           body: const Column(
             children: [
               SingleChildScrollView(
