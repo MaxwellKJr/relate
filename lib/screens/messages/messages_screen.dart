@@ -4,10 +4,13 @@ import 'package:relate/screens/messages/message_detail_screen.dart';
 import '../contact_professional/contact_professional_screen.dart';
 
 class MessagesScreen extends StatelessWidget {
-  final String uid;
-  final String professionalId;
+   final String uid;
+  // final String professionalId;
 
-  const MessagesScreen({required this.uid, required this.professionalId});
+  const MessagesScreen({
+    required this.uid,
+    // required this.professionalId
+  });
 
   @override
   Widget build(BuildContext context) {
