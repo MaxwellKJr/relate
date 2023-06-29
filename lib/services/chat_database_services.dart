@@ -10,6 +10,9 @@ class ChatDatabase {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
 
+  final CollectionReference professionalCollection =
+      FirebaseFirestore.instance.collection("professionals");
+
   final CollectionReference groupCollection =
       FirebaseFirestore.instance.collection("groups");
 

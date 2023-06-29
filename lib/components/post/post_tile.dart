@@ -195,6 +195,20 @@ class PostTile extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors
+                                          .grey, // Customize the background color
+                                      child: Text(
+                                        postedBy.substring(0,
+                                            1), // Get the first character of the userName
+                                        style: TextStyle(
+                                            color: Colors
+                                                .white), // Customize the text color
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
                                     Text(
                                       postedBy,
                                       style: GoogleFonts.poppins(

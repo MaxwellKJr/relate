@@ -20,6 +20,14 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+  String userName = "";
+  String email = "";
+  String groupName = "";
+  String groupId = "";
+  String purpose = "";
+  String description = "";
+  String rules = "";
+
   int currentPageIndex = 0;
 
   final uid = FirebaseAuth.instance.currentUser?.uid.toString();
@@ -43,19 +51,17 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
               style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-          actions: currentPageIndex == 1
-              ? [
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      // Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             SearchAndJoin()));
-                    },
-                  ),
-                ]
-              : null,
+          // actions: currentPageIndex == 1
+          //     ? [
+          //         IconButton(
+          //           icon: const Icon(Icons.search),
+          //           onPressed: () {
+          //             Navigator.of(context).push(MaterialPageRoute(
+          //                 builder: (context) => SearchAndJoin()));
+          //           },
+          //         ),
+          //       ]
+          //     : null,
           // bottom:
           backgroundColor: theme.brightness == Brightness.dark
               ? Colors.black12 // set color for dark theme

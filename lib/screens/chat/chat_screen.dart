@@ -47,7 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<String> bannedKeywords = [
     'fuck',
     'ass',
-    'keyword3',
+    'keyword',
   ];
   // Future<void> fetchBannedKeywords() async {
   //   final snapshot = await FirebaseFirestore.instance
