@@ -30,6 +30,7 @@ class ViewProfessionalDetailsScreen extends StatelessWidget {
 
           final professionalData = snapshot.data!.data() as Map<String, dynamic>;
           final userName = professionalData['userName'] as String;
+          final professionallId = professionalData['uid'] as String;
           final email = professionalData['email'] as String;
           final phoneNumber = professionalData['phoneNumber'] as String;
           final specializedIn = professionalData['specializedIn'] as List<dynamic>;
@@ -49,6 +50,8 @@ class ViewProfessionalDetailsScreen extends StatelessWidget {
                 SizedBox(height: 16.0),
                 Text('Email: $email'),
                 SizedBox(height: 16.0),
+                Text('uid: $professionallId'),
+                SizedBox(height: 16.0),
                 Text('Phone Number: $phoneNumber'),
                 SizedBox(height: 16.0),
                 Text('Specialized In: ${specializedIn.join(", ")}'),
@@ -59,8 +62,8 @@ class ViewProfessionalDetailsScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => MessageDetailScreen(
-                          userName: 'userName',
-                          receiverId: 'receiverId',
+                          userName: userName,
+                          professionallId: professionalId,
 
                         ),
                       ),

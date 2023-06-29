@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/models/message_model.dart';
 
 class MessageService extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  get uid => null;
 
   Future<void> sendMessage(String receiverId, String message) async {
     final String currentUserId = _firebaseAuth.currentUser!.uid;
@@ -15,9 +16,9 @@ class MessageService extends ChangeNotifier {
     Message newMessage = Message(
       senderId: currentUserId,
       time: 'timestamp',
-      text: 'message',
-      uid: 'receiverId',
-      receiverUserName: 'userName', // Replace with the actual receiver's username
+      text: message,
+      uid: receiverId,
+      receiverUserName: '', receiverId: uid, // Replace with the actual receiver's username
     );
 
     List<String> ids = [currentUserId, receiverId];
@@ -27,7 +28,7 @@ class MessageService extends ChangeNotifier {
     await _firestore
         .collection('chat_rooms')
         .doc(chatRoomId)
-        .collection('messagez')
+        .collection('messages')
         .add(newMessage.toMap());
   }
 
@@ -39,8 +40,8 @@ class MessageService extends ChangeNotifier {
     return _firestore
         .collection('chat_rooms')
         .doc(chatRoomId)
-        .collection('messagez')
-        .orderBy('timestamp', descending: false)
+        .collection('messages')
+        .orderBy('time', descending: false)
         .snapshots();
   }
 }

@@ -15,7 +15,7 @@ class Message {
     required this.uid,
     required this.receiverUserName,
     required this.time,
-    required this.text,
+    required this.text, required receiverId,
   });
 
   Map<String, dynamic> toMap() {

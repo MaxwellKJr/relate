@@ -62,8 +62,7 @@ class MessagesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => MessageDetailScreen(
-                        userName: '',
-                        receiverId: '',
+                        userName: '', professionallId: 'professionallId',
                       ),
                     ),
                   );
