@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:relate/components/post/comments_section.dart';
-import 'package:relate/components/post/post_bottom_icons.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
+import 'package:relate/screens/wellness_centres/webview_for_wellness_centres.dart';
 import 'package:relate/services/post_services.dart';
 
 class ViewWellnessCentreScreen extends StatefulWidget {
@@ -27,12 +27,10 @@ class ViewWellnessCentreScreen extends StatefulWidget {
 class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
   final PostServices postService = PostServices();
 
-  final _postTextController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final postId = widget.postId;
+    final website = widget.website;
 
     return Scaffold(
         appBar: AppBar(title: Text(widget.name)),
@@ -47,18 +45,19 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                 child: Padding(
                     padding: const EdgeInsets.all(layoutPadding),
                     child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Expanded(
                           child: ListView(
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -67,13 +66,58 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
                                       ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Icon(Icons.location_on),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            widget.address,
+                                            style: GoogleFonts.poppins(
+                                                color: primaryColor),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          FilledButton.icon(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .rightToLeft,
+                                                      duration: const Duration(
+                                                          milliseconds: 400),
+                                                      child:
+                                                          WebviewForWellnessCentres(
+                                                              website: website),
+                                                    ));
+                                              },
+                                              icon: const Icon(Icons.launch),
+                                              label:
+                                                  const Text("Visit Website"))
+                                        ],
+                                      )
                                     ],
                                   ),
-
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     "Background",
-                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                   Text(
                                     widget.background,
@@ -84,7 +128,9 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     "Services",
-                                    style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w700),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700),
                                   ),
                                   Text(
                                     widget.services,
@@ -107,7 +153,6 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                   //   //   postId: postId,
                                   //   //   relates: const [],
                                   //   // ),
-                                  CommentsSection(postId: postId),
                                 ],
                               ),
                             ],

@@ -27,7 +27,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
           child: Text(
             "Wellness Centres",
             style:
-                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w800),
+                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
@@ -87,7 +87,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                           )));
                                             },
                                             child: SizedBox(
-                                                width: 350,
+                                                width: 300,
                                                 child: Card(
                                                   elevation: 10,
                                                   shape:
@@ -98,15 +98,6 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                                       .circular(
                                                                           10))),
                                                   child: Container(
-                                                    // decoration:
-                                                    //     const BoxDecoration(
-                                                    //   border: Border(
-                                                    //     bottom: BorderSide(
-                                                    //       color: Colors.teal,
-                                                    //       width: 1.0,
-                                                    //     ),
-                                                    //   ),
-                                                    // ),
                                                     padding:
                                                         const EdgeInsets.only(
                                                       top: layoutPadding + 5,
@@ -127,17 +118,20 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                               MainAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Text(
-                                                              name,
-                                                              maxLines: 3,
-                                                              textWidthBasis:
-                                                                  TextWidthBasis
-                                                                      .parent,
-                                                              style: GoogleFonts.poppins(
-                                                                  fontSize: 17,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w800),
+                                                            Flexible(
+                                                              child: Text(
+                                                                name,
+                                                                maxLines: 3,
+                                                                textWidthBasis:
+                                                                    TextWidthBasis
+                                                                        .parent,
+                                                                style: GoogleFonts.poppins(
+                                                                    fontSize:
+                                                                        17,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w800),
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
