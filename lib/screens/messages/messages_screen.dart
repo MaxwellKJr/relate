@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 import '../contact_professional/contact_professional_screen.dart';
 
@@ -23,13 +25,13 @@ class MessagesScreen extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No conversations found.'));
+            return const Center(child: Text('No conversations found.'));
           }
 
           final conversations = snapshot.data!.docs;
@@ -51,12 +53,12 @@ class MessagesScreen extends StatelessWidget {
                       .get(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Text('Loading...');
+                      return const Text('Loading...');
                     }
                     if (snapshot.hasError ||
                         !snapshot.hasData ||
                         snapshot.data!.data() == null) {
-                      return Text('Professional not found');
+                      return const Text('Professional not found');
                     }
 
                     final professionalData =
@@ -70,7 +72,7 @@ class MessagesScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MessageDetailScreen(
+                      builder: (context) => const MessageDetailScreen(
                         userName: '',
                         professionallId: 'professionallId',
                       ),
@@ -85,13 +87,19 @@ class MessagesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ContactProfessionalScreen(),
-            ),
-          );
+              context,
+              PageTransition(
+                type: PageTransitionType.rightToLeft,
+                duration: const Duration(milliseconds: 400),
+                child: const ContactProfessionalScreen(),
+              ));
         },
-        child: Icon(Icons.add),
+        backgroundColor: primaryColor,
+        elevation: 3,
+        child: const Icon(
+          Icons.message_rounded,
+          color: whiteColor,
+        ),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/comments_section.dart';
-import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/services/post_services.dart';
@@ -45,7 +44,7 @@ class _ViewPostState extends State<ViewPost> {
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.all(layoutPadding),
+                  padding: const EdgeInsets.all(layoutPadding),
                   child: Column(
                     children: [
                       Expanded(
@@ -58,36 +57,61 @@ class _ViewPostState extends State<ViewPost> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      widget.postedBy,
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w800),
+                                    CircleAvatar(
+                                      backgroundColor: Colors
+                                          .grey, // Customize the background color
+                                      child: Text(
+                                        widget.postedBy.substring(0,
+                                            1), // Get the first character of the userName
+                                        style: const TextStyle(
+                                            color: Colors
+                                                .white), // Customize the text color
+                                      ),
                                     ),
                                     const SizedBox(
-                                      width: 5,
+                                      width: 10,
                                     ),
-                                    const Icon(
-                                      Icons.circle_rounded,
-                                      color: Colors.grey,
-                                      size: 6,
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      widget.focus,
-                                      style: GoogleFonts.poppins(
-                                          color: primaryColor,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w800),
-                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              widget.postedBy,
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            const Icon(
+                                              Icons.circle_rounded,
+                                              color: Colors.grey,
+                                              size: 6,
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              widget.focus,
+                                              style: GoogleFonts.poppins(
+                                                  color: primaryColor,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                          ],
+                                        ),
+                                        Opacity(
+                                          opacity: 0.8,
+                                          child: Text(
+                                            widget.formattedDateTime,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                   ],
-                                ),
-                                Text(
-                                  widget.formattedDateTime,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12, color: primaryColor),
                                 ),
                                 const SizedBox(height: elementSpacing),
                                 Text(
@@ -106,11 +130,7 @@ class _ViewPostState extends State<ViewPost> {
                                         ),
                                       ))
                                 else
-                                  // Container(),
-                                  PostBottomIcons(
-                                    postId: postId,
-                                    relates: const [],
-                                  ),
+                                  Container(),
                                 CommentsSection(postId: postId),
                               ],
                             ),
@@ -125,6 +145,12 @@ class _ViewPostState extends State<ViewPost> {
                   child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.background,
+                        border: const Border(
+                          top: BorderSide(
+                            color: Colors.teal,
+                            width: 1.0,
+                          ),
+                        ),
                       ),
                       child: Form(
                           key: _formKey,
@@ -135,6 +161,7 @@ class _ViewPostState extends State<ViewPost> {
                               Flexible(
                                 child: Container(
                                     padding: const EdgeInsets.only(top: 0),
+                                    decoration: const BoxDecoration(),
                                     child: TextFormField(
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -145,9 +172,7 @@ class _ViewPostState extends State<ViewPost> {
                                         controller: _postTextController,
                                         decoration: const InputDecoration(
                                             contentPadding: EdgeInsets.all(15),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.zero,
-                                            ),
+                                            border: InputBorder.none,
                                             hintText: "Comment"))),
                               ),
                               IconButton(
