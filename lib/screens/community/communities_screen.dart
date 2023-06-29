@@ -14,12 +14,11 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/group_cards.dart';
 import 'package:relate/screens/community/group_info_card.dart';
 import 'package:relate/screens/community/search_and_join%20_screen.dart';
-// import 'package:relate/screens/community/section_divider.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:relate/services/helper_functions.dart';
-// import 'section_divider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 
 class Communities extends StatefulWidget {
   const Communities({Key? key}) : super(key: key);
@@ -194,7 +193,6 @@ class _CommunitiesState extends State<Communities>
             String purpose = myGroups[index].get('purpose');
             String admin = myGroups[index].get('admin');
             String description = myGroups[index].get('description');
-
             String rules = myGroups[index].get('rules');
 
             return GroupCards(
