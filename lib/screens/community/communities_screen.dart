@@ -189,6 +189,7 @@ class _CommunitiesState extends State<Communities>
           itemCount: myGroups.length,
           itemBuilder: (context, index) {
             String groupId = myGroups[index].id;
+            String imageUrl = myGroups[index].get('imageUrl');
             String groupName = myGroups[index].get('groupName');
             String purpose = myGroups[index].get('purpose');
             String admin = myGroups[index].get('admin');
@@ -197,6 +198,7 @@ class _CommunitiesState extends State<Communities>
 
             return GroupCards(
                 // groupId: myGroups[index].id,
+                imageUrl: imageUrl,
                 groupId: groupId,
                 userName: userName,
                 groupName: groupName,

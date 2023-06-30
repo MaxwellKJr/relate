@@ -194,11 +194,11 @@ class ChatDatabase {
 
   // creating a group
   Future createGroup(String userName, String id, String groupName, String email,
-      String purpose, String rules, String description) async {
+      String purpose, String rules, String description, String imageUrl) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "email": "$email",
-      //add
+      "imageUrl": imageUrl,
       "purpose": purpose,
       "rules": rules,
       "description": description,
@@ -346,8 +346,14 @@ class ChatDatabase {
   // }
 
 //This function is used to search groups
+  // searchGroupName(String groupName) {
+  //   return groupCollection.where("groupName", isEqualTo: groupName).get();
+  // }
   searchGroupName(String groupName) {
-    return groupCollection.where("groupName", isEqualTo: groupName).get();
+    return groupCollection
+        .where("groupName",
+            isEqualTo: groupName.toLowerCase()) // Convert query to lowercase
+        .get();
   }
 
   //check if a user is in a group using boolean //the collect one

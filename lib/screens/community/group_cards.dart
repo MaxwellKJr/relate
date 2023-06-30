@@ -10,8 +10,10 @@ class GroupCards extends StatefulWidget {
   final String rules;
   final String description;
   final String admin;
+  final String imageUrl;
   const GroupCards({
     Key? key,
+    required this.imageUrl,
     required this.admin,
     required this.userName,
     required this.groupName,
@@ -49,11 +51,9 @@ class _GroupCardsState extends State<GroupCards> {
           leading: CircleAvatar(
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
-            child: Text(
-              widget.groupName.substring(0, 1).toUpperCase(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.w500),
+            child: Image.network(
+              widget.imageUrl,
+              fit: BoxFit.cover,
             ),
           ),
           title: Text(
