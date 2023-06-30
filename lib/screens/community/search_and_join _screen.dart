@@ -140,13 +140,31 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
     );
   }
 
+  // initiateSearchMethod() async {
+  //   if (searchController.text.isNotEmpty) {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     await ChatDatabase()
+  //         .searchGroupName(searchController.text)
+  //         .then((snapshot) {
+  //       setState(() {
+  //         searchSnapshot = snapshot;
+  //         isLoading = false;
+  //         hasUserSearched = true;
+  //       });
+  //     });
+  //   }
+  // }
+
   initiateSearchMethod() async {
     if (searchController.text.isNotEmpty) {
       setState(() {
         isLoading = true;
       });
       await ChatDatabase()
-          .searchGroupName(searchController.text)
+          .searchGroupName(
+              searchController.text.toLowerCase()) // Convert input to lowercase
           .then((snapshot) {
         setState(() {
           searchSnapshot = snapshot;
