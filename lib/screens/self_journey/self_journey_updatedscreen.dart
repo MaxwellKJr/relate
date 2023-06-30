@@ -12,10 +12,9 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Self Journey',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            '',
+            style: TextStyle(fontSize: 2, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Colors.white,
           bottom: TabBar(
             tabs: [
               Tab(text: 'My Plans'),
@@ -27,10 +26,12 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
           children: [
             // My Plans Tab
             Container(
-              child: Text('My Plans Tab Content'),
+              padding: EdgeInsets.all(20),
+              child: Text('My plans'),
             ),
             // Other Plans Tab
             Container(
+              padding: EdgeInsets.all(20),
               child: ListView(
                 children: [
                   PlanSection(
