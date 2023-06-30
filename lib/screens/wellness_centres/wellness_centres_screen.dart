@@ -16,6 +16,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(title: Text("Discover")),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Column(
@@ -92,81 +93,84 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                   elevation: 10,
                                                   shape:
                                                       const RoundedRectangleBorder(
+
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius
                                                                       .circular(
                                                                           10))),
-                                                  child: Container(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                      top: layoutPadding + 5,
-                                                      bottom: layoutPadding + 5,
-                                                      left: layoutPadding,
-                                                      right: layoutPadding,
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        Row(
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          top:
+                                                              layoutPadding + 5,
+                                                          bottom:
+                                                              layoutPadding + 5,
+                                                          left: layoutPadding,
+                                                          right: layoutPadding,
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .start,
+                                                                  .spaceEvenly,
                                                           children: [
-                                                            Flexible(
-                                                              child: Text(
-                                                                name,
-                                                                maxLines: 3,
-                                                                textWidthBasis:
-                                                                    TextWidthBasis
-                                                                        .parent,
-                                                                style: GoogleFonts.poppins(
-                                                                    fontSize:
-                                                                        17,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w800),
-                                                              ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Flexible(
+                                                                  child: Text(
+                                                                    name,
+                                                                    maxLines: 3,
+                                                                    textWidthBasis:
+                                                                        TextWidthBasis
+                                                                            .parent,
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontSize:
+                                                                            17,
+                                                                        fontWeight:
+                                                                            FontWeight.w800),
+                                                                  ),
+                                                                ),
+                                                              ],
                                                             ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Text(
+                                                              address,
+                                                              softWrap: true,
+                                                              style: GoogleFonts
+                                                                  .roboto(
+                                                                      color:
+                                                                          primaryColor,
+                                                                      fontSize:
+                                                                          14.5),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
+                                                            Text(
+                                                              criteria,
+                                                              softWrap: true,
+                                                              maxLines: 4,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 10),
                                                           ],
                                                         ),
-                                                        const SizedBox(
-                                                            height: 10),
-                                                        Text(
-                                                          address,
-                                                          softWrap: true,
-                                                          style: GoogleFonts
-                                                              .roboto(
-                                                                  color:
-                                                                      primaryColor,
-                                                                  fontSize:
-                                                                      14.5),
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 10),
-                                                        Text(
-                                                          criteria,
-                                                          softWrap: true,
-                                                          maxLines: 4,
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 10),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )),
-                                          ),
-                                        ])));
-                          }));
-                }
-              },
-            )),
-      ],
-    ))));
+                                                      ),
+                                                    )),
+                                              ),
+                                            ])));
+                              }));
+                    }
+                  },
+                )),
+          ],
+        ))));
   }
 }
