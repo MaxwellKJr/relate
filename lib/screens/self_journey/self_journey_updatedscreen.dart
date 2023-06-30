@@ -6,37 +6,21 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Self Journey'),
-      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(16.0),
-              child: Center(
-                child: Text(
-                  'Which of the following below would you like',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
+              child: Text(
+                'Which of the following below would you like to overcome',
+                style: TextStyle(
+                  fontSize: 20,
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(5.0),
-              child: Center(
-                child: Text(
-                  'to overcome?',
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             ElevatedButton(

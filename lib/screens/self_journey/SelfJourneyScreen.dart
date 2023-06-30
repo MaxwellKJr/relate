@@ -5,13 +5,6 @@ class SelfJourneyDepressionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Self Journey',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Colors.white,
-      ),
       body: Container(
         margin: const EdgeInsets.all(20.0),
         child: Column(
