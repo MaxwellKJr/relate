@@ -56,7 +56,6 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         colorSchemeSeed: primaryColor,
       ),
-
       darkTheme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,

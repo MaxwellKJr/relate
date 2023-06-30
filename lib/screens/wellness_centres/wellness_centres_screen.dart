@@ -1,13 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:relate/components/navigation/drawer/drawer_main.dart';
-import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
-import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/post_issue/view_post_screen.dart';
 import 'package:relate/screens/wellness_centres/view_wellness_centre_screen.dart';
 
 class WellnessCentresScreen extends StatefulWidget {
@@ -21,8 +16,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Discover")),
-        drawer: const DrawerMain(),
+        appBar: AppBar(title: Text("Discover")),
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Column(
@@ -34,7 +28,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
               child: Text(
                 "Wellness Centres",
                 style: GoogleFonts.poppins(
-                    fontSize: 20, fontWeight: FontWeight.w800),
+                    fontSize: 20, fontWeight: FontWeight.w500),
               ),
             ),
             Container(
@@ -101,7 +95,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                               )));
                                                 },
                                                 child: SizedBox(
-                                                    width: 350,
+                                                    width: 300,
                                                     child: Card(
                                                       elevation: 10,
                                                       shape: const RoundedRectangleBorder(
@@ -111,15 +105,6 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                                       .circular(
                                                                           10))),
                                                       child: Container(
-                                                        // decoration:
-                                                        //     const BoxDecoration(
-                                                        //   border: Border(
-                                                        //     bottom: BorderSide(
-                                                        //       color: Colors.teal,
-                                                        //       width: 1.0,
-                                                        //     ),
-                                                        //   ),
-                                                        // ),
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
@@ -143,18 +128,19 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                                   MainAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                Text(
-                                                                  name,
-                                                                  maxLines: 3,
-                                                                  textWidthBasis:
-                                                                      TextWidthBasis
-                                                                          .parent,
-                                                                  style: GoogleFonts.poppins(
-                                                                      fontSize:
-                                                                          17,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w800),
+                                                                Flexible(
+                                                                  child: Text(
+                                                                    name,
+                                                                    maxLines: 3,
+                                                                    textWidthBasis:
+                                                                        TextWidthBasis
+                                                                            .parent,
+                                                                    style: GoogleFonts.poppins(
+                                                                        fontSize:
+                                                                            17,
+                                                                        fontWeight:
+                                                                            FontWeight.w800),
+                                                                  ),
                                                                 ),
                                                               ],
                                                             ),

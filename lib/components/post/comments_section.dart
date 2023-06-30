@@ -20,7 +20,8 @@ class CommentsSection extends StatefulWidget {
 class _CommentsSectionState extends State<CommentsSection> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      padding: const EdgeInsets.only(bottom: 80),
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('posts')

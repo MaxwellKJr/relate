@@ -63,7 +63,7 @@ class Auth {
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const GetUserDataScreen()));
+            builder: (BuildContext context) => const MainHomeScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
@@ -136,7 +136,7 @@ class Auth {
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const GetUserDataScreen()));
+            builder: (BuildContext context) => const MainHomeScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {

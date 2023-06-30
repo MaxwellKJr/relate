@@ -66,21 +66,123 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
     };
 
     if (text.isNotEmpty) {
+      flagOrFilterContent(text, () {
+        postContent(post);
+      }, () {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Content Violation'),
+            content: const Text('Content contain banned keywords.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      });
+    }
+  }
+
+  void flagOrFilterContent(
+    String content,
+    Function postCallback,
+    Function flagCallback,
+  ) {
+    final bannedKeywords = [
+      'fuck',
+      'keyword2',
+      'keyword3',
+    ];
+
+    bool containsBannedKeyword =
+        checkForBannedKeywords(content, bannedKeywords);
+
+    if (containsBannedKeyword) {
+      flagContentForReview(content);
+      flagCallback();
+    } else {
+      // Proceed with posting the content
+      postCallback();
+    }
+  }
+
+  bool checkForBannedKeywords(String content, List<String> bannedKeywords) {
+    for (String keyword in bannedKeywords) {
+      if (content.toLowerCase().contains(keyword.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void flagContentForReview(String content) {
+    // Here, you can implement the logic to flag the content for manual review
+    // You can store the flagged content in a database or notify your moderation team
+    // for further action
+    print('Content flagged for review: $content');
+  }
+
+  void postContent(Map<String, dynamic> post) async {
+    final user = FirebaseAuth.instance;
+    final uid = user.currentUser?.uid;
+
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child('issue_images')
+          .child(uid!)
+          .child(DateTime.now().toString() + '.jpg');
+
+      final task = ref.putFile(File(imageUrl));
+
+      final taskSnapshot = await task.whenComplete(() {});
+
+      final downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+      setState(() {
+        imageUrl = downloadUrl;
+      });
+
       await FirebaseFirestore.instance
           .collection('posts')
-          .add(post)
-          .then((value) => {
-                Fluttertoast.showToast(
-                    msg: "Post Shared",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.TOP,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: primaryColor,
-                    textColor: whiteColor,
-                    fontSize: 16.0),
-              });
-      Navigator.pop(context);
+          .doc(uid)
+          .collection('userPosts')
+          .add(post);
+
+      _postTextController.clear();
+      _focusController.clear();
+
+      Fluttertoast.showToast(
+        msg: "Issue Posted Successfully",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: primaryColor,
+        textColor: whiteColor,
+        fontSize: 16.0,
+      );
+    } else {
+      setState(() {
+        isEmpty = true;
+      });
     }
+  }
+
+  Future getImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+
+    setState(() {
+      // imageUrl = pickedFile.path;
+      imageUrl = pickedFile!.path;
+    });
   }
 
   @override
@@ -89,122 +191,128 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     return SafeArea(
         child: Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56.0),
-        child: Container(
-          padding: const EdgeInsets.only(right: layoutPadding - 2),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey[300]!,
-                width: 1.0,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(56.0),
+              child: Container(
+                padding: const EdgeInsets.only(right: layoutPadding - 2),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey[300]!,
+                      width: 1.0,
+                    ),
+                  ),
+                ),
+                child: AppBar(
+                  title: const Text("Share"),
+                  leading: IconButton(
+                    icon: Icon(Icons.adaptive.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  actions: [
+                    FilledButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          sendPost();
+                        }
+                      },
+                      child: const Text("Post"),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          child: AppBar(
-            title: const Text("Share"),
-            leading: IconButton(
-              icon: Icon(Icons.adaptive.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
+            body: GestureDetector(
+              onTap: () {
+                FocusScopeNode currentFocus = FocusScope.of(context);
+                if (!currentFocus.hasPrimaryFocus) {
+                  currentFocus.unfocus();
+                }
               },
-            ),
-            actions: [
-              FilledButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    sendPost();
-                  }
-                },
-                child: const Text("Post"),
-              )
-            ],
-          ),
-        ),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        },
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Form(
-                    key: _formKey,
-                    child: SizedBox(
-                      height: 100,
-                      child: TextFormField(
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Enter some text';
-                          }
-                          return null;
-                        },
-                        controller: _postTextController,
-                        decoration: const InputDecoration(
-                          hintText: 'Share your thoughts...',
-                          border: InputBorder.none,
-                        ),
-                        maxLines: null,
-                      ),
-                    )),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Stack(
                   children: [
-                    Flexible(
-                      child: CustomDropdown(
-                        fillColor: Colors.transparent,
-                        listItemStyle: const TextStyle(color: blackColor),
-                        selectedStyle: const TextStyle(color: Colors.teal),
-                        hintText: 'Choose focus',
-                        items: const [
-                          'General',
-                          'Depression',
-                          'Addiction',
-                          'Motivation'
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Form(
+                            key: _formKey,
+                            child: SizedBox(
+                              height: 100,
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Enter some text';
+                                  }
+                                  return null;
+                                },
+                                controller: _postTextController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Share your thoughts...',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            )),
+                      ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: CustomDropdown(
+                              fillColor: Colors.transparent,
+                              listItemStyle: const TextStyle(color: blackColor),
+                              selectedStyle:
+                                  const TextStyle(color: Colors.teal),
+                              hintText: 'Choose focus',
+                              items: const [
+                                'General',
+                                'Depression',
+                                'Addiction',
+                                'Motivation'
+                              ],
+                              controller: _focusController,
+                            ),
+                          ),
+                          OutlinedButton.icon(
+                              onPressed: () async {
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? file = await imagePicker.pickImage(
+                                    source: ImageSource.gallery);
+                                print('${file?.path}');
+
+                                if (file == null) return;
+                                String uniqueImageName = DateTime.now()
+                                    .millisecondsSinceEpoch
+                                    .toString();
+
+                                Reference referenceRoot =
+                                    FirebaseStorage.instance.ref();
+                                Reference referenceDirImages =
+                                    referenceRoot.child('images');
+
+                                Reference imageReferenceToUpload =
+                                    referenceDirImages.child(uniqueImageName);
+
+                                await imageReferenceToUpload
+                                    .putFile(File(file.path));
+                                imageUrl = await imageReferenceToUpload
+                                    .getDownloadURL();
+                              },
+                              icon: const Icon(Icons.camera_alt),
+                              label: const Text("Choose Image")),
                         ],
-                        controller: _focusController,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    OutlinedButton.icon(
-                        onPressed: () async {
-                          ImagePicker imagePicker = ImagePicker();
-                          XFile? file = await imagePicker.pickImage(
-                              source: ImageSource.gallery);
-                          print('${file?.path}');
-
-                          if (file == null) return;
-                          String uniqueImageName =
-                              DateTime.now().millisecondsSinceEpoch.toString();
-
-                          Reference referenceRoot =
-                              FirebaseStorage.instance.ref();
-                          Reference referenceDirImages =
-                              referenceRoot.child('images');
-
-                          Reference imageReferenceToUpload =
-                              referenceDirImages.child(uniqueImageName);
-
-                          await imageReferenceToUpload.putFile(File(file.path));
-                          imageUrl =
-                              await imageReferenceToUpload.getDownloadURL();
-                        },
-                        icon: const Icon(Icons.camera_alt),
-                        label: const Text("Choose Image"))
+                    )
                   ],
-                )
-              ],
-            )),
-        // bottomNavigationBar: const NavigationBarMain(),
-      ),
-    ));
+                ),
+                // bottomNavigationBar: const NavigationBarMain(),
+              ),
+            )));
   }
 }

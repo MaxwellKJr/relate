@@ -1,286 +1,205 @@
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:intl/intl.dart';
-// import 'package:relate/screens/chat/chat_screen.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
-// import 'messages_screen.dart';
+class MessageDetailScreen extends StatefulWidget {
+  // final String uid;
+  // final String professionalId;
+  final String userName;
+  final String professionallId;
 
-// class MessageDetailPage extends StatefulWidget {
-//   static const String messageDetail = '/messageDetail';
-//   final String conversationId;
-//   final String userId;
-//   final String userName;
 
-//   MessageDetailPage({
-//     required this.conversationId,
-//     required this.userId,
-//     required this.userName,
-//   });
+  const MessageDetailScreen({
+    // required this.uid,
+    // required this.professionalId,
+    required this.professionallId,
+    required this.userName,
+  });
 
-//   @override
-//   _MessageDetailPageState createState() => _MessageDetailPageState();
-// }
+  @override
+  _MessageDetailScreenState createState() => _MessageDetailScreenState();
+}
 
-// class _MessageDetailPageState extends State<MessageDetailPage> {
-//   final TextEditingController _messageController = TextEditingController();
-//   File? _attachedImage;
-//   final ImagePicker _imagePicker = ImagePicker();
+class _MessageDetailScreenState extends State<MessageDetailScreen> {
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-//   Future<void> _sendMessage(String message) async {
-//     try {
-//       if (_attachedImage != null) {
-//         final storageRef = FirebaseStorage.instance
-//             .ref()
-//             .child('images/${DateTime.now()}.png');
-//         await storageRef.putFile(_attachedImage!);
-//         final imageUrl = await storageRef.getDownloadURL();
+  late String chatRoomId;
+  late String currentUserId;
+  late String otherUserId;
 
-//         await FirebaseFirestore.instance
-//             .collection('conversations')
-//             .doc(widget.conversationId)
-//             .collection('messages')
-//             .add({
-//           'text': message,
-//           'timestamp': Timestamp.now(),
-//           'userId': widget.userId,
-//           'imageUrl': imageUrl,
-//         });
-//       } else {
-//         await FirebaseFirestore.instance
-//             .collection('conversations')
-//             .doc(widget.conversationId)
-//             .collection('messages')
-//             .add({
-//           'text': message,
-//           'timestamp': Timestamp.now(),
-//           'userId': widget.userId,
-//         });
-//       }
+  @override
+  void initState() {
+    super.initState();
+    // currentUserId = widget.uid;
+    // String currentUserId = FirebaseAuth.currentUser!.uid;
+    currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    otherUserId = widget.professionallId;
+    chatRoomId = _generateChatRoomId();
+  }
 
-//       _messageController.clear();
-//       setState(() {
-//         _attachedImage = null;
-//       });
-//     } catch (error) {
-//       // Handle error
-//       print('Failed to send message: $error');
-//     }
-//   }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.userName),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('chat_rooms')
+                  .doc(chatRoomId)
+                  .collection('messages')
+                  .orderBy('timestamp', descending: true)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('No messages yet.'));
+                }
 
-//   Future<void> _pickImage() async {
-//     final pickedImage =
-//     await _imagePicker.pickImage(source: ImageSource.gallery);
+                final messages = snapshot.data!.docs;
 
-//     if (pickedImage != null) {
-//       setState(() {
-//         _attachedImage = File(pickedImage.path);
-//       });
-//     }
-//   }
+                return ListView.builder(
+                  reverse: true,
+                  controller: _scrollController,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    final messageText = message['message'] as String;
+                    final timestamp = message['timestamp'] as Timestamp;
+                    final time = timestamp.toDate();
 
-//   Future<void> _deleteMessage(String messageId) async {
-//     try {
-//       await FirebaseFirestore.instance
-//           .collection('conversations')
-//           .doc(widget.conversationId)
-//           .collection('messages')
-//           .doc(messageId)
-//           .delete();
-//     } catch (error) {
-//       // Handle error
-//       print('Failed to delete message: $error');
-//     }
-//   }
+                    final isCurrentUserMessage =
+                        message['senderId'] == currentUserId;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('${widget.userName}'),
-//         leading: IconButton(
-//           icon: Icon(Icons.arrow_back),
-//           onPressed: () {
-//             Navigator.pushReplacement(
-//               context,
-//               MaterialPageRoute(
-//                 builder: (context) => MessagesScreen(),
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//       body: Column(
-//         children: [
-//           Expanded(
-//             child: StreamBuilder<QuerySnapshot>(
-//               stream: FirebaseFirestore.instance
-//                   .collection('conversations')
-//                   .doc(widget.conversationId)
-//                   .collection('messages')
-//                   .orderBy('timestamp', descending: true)
-//                   .snapshots(),
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasData) {
-//                   final messages = snapshot.data!.docs;
+                    return Dismissible(
+                      key: Key(message.id),
+                      direction: DismissDirection.endToStart,
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        color: Colors.red,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onDismissed: (direction) {
+                        _deleteMessage(message.id);
+                      },
+                      child: Card(
+                        child: ListTile(
+                          title: Wrap(
+                            children: [
+                              Text(
+                                messageText,
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ],
+                          ),
+                          subtitle: Text(_formatDateTime(time)),
+                          tileColor: isCurrentUserMessage
+                              ? Colors.blue[100]
+                              : Colors.grey[200],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 8.0,
+                            horizontal: 16.0,
+                          ),
+                          visualDensity: VisualDensity.compact,
+                          trailing: isCurrentUserMessage
+                              ? null
+                              : Icon(Icons.account_circle),
+                          leading: isCurrentUserMessage
+                              ? Icon(Icons.account_circle)
+                              : null,
+                          // Customize the styling based on the message sender
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+          Divider(height: 1),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _messageController,
+                    decoration: InputDecoration(hintText: 'Type your message'),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.send),
+                  onPressed: () {
+                    _sendMessage();
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
-//                   return ListView.builder(
-//                     reverse: true,
-//                     itemCount: messages.length,
-//                     itemBuilder: (context, index) {
-//                       final message =
-//                       messages[index].data() as Map<String, dynamic>;
-//                       final messageId = messages[index].id;
-//                       final text = message['text'];
-//                       final timestamp =
-//                       message['timestamp'] as Timestamp;
-//                       final dateTime = timestamp.toDate();
-//                       final currentDate = DateTime(
-//                         dateTime.year,
-//                         dateTime.month,
-//                         dateTime.day,
-//                       );
+  String _generateChatRoomId() {
+    List<String> ids = [currentUserId, otherUserId];
+    ids.sort();
+    return ids.join("_");
+  }
 
-//                       final formattedTime =
-//                       DateFormat.Hm().format(dateTime);
-//                       final formattedDate =
-//                       DateFormat.yMd().format(dateTime);
+  String _formatDateTime(DateTime dateTime) {
+    final timeFormat = DateFormat.Hm();
+    return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${timeFormat.format(dateTime)}';
+  }
 
-//                       Widget dateWidget = Container();
+  void _sendMessage() {
+    final message = _messageController.text.trim();
+    _messageController.clear();
 
-//                       if (index == 0 ||
-//                           currentDate
-//                               .difference(
-//                               messages[index - 1]
-//                                   .get('timestamp')
-//                                   .toDate())
-//                               .inDays !=
-//                               0) {
-//                         dateWidget = Container(
-//                           alignment: Alignment.center,
-//                           margin: EdgeInsets.symmetric(vertical: 8.0),
-//                           child: Text(
-//                             formattedDate,
-//                             style: TextStyle(
-//                               color: Colors.grey,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         );
-//                       }
+    if (message.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection('chat_rooms')
+          .doc(chatRoomId)
+          .collection('messages')
+          .add({
+        'message': message,
+        'timestamp': Timestamp.now(),
+        'senderId': currentUserId,
+        'receiverId': widget.professionallId,
+      });
+    }
+  }
 
-//                       final isSentMessage =
-//                           message['userId'] == widget.userId;
-
-//                       return Dismissible(
-//                         key: Key(messageId),
-//                         direction: DismissDirection.startToEnd,
-//                         background: Container(
-//                           color: Colors.red,
-//                           alignment: Alignment.centerLeft,
-//                           padding: EdgeInsets.only(left: 16.0),
-//                           child: Icon(
-//                             Icons.delete,
-//                             color: Colors.white,
-//                           ),
-//                         ),
-//                         onDismissed: (direction) =>
-//                             _deleteMessage(messageId),
-//                         child: Column(
-//                           crossAxisAlignment: isSentMessage
-//                               ? CrossAxisAlignment.end
-//                               : CrossAxisAlignment.start,
-//                           children: [
-//                             dateWidget,
-//                             Container(
-//                               margin: EdgeInsets.only(
-//                                 top: 4.0,
-//                                 bottom: 4.0,
-//                                 left: isSentMessage ? 64.0 : 16.0,
-//                                 right: isSentMessage ? 16.0 : 64.0,
-//                               ),
-//                               child: Card(
-//                                 shape: RoundedRectangleBorder(
-//                                   borderRadius: BorderRadius.circular(12.0),
-//                                 ),
-//                                 color: isSentMessage
-//                                     ? Colors.blue
-//                                     : Colors.grey[200],
-//                                 child: Padding(
-//                                   padding: const EdgeInsets.all(8.0),
-//                                   child: Column(
-//                                     crossAxisAlignment:
-//                                     CrossAxisAlignment.start,
-//                                     children: [
-//                                       Text(
-//                                         text,
-//                                         style: TextStyle(
-//                                           color: isSentMessage
-//                                               ? Colors.white
-//                                               : Colors.black,
-//                                         ),
-//                                       ),
-//                                       SizedBox(height: 4.0),
-//                                       Text(
-//                                         formattedTime,
-//                                         style: TextStyle(
-//                                           color: isSentMessage
-//                                               ? Colors.white.withOpacity(0.8)
-//                                               : Colors.black.withOpacity(0.8),
-//                                           fontSize: 12.0,
-//                                         ),
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       );
-//                     },
-//                   );
-//                 }
-//                 return const CircularProgressIndicator();
-//               },
-//             ),
-//           ),
-//           const Divider(height: 1),
-//           Container(
-//             decoration: BoxDecoration(
-//               color: Colors.grey[200],
-//               borderRadius: BorderRadius.circular(30),
-//             ),
-//             child: Row(
-//               children: [
-//                 IconButton(
-//                   icon: Icon(Icons.attach_file),
-//                   onPressed: () => _pickImage(),
-//                 ),
-//                 Expanded(
-//                   child: TextField(
-//                     controller: _messageController,
-//                     decoration: InputDecoration(
-//                       contentPadding:
-//                       EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-//                       border: InputBorder.none,
-//                       hintText: 'Type your message...',
-//                     ),
-//                     style: TextStyle(color: Colors.black),
-//                     onSubmitted: (message) => _sendMessage(message),
-//                   ),
-//                 ),
-//                 IconButton(
-//                   icon: Icon(Icons.send),
-//                   onPressed: () => _sendMessage(_messageController.text),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  void _deleteMessage(String messageId) {
+    FirebaseFirestore.instance
+        .collection('chat_rooms')
+        .doc(chatRoomId)
+        .collection('messages')
+        .doc(messageId)
+        .delete();
+  }
+}

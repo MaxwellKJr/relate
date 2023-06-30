@@ -20,40 +20,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
-          //   appBar:
-          // AppBar(
-          //     title: Text(tRelate,
-          //         style: GoogleFonts.alexBrush(
-          //             fontWeight: FontWeight.w500, fontSize: 32)),
-          //     // bottom:
-          //     backgroundColor: theme.brightness == Brightness.dark
-          //         ? Colors.black12 // set color for dark theme
-          //         : Colors.white24, // set color for light theme
-          //     bottomOpacity: 0,
-          //     elevation: 0,
-          //     iconTheme: const IconThemeData(color: primaryColor),
-          //   ),
-          //   drawer: const DrawerMain(),
-          body: const Column(
-            children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: TabBar(isScrollable: true, tabs: [
-                  Tab(text: "General"),
-                  Tab(text: "Depression"),
-                  Tab(text: "Addiction"),
-                  Tab(text: "Motivation"),
-                ]),
-              ),
-              Expanded(
-                child: TabBarView(children: [
-                  HomeScreenBody(),
-                  DepressionPostsBody(),
-                  AddictionPostsBody(),
-                  MotivationPostsBody()
-                ]),
-              ),
-            ],
+          body: SafeArea(
+            child: Column(
+              children:const [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: TabBar(isScrollable: true, tabs: [
+                    Tab(text: "General"),
+                    Tab(text: "Depression"),
+                    Tab(text: "Addiction"),
+                    Tab(text: "Motivation"),
+                  ]),
+                ),
+                Expanded(
+                  child: TabBarView(children: [
+                    HomeScreenBody(),
+                    DepressionPostsBody(),
+                    AddictionPostsBody(),
+                    MotivationPostsBody()
+                  ]),
+                ),
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

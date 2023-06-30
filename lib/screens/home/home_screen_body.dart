@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:relate/components/post/post_tile.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({Key? key}) : super(key: key);
@@ -44,9 +45,14 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
                 //Format date
                 final dateTime = timestamp.toDate();
+
+                final daysAgo = timeago.format(dateTime, locale: 'en_short');
+
                 final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
                 final formattedTime = DateFormat.Hm().format(dateTime);
+
                 final formattedDateTime = "$formattedDate @ $formattedTime";
+                // final formattedDateTime = "$formattedDate @ $formattedTime";
 
                 return PostTile(
                     post: post,
@@ -56,6 +62,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                     focus: focus,
                     postedBy: postedBy,
                     uid: uid,
+                    daysAgo: daysAgo,
                     formattedDateTime: formattedDateTime);
               });
         }

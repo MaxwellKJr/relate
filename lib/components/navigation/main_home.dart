@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
@@ -8,6 +10,7 @@ import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/screens/community/search_and_join _screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -17,39 +20,48 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
+  String userName = "";
+  String email = "";
+  String groupName = "";
+  String groupId = "";
+  String purpose = "";
+  String description = "";
+  String rules = "";
+
   int currentPageIndex = 0;
 
-  final screens = [
-    const HomeScreen(),
-    const Communities(),
-    const MessagesScreen(),
-    const WellnessCentresScreen(),
-  ];
-
-  final screenTitle = ["Home", "Communities", "Messages", "Discover"];
+  final uid = FirebaseAuth.instance.currentUser?.uid.toString();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final screens = [
+      const HomeScreen(),
+      const Communities(),
+      MessagesScreen(
+        uid: uid.toString(),
+      ),
+      const WellnessCentresScreen(),
+    ];
+
+    final screenTitle = ["Home", "Communities", "Messages", "Discover"];
+
     return Scaffold(
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
               style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-          actions: currentPageIndex == 1
-              ? [
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-
-                                    // Navigator.of(context).push(
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             SearchAndJoin()));
-                    },
-                  ),
-                ]
-              : null,
+          // actions: currentPageIndex == 1
+          //     ? [
+          //         IconButton(
+          //           icon: const Icon(Icons.search),
+          //           onPressed: () {
+          //             Navigator.of(context).push(MaterialPageRoute(
+          //                 builder: (context) => SearchAndJoin()));
+          //           },
+          //         ),
+          //       ]
+          //     : null,
           // bottom:
           backgroundColor: theme.brightness == Brightness.dark
               ? Colors.black12 // set color for dark theme

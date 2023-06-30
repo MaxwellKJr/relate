@@ -12,7 +12,6 @@ class DrawerTilesViewModel {
     {
       'leading': const Icon(
         Icons.favorite,
-        color: primaryColor,
       ),
       'title': tWellnessCentres,
       'destination': const WellnessCentresScreen()
@@ -25,10 +24,9 @@ class DrawerTilesViewModel {
     {
       'leading': const Icon(
         Icons.send_sharp,
-        color: primaryColor,
       ),
       'title': tContactAProfessional,
-      'destination': const ContactProfessionalScreen()
+      'destination': ContactProfessionalScreen()
     },
     {
       'leading': const Icon(
@@ -40,7 +38,6 @@ class DrawerTilesViewModel {
     {
       'leading': const Icon(
         Icons.question_mark,
-        color: primaryColor,
       ),
       'title': tAboutRelate,
       'destination': const AboutRelateScreen()
