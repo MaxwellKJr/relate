@@ -75,7 +75,7 @@ class _TrialPageState extends State<TrialPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Purpose: Trial To Reason',
+              'Purpose:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -83,7 +83,7 @@ class _TrialPageState extends State<TrialPage> {
             ),
             Text(
               widget.purpose,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             const Text(

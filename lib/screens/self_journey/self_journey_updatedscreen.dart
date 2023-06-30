@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/self_journey/plan_detail_screen.dart';
 import 'package:relate/screens/self_journey/sellall_screen.dart';
 
@@ -15,7 +17,7 @@ class SelfJourneyUpdatedScreen extends StatelessWidget {
             '',
             style: TextStyle(fontSize: 2, fontWeight: FontWeight.bold),
           ),
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(text: 'My Plans'),
               Tab(text: 'Other Plans'),
@@ -94,12 +96,12 @@ class PlanSection extends StatelessWidget {
                 );
               },
               child: Container(
-                padding: EdgeInsets.all(8),
-                child: Text(
+                padding: const EdgeInsets.all(8),
+                child: const Text(
                   'See All',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.blue,
+                    color: primaryColor,
                   ),
                 ),
               ),
@@ -162,7 +164,11 @@ class PlanSection extends StatelessWidget {
                         ),
                         Expanded(
                           child: ListTile(
-                            title: Text(planData['nameOfPlan']),
+                            title: Text(
+                              planData['nameOfPlan'],
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600),
+                            ),
                             subtitle: Text(planData['description']),
                           ),
                         ),

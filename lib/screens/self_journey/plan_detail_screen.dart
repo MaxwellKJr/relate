@@ -52,61 +52,64 @@ class PlanDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Plan Details'),
       ),
-      body: Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              planData['image'],
-              fit: BoxFit.cover,
-              height: 70,
-              width: 80,
-            ),
-            Text(
-              planData['nameOfPlan'],
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Text(
-              planData['description'],
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Steps:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('plans')
-                  .doc(planData['documentID'])
-                  .collection('steps')
-                  .orderBy('stepNumber')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final steps = snapshot.data!.docs;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: steps.map((step) {
-                      final stepData = step.data() as Map<String, dynamic>;
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          'Step ${stepData['stepNumber']}: ${stepData['stepText']}',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      );
-                    }).toList(),
-                  );
-                } else {
-                  return CircularProgressIndicator();
-                }
-              },
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                planData['image'],
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                planData['nameOfPlan'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
+              ),
+              SizedBox(height: 16),
+              Text(
+                planData['description'],
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Steps:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('plans')
+                    .doc(planData['documentID'])
+                    .collection('steps')
+                    .orderBy('stepNumber')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final steps = snapshot.data!.docs;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: steps.map((step) {
+                        final stepData = step.data() as Map<String, dynamic>;
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            'Step ${stepData['stepNumber']}: ${stepData['stepText']}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    return CircularProgressIndicator();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

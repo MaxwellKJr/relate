@@ -90,7 +90,7 @@ class PostTile extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Report Post'),
-            content: const Text('Are you sure you want to report this post?'),
+            content: const Text('Posts that get reported more than 3 times will automatically be deleted. Are you sure you want to report this post?'),
             actions: [
               TextButton(
                 child:
@@ -113,7 +113,7 @@ class PostTile extends StatelessWidget {
                   }).then((value) => {
                         Fluttertoast.showToast(
                             msg: "Thank you for reporting.",
-                            toastLength: Toast.LENGTH_SHORT,
+                            toastLength: Toast.LENGTH_LONG,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
                             backgroundColor: primaryColor,
@@ -224,6 +224,8 @@ class PostTile extends StatelessWidget {
                                               style: GoogleFonts.poppins(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600),
+                                        maxLines: 2,
+                                        
                                             ),
                                             const SizedBox(
                                               width: 5,
@@ -240,7 +242,7 @@ class PostTile extends StatelessWidget {
                                               focus,
                                               style: GoogleFonts.poppins(
                                                   color: primaryColor,
-                                                  fontSize: 15,
+                                                  fontSize: 12,
                                                   fontWeight: FontWeight.w800),
                                             ),
                                           ],

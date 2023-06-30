@@ -175,7 +175,7 @@ class _GroupJoinedChatInforState extends State<GroupJoinedChatInfor> {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  widget.groupId,
+                                  widget.purpose,
                                   style: const TextStyle(fontSize: 16),
                                 ),
                                 const SizedBox(height: 20),
