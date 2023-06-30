@@ -14,14 +14,6 @@ class GetUserDataScreen extends StatefulWidget {
 }
 
 class _GetUserDataScreenState extends State<GetUserDataScreen> {
-  // int interestTag = 1;
-  // static List<UserInterest> _interests = [
-  //   const UserInterest(id: 1, name: "Mental Health"),
-  //   const UserInterest(id: 2, name: "Depression"),
-  //   const UserInterest(id: 1, name: "Motivation"),
-  //   const UserInterest(id: 1, name: "General Topics"),
-  //   const UserInterest(id: 1, name: "Ranting"),
-  // ];
   List<String> interestTags = [];
   static final List<String> _interests = [
     "Mental Health",

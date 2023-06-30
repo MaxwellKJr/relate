@@ -38,6 +38,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
         .collection('professionals')
         .doc(uid)
         .get();
+
     String? userName;
 
     if (userDoc.exists) {

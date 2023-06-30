@@ -9,7 +9,6 @@ class MessageDetailScreen extends StatefulWidget {
   final String userName;
   final String professionallId;
 
-
   const MessageDetailScreen({
     // required this.uid,
     // required this.professionalId,
@@ -140,7 +139,7 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
               },
             ),
           ),
-          Divider(height: 1),
+          const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -182,8 +181,19 @@ class _MessageDetailScreenState extends State<MessageDetailScreen> {
 
     if (message.isNotEmpty) {
       FirebaseFirestore.instance
-          .collection('chat_rooms')
-          .doc(chatRoomId)
+          .collection('users')
+          .doc(currentUserId)
+          .collection('messages')
+          .add({
+        'message': message,
+        'timestamp': Timestamp.now(),
+        'senderId': currentUserId,
+        'receiverId': widget.professionallId,
+      });
+
+      FirebaseFirestore.instance
+          .collection('professionals')
+          .doc(widget.professionallId)
           .collection('messages')
           .add({
         'message': message,
