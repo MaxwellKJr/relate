@@ -61,6 +61,7 @@ class _AllGroupsState extends State<AllGroups> {
               itemCount: groups.length,
               itemBuilder: (context, index) {
                 final group = groups[index];
+                final imageUrl = group['imageUrl'];
                 final groupId = group['groupId'];
                 final groupName = group['groupName'];
                 final admin = group['admin'];
@@ -83,6 +84,7 @@ class _AllGroupsState extends State<AllGroups> {
 
                       return isMember
                           ? joinedGroupTile(
+                              imageUrl,
                               userName,
                               groupId,
                               groupName,
@@ -92,6 +94,7 @@ class _AllGroupsState extends State<AllGroups> {
                               rules,
                             )
                           : groupTile(
+                              imageUrl,
                               userName,
                               groupId,
                               groupName,
@@ -115,14 +118,22 @@ class _AllGroupsState extends State<AllGroups> {
     );
   }
 
-  Widget groupTile(String userName, String groupId, String groupName,
-      String admin, String purpose, String description, String rules) {
+  Widget groupTile(
+      String userName,
+      String groupId,
+      String groupName,
+      String admin,
+      String purpose,
+      String description,
+      String rules,
+      String imageUrl) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => TrialPage(
+                imageUrl: imageUrl,
                 groupId: groupId,
                 groupName: groupName,
                 purpose: purpose,
@@ -179,8 +190,15 @@ class _AllGroupsState extends State<AllGroups> {
     );
   }
 
-  Widget joinedGroupTile(String userName, String groupId, String groupName,
-      String admin, String purpose, String description, String rules) {
+  Widget joinedGroupTile(
+      String userName,
+      String groupId,
+      String groupName,
+      String admin,
+      String purpose,
+      String description,
+      String rules,
+      String imageUrl) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       leading: CircleAvatar(

@@ -96,30 +96,30 @@ class _CommunitiesState extends State<Communities>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(tCommunityGroups,
-            style: TextStyle(fontWeight: FontWeight.w500)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SearchAndJoin(
-                          groupId: groupId,
-                          // admin: admin,
-                          groupName: groupName,
-                          userName: userName,
-                          description: description,
-                          purpose: purpose,
-                          rules: rules,
-                        )),
-              );
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text(tCommunityGroups,
+      //       style: TextStyle(fontWeight: FontWeight.w500)),
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.search),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //               builder: (context) => SearchAndJoin(
+      //                     groupId: groupId,
+      //                     // admin: admin,
+      //                     groupName: groupName,
+      //                     userName: userName,
+      //                     description: description,
+      //                     purpose: purpose,
+      //                     rules: rules,
+      //                   )),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: Column(
         children: [
           TabBar(
@@ -189,6 +189,7 @@ class _CommunitiesState extends State<Communities>
           itemCount: myGroups.length,
           itemBuilder: (context, index) {
             String groupId = myGroups[index].id;
+            String imageUrl = myGroups[index].get('imageUrl');
             String groupName = myGroups[index].get('groupName');
             String purpose = myGroups[index].get('purpose');
             String admin = myGroups[index].get('admin');
@@ -197,6 +198,7 @@ class _CommunitiesState extends State<Communities>
 
             return GroupCards(
                 // groupId: myGroups[index].id,
+                imageUrl: imageUrl,
                 groupId: groupId,
                 userName: userName,
                 groupName: groupName,

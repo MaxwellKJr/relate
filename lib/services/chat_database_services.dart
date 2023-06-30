@@ -194,11 +194,11 @@ class ChatDatabase {
 
   // creating a group
   Future createGroup(String userName, String id, String groupName, String email,
-      String purpose, String rules, String description) async {
+      String purpose, String rules, String description, String imageUrl) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "email": "$email",
-      //add
+      "imageUrl": imageUrl,
       "purpose": purpose,
       "rules": rules,
       "description": description,
