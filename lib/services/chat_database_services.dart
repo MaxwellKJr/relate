@@ -346,8 +346,14 @@ class ChatDatabase {
   // }
 
 //This function is used to search groups
+  // searchGroupName(String groupName) {
+  //   return groupCollection.where("groupName", isEqualTo: groupName).get();
+  // }
   searchGroupName(String groupName) {
-    return groupCollection.where("groupName", isEqualTo: groupName).get();
+    return groupCollection
+        .where("groupName",
+            isEqualTo: groupName.toLowerCase()) // Convert query to lowercase
+        .get();
   }
 
   //check if a user is in a group using boolean //the collect one

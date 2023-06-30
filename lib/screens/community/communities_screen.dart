@@ -96,30 +96,30 @@ class _CommunitiesState extends State<Communities>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(tCommunityGroups,
-      //       style: TextStyle(fontWeight: FontWeight.w500)),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.search),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //               builder: (context) => SearchAndJoin(
-      //                     groupId: groupId,
-      //                     // admin: admin,
-      //                     groupName: groupName,
-      //                     userName: userName,
-      //                     description: description,
-      //                     purpose: purpose,
-      //                     rules: rules,
-      //                   )),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
+      appBar: AppBar(
+        title: const Text(tCommunityGroups,
+            style: TextStyle(fontWeight: FontWeight.w500)),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SearchAndJoin(
+                          groupId: groupId,
+                          // admin: admin,
+                          groupName: groupName,
+                          userName: userName,
+                          description: description,
+                          purpose: purpose,
+                          rules: rules,
+                        )),
+              );
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           TabBar(
