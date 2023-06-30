@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/authentication/get_user_data_screen.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
+import 'package:relate/screens/authentication/professional/get_professional_data_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +18,7 @@ class Auth {
   final context = BuildContext;
 
   String? userName;
+  String? profilePicture;
 
   void signUp(
     context,
@@ -44,7 +49,6 @@ class Auth {
       final userName = userNameController.text.trim();
       final email = emailController.text.trim();
       final phoneNumber = phoneNumberController.text.trim();
-      final groups = groupsController.text.split(',');
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -63,7 +67,7 @@ class Auth {
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MainHomeScreen()));
+            builder: (BuildContext context) => const GetUserDataScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
@@ -112,7 +116,6 @@ class Auth {
       final userName = userNameController.text.trim();
       final email = emailController.text.trim();
       final phoneNumber = phoneNumberController.text.trim();
-      // final consultancyName = consultancyNameController.text.trim();
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -125,6 +128,9 @@ class Auth {
           'uid': uid,
           'userName': userName,
           'email': email,
+          'bio': "",
+          'profilePicture': "",
+          'location': "",
           'isProfessional': true,
           'isVerified': false,
           'isAPrivateProfessional': false,
@@ -132,11 +138,11 @@ class Auth {
           'isAssociatedWith': [],
           'phoneNumber': phoneNumber,
           'relatesTo': [],
-          // 'consultancyName': consultancyName,
         });
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MainHomeScreen()));
+            builder: (BuildContext context) =>
+                const GetProfessionalDataScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
@@ -232,9 +238,7 @@ class Auth {
                 return false;
               },
               child: const LoginScreen(),
-            )
-        // const LoginScreen()
-        ));
+            )));
   }
 
   Future<void> getCurrentUserData() async {
@@ -253,41 +257,32 @@ class Auth {
       userName = userDoc.data()!['userName'];
     } else if (professionalDoc.exists) {
       userName = professionalDoc.data()!['userName'];
+      profilePicture = professionalDoc.data()!['profilePicture'];
     }
   }
 
-  String imageUrl = '';
+  // String imageUrl = '';
 
-  void updateProfessionalDetails(BuildContext context, bioController,
-      phonenumberController, locationController, imageUrl) async {
-    final user = FirebaseAuth.instance;
-    final uid = user.currentUser?.uid;
+  void updateProfessionalDetails(
+      BuildContext context,
+      currentUser,
+      bioController,
+      phonenumberController,
+      locationController,
+      imageUrl) async {
+    try {
+      final bio = bioController.text.trim();
+      final phoneNumber = phonenumberController.text.trim();
+      final location = locationController.text.trim();
 
-    final bio = bioController.text.trim();
-    final phoneNumber = phonenumberController.text.trim();
-    final location = locationController.text.trim();
+      final professionalDoc = await FirebaseFirestore.instance
+          .collection('professionals')
+          .doc(currentUser)
+          .get();
 
-    final userDoc =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-    final professionalDoc = await FirebaseFirestore.instance
-        .collection('professionals')
-        .doc(uid)
-        .get();
-
-    if (userDoc.exists) {
-      final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
-      await userRef.update({
-        'bio': bio,
-        'phoneNumber': phoneNumber,
-        'location': location,
-        'profilePicture': imageUrl
-      });
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const MainHomeScreen()));
-    } else if (professionalDoc.exists) {
-      final professionalRef =
-          FirebaseFirestore.instance.collection('professionals').doc(uid);
+      final professionalRef = FirebaseFirestore.instance
+          .collection('professionals')
+          .doc(currentUser);
 
       await professionalRef.update({
         'bio': bio,
@@ -298,6 +293,8 @@ class Auth {
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (BuildContext context) => const MainHomeScreen()));
+    } catch (e) {
+      print(e);
     }
   }
 }

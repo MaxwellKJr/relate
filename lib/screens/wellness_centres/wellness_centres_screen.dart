@@ -27,7 +27,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
           child: Text(
             "Wellness Centres",
             style:
-                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w500),
+                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400),
           ),
         ),
         Container(

@@ -39,20 +39,45 @@ class _DrawerMainState extends State<DrawerMain> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Relate",
-                    style: GoogleFonts.alexBrush(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w500,
-                        color: primaryColor)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text("Relate",
+                        style: GoogleFonts.alexBrush(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w500,
+                            color: primaryColor)),
+                    if (auth.profilePicture != null &&
+                        auth.profilePicture != '')
+                      Container(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: CircleAvatar(
+                            child: ClipOval(
+                              child: Image.network(
+                                auth.profilePicture ?? '',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ))
+                    else
+                      Container(),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Text(""),
-                    Text(
-                      auth.userName ?? '',
-                      style: GoogleFonts.roboto(
-                          fontSize: 30, fontWeight: FontWeight.w400),
-                    ),
+                    Column(
+                      children: [
+                        Text(
+                          auth.userName ?? '',
+                          style: GoogleFonts.roboto(
+                              fontSize: 20, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    )
                   ],
                 )
               ],

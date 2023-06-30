@@ -14,21 +14,19 @@ class ContactProfessionalScreen extends StatelessWidget {
         title: const Text('Contact Professionals'),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('professionals')
-            .where('isVerified', isEqualTo: true)
-            .snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('professionals').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-                child: Text('No verified professionals found.'));
-          }
+          // if (snapshot.hasError) {
+          //   return Center(child: Text('Error: ${snapshot.error}'));
+          // }
+          // if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          //   return const Center(
+          //       child: Text('No verified professionals found.'));
+          // }
 
           final professionals = snapshot.data!.docs;
 
@@ -39,9 +37,9 @@ class ContactProfessionalScreen extends StatelessWidget {
               mainAxisSpacing: 8.0,
             ),
             itemCount: professionals.length,
-            padding: const EdgeInsets.all(8.0),
             itemBuilder: (context, index) {
               final professional = professionals[index];
+              final String profilePicture = professional['profilePicture'];
               final userName = professional['userName'] as String;
               final isVerified = professional['isVerified'] as bool;
 
@@ -51,8 +49,8 @@ class ContactProfessionalScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewProfessionalDetailsScreen(
-                        professionalId: professional.id,
-                        uid: professional['uid'],
+                        userName: userName,
+                        professionalId: professional['uid'],
                       ),
                     ),
                   );
@@ -63,10 +61,22 @@ class ContactProfessionalScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Container(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: CircleAvatar(
+                              child: ClipOval(
+                                child: Image.network(
+                                  profilePicture,
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )),
                         Text(
                           userName,
                           style: const TextStyle(

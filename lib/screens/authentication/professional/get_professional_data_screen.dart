@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
@@ -48,8 +52,46 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
     });
   }
 
+  XFile? file;
+  File? imageFile;
+
+  final currentUser = FirebaseAuth.instance.currentUser!.uid;
+
+  Future<void> updateProfessionalDetails() async {
+    final bio = _bioController.text;
+    final phoneNumber = _phoneNumberController.text;
+    final location = _locationController.text;
+
+    final professionalDetails = {
+      'bio': bio,
+      'phoneNumber': phoneNumber,
+      'location': location,
+      'profilePicture': imageUrl
+    };
+
+    await FirebaseFirestore.instance
+        .collection("professionals")
+        .doc(currentUser)
+        .update(professionalDetails)
+        .then((value) => {
+              Fluttertoast.showToast(
+                  msg: "Details Saved",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.TOP,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: primaryColor,
+                  textColor: whiteColor,
+                  fontSize: 16.0),
+            })
+        .catchError((error) => print("Failed to update user: $error"));
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => const MainHomeScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
@@ -59,7 +101,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "We need to know you more...",
@@ -70,25 +112,39 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                       textAlign: TextAlign.left,
                     ),
                     const SizedBox(height: elementSpacing),
+                    file != null
+                        ? Image.file(
+                            imageFile!,
+                            width: 120,
+                            height: 120,
+                            fit: BoxFit.cover,
+                          )
+                        : Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconButton(
+                        OutlinedButton.icon(
                           onPressed: () async {
                             ImagePicker imagePicker = ImagePicker();
                             XFile? file = await imagePicker.pickImage(
-                                source: ImageSource.gallery);
+                                source: ImageSource.camera);
                             print('${file?.path}');
 
                             if (file == null) return;
+
+                            imageFile = File(file.path);
+
                             String uniqueImageName = DateTime.now()
                                 .millisecondsSinceEpoch
                                 .toString();
 
+                            final temporaryImage = XFile(file.path);
+                            setState(() => this.file = temporaryImage);
+
                             Reference referenceRoot =
                                 FirebaseStorage.instance.ref();
                             Reference referenceDirImages =
-                                referenceRoot.child('images');
+                                referenceRoot.child('profilePictures');
 
                             Reference imageReferenceToUpload =
                                 referenceDirImages.child(uniqueImageName);
@@ -99,8 +155,49 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                                 await imageReferenceToUpload.getDownloadURL();
                           },
                           icon: const Icon(Icons.camera_alt),
+                          label: const Text("Pick photo"),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        OutlinedButton.icon(
+                          onPressed: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            print('${file?.path}');
+
+                            if (file == null) return;
+
+                            imageFile = File(file.path);
+
+                            String uniqueImageName = DateTime.now()
+                                .millisecondsSinceEpoch
+                                .toString();
+
+                            final temporaryImage = XFile(file.path);
+                            setState(() => this.file = temporaryImage);
+
+                            Reference referenceRoot =
+                                FirebaseStorage.instance.ref();
+                            Reference referenceDirImages =
+                                referenceRoot.child('profilePictures');
+
+                            Reference imageReferenceToUpload =
+                                referenceDirImages.child(uniqueImageName);
+
+                            await imageReferenceToUpload
+                                .putFile(File(file.path));
+                            imageUrl =
+                                await imageReferenceToUpload.getDownloadURL();
+                          },
+                          icon: const Icon(Icons.photo),
+                          label: const Text("Pick photo"),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     Form(
                         key: _formKey,
@@ -144,12 +241,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                               keyboardType: TextInputType.text,
                               focusNode: _focusNode3,
                               onFieldSubmitted: (value) =>
-                                  auth.updateProfessionalDetails(
-                                      context,
-                                      _bioController,
-                                      _phoneNumberController,
-                                      _locationController,
-                                      imageUrl),
+                                  updateProfessionalDetails(),
                             ),
                           ],
                         )),
@@ -168,6 +260,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                                       _focusNode1.unfocus();
                                       _focusNode2.unfocus();
                                       _focusNode3.unfocus();
+                                      updateProfessionalDetails();
                                     }
                                   },
                                   child: Text(
