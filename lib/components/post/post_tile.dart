@@ -130,7 +130,7 @@ class PostTile extends StatelessWidget {
                   final reportsCount =
                       postSnapshot.data()?['reports']?.length ?? 0;
 
-                  if (reportsCount > 5) {
+                  if (reportsCount > 2) {
                     // Delete the post if there are more than 0 reports
                     await postRef.delete();
                   }

@@ -21,8 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
         length: 4,
         child: Scaffold(
           body: SafeArea(
-            child: const Column(
-              children: [
+            child: Column(
+              children:const [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: TabBar(isScrollable: true, tabs: [
