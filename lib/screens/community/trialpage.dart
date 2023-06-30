@@ -11,11 +11,9 @@ class TrialPage extends StatefulWidget {
   final String description;
   final String rules;
   final String userName;
-  final String imageUrl;
 
   const TrialPage({
     Key? key,
-    required this.imageUrl,
     required this.groupId,
     required this.groupName,
     required this.purpose,
