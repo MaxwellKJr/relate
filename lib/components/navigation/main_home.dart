@@ -8,6 +8,7 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
+import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/screens/community/search_and_join _screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,13 +40,16 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final screens = [
       const HomeScreen(),
       const Communities(),
-      MessagesScreen(
-        uid: uid.toString(),
-      ),
+      SelfJourneyUpdatedScreen(),
       const WellnessCentresScreen(),
     ];
 
-    final screenTitle = ["Home", "Communities", "Messages", "Discover"];
+    final screenTitle = [
+      "Home",
+      "Communities",
+      "Self Recovery Plans",
+      "Discover"
+    ];
 
     return Scaffold(
         appBar: AppBar(
@@ -79,7 +83,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             NavigationDestination(
                 icon: Icon(Icons.people_rounded), label: "Communities"),
             NavigationDestination(
-                icon: Icon(Icons.message_rounded), label: "Messages"),
+                icon: Icon(Icons.bar_chart_rounded), label: "Plans"),
             NavigationDestination(
                 icon: Icon(Icons.search_outlined), label: "Discover"),
           ],

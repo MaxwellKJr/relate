@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/about_relate/about_relate_screen.dart';
 import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
@@ -16,11 +15,11 @@ class DrawerTilesViewModel {
       'title': tWellnessCentres,
       'destination': const WellnessCentresScreen()
     },
-    {
-      'leading': const Icon(Icons.bar_chart),
-      'title': tSelfJourney,
-      'destination': SelfJourneyUpdatedScreen()
-    },
+    // {
+    //   'leading': const Icon(Icons.bar_chart),
+    //   'title': tSelfJourney,
+    //   'destination': SelfJourneyUpdatedScreen()
+    // },
     {
       'leading': const Icon(
         Icons.send_sharp,

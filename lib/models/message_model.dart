@@ -1,39 +1,27 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
   final String senderId;
-  final String uid;
-  final String receiverUserName;
+  final String senderUserName;
+  final String receiverId;
   final String time;
-  final String text;
-
+  final String message;
 
   Message({
     required this.senderId,
-    required this.uid,
-    required this.receiverUserName,
+    required this.senderUserName,
+    required this.receiverId,
     required this.time,
-    required this.text, required receiverId,
+    required this.message,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      "sender": senderId,
-      "reciever": uid,
-      "text": text,
+      "senderId": senderId,
+      "senderUserName": senderUserName,
+      "recieverId": receiverId,
+      "message": message,
       "time": time,
     };
   }
 }
-
-//   toJson() {
-//     return {
-//       "sender": senderId,
-//       "reciever": recieverId,
-//       "text": text,
-//       "time": time,
-//     };
-//   }
-// }
