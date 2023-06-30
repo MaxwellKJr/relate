@@ -38,7 +38,6 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
         .collection('professionals')
         .doc(uid)
         .get();
-
     String? userName;
 
     if (userDoc.exists) {
@@ -67,123 +66,21 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
     };
 
     if (text.isNotEmpty) {
-      flagOrFilterContent(text, () {
-        postContent(post);
-      }, () {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Content Violation'),
-            content: const Text('Content contain banned keywords.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          ),
-        );
-      });
-    }
-  }
-
-  void flagOrFilterContent(
-    String content,
-    Function postCallback,
-    Function flagCallback,
-  ) {
-    final bannedKeywords = [
-      'fuck',
-      'keyword2',
-      'keyword3',
-    ];
-
-    bool containsBannedKeyword =
-        checkForBannedKeywords(content, bannedKeywords);
-
-    if (containsBannedKeyword) {
-      flagContentForReview(content);
-      flagCallback();
-    } else {
-      // Proceed with posting the content
-      postCallback();
-    }
-  }
-
-  bool checkForBannedKeywords(String content, List<String> bannedKeywords) {
-    for (String keyword in bannedKeywords) {
-      if (content.toLowerCase().contains(keyword.toLowerCase())) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  void flagContentForReview(String content) {
-    // Here, you can implement the logic to flag the content for manual review
-    // You can store the flagged content in a database or notify your moderation team
-    // for further action
-    print('Content flagged for review: $content');
-  }
-
-  void postContent(Map<String, dynamic> post) async {
-    final user = FirebaseAuth.instance;
-    final uid = user.currentUser?.uid;
-
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('issue_images')
-          .child(uid!)
-          .child(DateTime.now().toString() + '.jpg');
-
-      final task = ref.putFile(File(imageUrl));
-
-      final taskSnapshot = await task.whenComplete(() {});
-
-      final downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-      setState(() {
-        imageUrl = downloadUrl;
-      });
-
       await FirebaseFirestore.instance
           .collection('posts')
-          .doc(uid)
-          .collection('userPosts')
-          .add(post);
-
-      _postTextController.clear();
-      _focusController.clear();
-
-      Fluttertoast.showToast(
-        msg: "Issue Posted Successfully",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: primaryColor,
-        textColor: whiteColor,
-        fontSize: 16.0,
-      );
-    } else {
-      setState(() {
-        isEmpty = true;
-      });
+          .add(post)
+          .then((value) => {
+                Fluttertoast.showToast(
+                    msg: "Post Shared",
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.TOP,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: primaryColor,
+                    textColor: whiteColor,
+                    fontSize: 16.0),
+              });
+      Navigator.pop(context);
     }
-  }
-
-  Future getImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
-
-    setState(() {
-      // imageUrl = pickedFile.path;
-      imageUrl = pickedFile!.path;
-    });
   }
 
   @override

@@ -52,7 +52,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                 final formattedTime = DateFormat.Hm().format(dateTime);
 
                 final formattedDateTime = "$formattedDate @ $formattedTime";
-                // final formattedDateTime = "$formattedDate @ $formattedTime";
 
                 return PostTile(
                     post: post,
