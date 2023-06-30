@@ -3,60 +3,70 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:relate/screens/messages/message_detail_screen.dart';
 
 class ViewProfessionalDetailsScreen extends StatelessWidget {
-  final String professionalId;
-  final String uid;
+  final String professionalId, userName;
 
   const ViewProfessionalDetailsScreen({
     required this.professionalId,
-    required this.uid,
+    required this.userName,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Professional Details')),
+      appBar: AppBar(title: Text(userName)),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('professionals').doc(uid).get(),
+        future: FirebaseFirestore.instance
+            .collection('professionals')
+            .doc(professionalId)
+            .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.data() == null) {
-            return Center(child: Text('Professional not found'));
+            return const Center(child: CircularProgressIndicator());
           }
 
-          final professionalData = snapshot.data!.data() as Map<String, dynamic>;
+          final professionalData =
+              snapshot.data!.data() as Map<String, dynamic>;
           final userName = professionalData['userName'] as String;
           final professionallId = professionalData['uid'] as String;
           final email = professionalData['email'] as String;
           final phoneNumber = professionalData['phoneNumber'] as String;
-          final specializedIn = professionalData['specializedIn'] as List<dynamic>;
+
+          final profilePicture = professionalData['profilePicture'] as String;
+          final specializedIn =
+              professionalData['specializedIn'] as List<dynamic>;
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Container(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: CircleAvatar(
+                      child: ClipOval(
+                        child: Image.network(
+                          profilePicture,
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )),
                 Text(
                   userName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text('Email: $email'),
-                SizedBox(height: 16.0),
-                Text('uid: $professionallId'),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text('Phone Number: $phoneNumber'),
-                SizedBox(height: 16.0),
+                const SizedBox(height: 16.0),
                 Text('Specialized In: ${specializedIn.join(", ")}'),
-                SizedBox(height: 16.0),
-                ElevatedButton(
+                const SizedBox(height: 16.0),
+                FilledButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -64,12 +74,11 @@ class ViewProfessionalDetailsScreen extends StatelessWidget {
                         builder: (context) => MessageDetailScreen(
                           userName: userName,
                           professionallId: professionalId,
-
                         ),
                       ),
                     );
                   },
-                  child: Text('Send Message'),
+                  child: const Text('Send Message'),
                 ),
               ],
             ),

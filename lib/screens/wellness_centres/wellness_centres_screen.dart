@@ -20,85 +20,80 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
         body: SafeArea(
             child: SingleChildScrollView(
                 child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: layoutPadding, left: layoutPadding, bottom: 5),
-              child: Text(
-                "Wellness Centres",
-                style: GoogleFonts.poppins(
-                    fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            Container(
-                padding: const EdgeInsets.all(0),
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('wellnessCenters')
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      final wellnessCenters = snapshot.data?.docs;
-                      return SizedBox(
-                          height: 350,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: wellnessCenters?.length,
-                              itemBuilder: (context, index) {
-                                final wellnessCenter = wellnessCenters![index];
-                                final wellnessCenterId = wellnessCenter.id;
-                                final String address =
-                                    wellnessCenter['address'];
-                                final String background =
-                                    wellnessCenter['background'];
-                                final criteria = wellnessCenter['criteria'];
-                                final String name = wellnessCenter['name'];
-                                final String services =
-                                    wellnessCenter['services'];
-                                final String website =
-                                    wellnessCenter['website'];
-                                return SizedBox(
-                                    child: Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: layoutPadding,
-                                          // right: layoutPadding,
-                                        ),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              GestureDetector(
-                                                onTap: () async {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ViewWellnessCentreScreen(
-                                                                postId:
-                                                                    wellnessCenterId,
-                                                                name: name,
-                                                                address:
-                                                                    address,
-                                                                background:
-                                                                    background,
-                                                                criteria:
-                                                                    criteria,
-                                                                services:
-                                                                    services,
-                                                                website:
-                                                                    website,
-                                                              )));
-                                                },
-                                                child: SizedBox(
-                                                    width: 300,
-                                                    child: Card(
-                                                      elevation: 10,
-                                                      shape: const RoundedRectangleBorder(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+              top: layoutPadding, left: layoutPadding, bottom: 5),
+          child: Text(
+            "Wellness Centres",
+            style:
+                GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w400),
+          ),
+        ),
+        Container(
+            padding: const EdgeInsets.all(0),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('wellnessCenters')
+                  .snapshots(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  final wellnessCenters = snapshot.data?.docs;
+                  return SizedBox(
+                      height: 350,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: wellnessCenters?.length,
+                          itemBuilder: (context, index) {
+                            final wellnessCenter = wellnessCenters![index];
+                            final wellnessCenterId = wellnessCenter.id;
+                            final String address = wellnessCenter['address'];
+                            final String background =
+                                wellnessCenter['background'];
+                            final criteria = wellnessCenter['criteria'];
+                            final String name = wellnessCenter['name'];
+                            final String services = wellnessCenter['services'];
+                            final String website = wellnessCenter['website'];
+                            return SizedBox(
+                                child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: layoutPadding,
+                                      // right: layoutPadding,
+                                    ),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () async {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ViewWellnessCentreScreen(
+                                                            postId:
+                                                                wellnessCenterId,
+                                                            name: name,
+                                                            address: address,
+                                                            background:
+                                                                background,
+                                                            criteria: criteria,
+                                                            services: services,
+                                                            website: website,
+                                                          )));
+                                            },
+                                            child: SizedBox(
+                                                width: 300,
+                                                child: Card(
+                                                  elevation: 10,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius

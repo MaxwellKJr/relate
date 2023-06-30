@@ -1,60 +1,66 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
-import 'package:provider/provider.dart';
-import 'package:relate/constants/colors.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:get/get.dart';
+// import 'package:provider/provider.dart';
+// import 'package:relate/constants/colors.dart';
+// import 'package:relate/models/message_model.dart';
 
-class MessageServices {
-  final context = BuildContext;
+// class MessageServices extends ChangeNotifier {
+//   final messageTextController = TextEditingController();
 
-  Future<void> sendMessage(context, messageTextController, String messageId) async {
-    try {
-      final replyBody = messageTextController.text;
+//   // SEND MESSAGE
+//   Future<void> sendMessage(String receiverId, String messageId) async {
+//     try {
+//       final user = FirebaseAuth.instance;
+//       final currentUserId = user.currentUser?.uid;
 
-      final user = FirebaseAuth.instance;
-      final uid = user.currentUser?.uid;
-      final userDoc =
-      await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final userName = userDoc.data()!['userName'];
+//       final userDoc = await FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(currentUserId)
+//           .get();
+//       final userName = userDoc.data()!['userName'];
 
-      final reply = {
-        'uid': uid,
-        'userName': userName,
-        'messageBody': replyBody,
-        'timestamp': Timestamp.now(),
-      };
+//       final professionalDoc = await FirebaseFirestore.instance
+//           .collection('users')
+//           .doc(currentUserId)
+//           .get();
+//       final String professionalId = professionalDoc.data()!['uid'];
 
-      final messageRef =
-      FirebaseFirestore.instance.collection('Messages').doc(messageId);
+//       // Message newMessage = Message(
+//       //   'senderId': currentUserId,
+//       //   'senderUserName': userName,
+//       //   'receiverId': professionalId,
+//       //   'message': message,
+//       //   'timestamp': Timestamp.now(),
+//       // );
 
-      // if (commentBody != null) {
-      //   Fluttertoast.showToast(
-      //       msg: "Comment field can't be blank",
-      //       toastLength: Toast.LENGTH_SHORT,
-      //       gravity: ToastGravity.BOTTOM,
-      //       timeInSecForIosWeb: 1,
-      //       backgroundColor: primaryColor,
-      //       textColor: Colors.white,
-      //       fontSize: 16.0);
-      // } else {
-      await messageRef.collection('reply').add(reply).then((value) =>
-          Fluttertoast.showToast(
-              msg: "response Submitted",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              timeInSecForIosWeb: 1,
-              backgroundColor: primaryColor,
-              textColor: Colors.white,
-              fontSize: 16.0));
-      messageTextController.clear();
-      messageTextController.unfocus();
-      // }
-    } on FirebaseFirestore catch (error) {
-      print(error);
-    }
-  }
+//       final messageRef =
+//           FirebaseFirestore.instance.collection('Messages').doc(messageId);
 
-}
+//       // if (commentBody != null) {
+//       //   Fluttertoast.showToast(
+//       //       msg: "Comment field can't be blank",
+//       //       toastLength: Toast.LENGTH_SHORT,
+//       //       gravity: ToastGravity.BOTTOM,
+//       //       timeInSecForIosWeb: 1,
+//       //       backgroundColor: primaryColor,
+//       //       textColor: Colors.white,
+//       //       fontSize: 16.0);
+//       // } else {
+//       await messageRef.collection('reply').add(message).then((value) =>
+//           Fluttertoast.showToast(
+//               msg: "response Submitted",
+//               toastLength: Toast.LENGTH_SHORT,
+//               gravity: ToastGravity.BOTTOM,
+//               timeInSecForIosWeb: 1,
+//               backgroundColor: primaryColor,
+//               textColor: Colors.white,
+//               fontSize: 16.0));
+//       messageTextController.clear();
+//     } on FirebaseFirestore catch (error) {
+//       print(error);
+//     }
+//   }
+// }
