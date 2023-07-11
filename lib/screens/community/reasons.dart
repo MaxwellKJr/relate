@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/screens/community/communities_screen.dart';
-
 import '../../services/chat_database_services.dart';
 import '../communities.dart'; // Import the desired page
 
@@ -12,15 +11,16 @@ class Reason extends StatefulWidget {
   final String description;
   final String rules;
   final String userName;
-  const Reason(
-      {Key? key,
-      required this.groupId,
-      required this.groupName,
-      required this.purpose,
-      required this.description,
-      required this.rules,
-      required this.userName})
-      : super(key: key);
+
+  const Reason({
+    Key? key,
+    required this.groupId,
+    required this.groupName,
+    required this.purpose,
+    required this.description,
+    required this.rules,
+    required this.userName,
+  }) : super(key: key);
 
   @override
   State<Reason> createState() => _ReasonState();
@@ -35,9 +35,8 @@ class _ReasonState extends State<Reason> {
   void _submitReason() {
     String userName = widget.userName;
     String reason = reasonController.text;
-    String userId = uid; // Replace 'user_id' with the actual user ID
-    String groupId =
-        widget.groupId; // Replace 'group_id' with the actual group ID
+    String userId = uid;
+    String groupId = widget.groupId;
 
     firebaseReasons.reasons(userId, groupId, reason, userName);
 
@@ -52,8 +51,8 @@ class _ReasonState extends State<Reason> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              const Communities()), // Replace 'Communities' with the desired page
+        builder: (context) => const Communities(),
+      ),
     );
   }
 
@@ -91,7 +90,6 @@ class _ReasonState extends State<Reason> {
             ElevatedButton(
               onPressed: () {
                 _submitReason();
-                // Optionally, you can navigate back to the previous page or perform any other action
               },
               child: const Text('Submit'),
             ),
@@ -101,3 +99,4 @@ class _ReasonState extends State<Reason> {
     );
   }
 }
+//The Reason widget represents a page where users can provide a reason for joining a group.

@@ -14,8 +14,10 @@ class ChatScreen extends StatefulWidget {
   final String rules;
   final String purpose;
   final String admin;
+  final String imageUrl;
   const ChatScreen(
       {Key? key,
+      required this.imageUrl,
       required this.groupId,
       required this.admin,
       required this.groupName,
@@ -49,16 +51,6 @@ class _ChatScreenState extends State<ChatScreen> {
     'ass',
     'keyword',
   ];
-  // Future<void> fetchBannedKeywords() async {
-  //   final snapshot = await FirebaseFirestore.instance
-  //       .collection('bannedwords')
-  //       .doc('keywords')
-  //       .get();
-  //   final data = snapshot.data() as Map<String, dynamic>;
-  //   setState(() {
-  //     bannedKeywords = List<String>.from(data['keywords']);
-  //   });
-  // }
 
   //implementations for checking
   void checkAndSendMessage() {
@@ -129,6 +121,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => GroupJoinedChatInfor(
+                      imageUrl: widget.imageUrl,
                       groupId: widget.groupId,
                       groupName: widget.groupName,
                       userName: widget.userName,
