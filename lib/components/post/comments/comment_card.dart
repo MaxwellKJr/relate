@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/image_strings.dart';
 
 class CommentCard extends StatefulWidget {
   final String userName, commentBody;
