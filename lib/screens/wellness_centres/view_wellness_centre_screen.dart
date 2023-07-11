@@ -6,6 +6,8 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/screens/wellness_centres/webview_for_wellness_centres.dart';
 import 'package:relate/services/post_services.dart';
 
+/// View the wellness centre details
+
 class ViewWellnessCentreScreen extends StatefulWidget {
   final String postId, name, address, background, criteria, services, website;
 
@@ -102,6 +104,8 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                                           milliseconds: 400),
                                                       child:
                                                           WebviewForWellnessCentres(
+                                                              websiteName:
+                                                                  widget.name,
                                                               website: website),
                                                     ));
                                               },
@@ -136,23 +140,6 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                     widget.services,
                                     style: GoogleFonts.poppins(fontSize: 14),
                                   ),
-                                  // if (widget.image != '')
-                                  //   Container(
-                                  //       padding: const EdgeInsets.only(top: 10),
-                                  //       child: ClipRRect(
-                                  //         borderRadius:
-                                  //             BorderRadius.circular(20.0),
-                                  //         child: Image.network(
-                                  //           widget.image,
-                                  //           fit: BoxFit.cover,
-                                  //         ),
-                                  //       ))
-                                  // else
-                                  //   // Container(),
-                                  //   // PostBottomIcons(
-                                  //   //   postId: postId,
-                                  //   //   relates: const [],
-                                  //   // ),
                                 ],
                               ),
                             ],

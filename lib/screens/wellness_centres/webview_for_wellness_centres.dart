@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewForWellnessCentres extends StatefulWidget {
-  final String website;
+  final String websiteName, website;
 
-  const WebviewForWellnessCentres({super.key, required this.website});
+  const WebviewForWellnessCentres(
+      {super.key, required this.websiteName, required this.website});
 
   @override
   State<WebviewForWellnessCentres> createState() =>
@@ -35,7 +36,7 @@ class _WebviewForWellnessCentresState extends State<WebviewForWellnessCentres> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("WebView"),
+        title: Text(widget.websiteName),
       ),
       body: WebViewWidget(controller: controller),
     );
