@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:relate/constants/colors.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatefulWidget {
   final String userName, commentBody;
@@ -21,8 +22,10 @@ class CommentCard extends StatefulWidget {
 class _CommentCardState extends State<CommentCard> {
   @override
   Widget build(BuildContext context) {
-    //Format date
+    /// Format date
     final dateTime = widget.timestamp.toDate();
+
+    final daysAgo = timeago.format(dateTime, locale: 'en_short');
     final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
     final formattedTime = DateFormat.Hm().format(dateTime);
 
@@ -45,21 +48,17 @@ class _CommentCardState extends State<CommentCard> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.userName,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700, fontSize: 17),
-                      ),
-                      Text(
-                        "@ $formattedTime",
-                        style:
-                            const TextStyle(fontSize: 15, color: primaryColor),
-                      ),
-                    ],
+                  Text(
+                    widget.userName,
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700, fontSize: 17),
+                  ),
+                  Text(
+                    "$daysAgo",
+                    style: const TextStyle(fontSize: 15, color: primaryColor),
                   ),
                 ],
               ),
