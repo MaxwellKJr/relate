@@ -16,7 +16,15 @@ class _CommentsSectionState extends State<CommentsSection> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(top: 40, bottom: 80),
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: Colors.teal,
+              width: 1.0,
+            ),
+          ),
+        ),
+        padding: const EdgeInsets.only(top: 20, bottom: 80),
         child: Column(
           children: [
             /// Using StreamBuilder by getting the postId and comments collection

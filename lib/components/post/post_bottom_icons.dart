@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/image_strings.dart';
-import 'package:relate/constants/size_values.dart';
 
 class PostBottomIcons extends StatefulWidget {
   final String postId;
@@ -18,6 +16,7 @@ class PostBottomIcons extends StatefulWidget {
   State<PostBottomIcons> createState() => _PostBottomIconsState();
 }
 
+/// Post Bottom icons that enable users to relate to a post and also see number of comments in a post
 class _PostBottomIconsState extends State<PostBottomIcons>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;

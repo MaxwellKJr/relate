@@ -185,6 +185,7 @@ class _ViewPostState extends State<ViewPost> {
                                 )
                               else
                                 Container(),
+                              const SizedBox(height: 25),
                               CommentsSection(postId: postId),
                             ],
                           ),
