@@ -7,6 +7,9 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/signup_screen.dart';
 import 'package:relate/services/auth.dart';
 
+/// This is the login screen
+/// Either a normal user and professional can use this screen to login
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -14,8 +17,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  /// Instantiate the auth class
   final Auth auth = Auth();
 
+  /// TextEditing Controllers to be used in the the respective fields
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -24,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
+  /// function to trigger the loading animation
   void onButtonPressed() {
     setState(() {
       _isLoading = true;
@@ -99,6 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? const CircularProgressIndicator.adaptive()
                                 : FilledButton(
                                     onPressed: () {
+                                      /// Validator to ensure that all parameters are met and that text field !empty upon sending
                                       if (_formKey.currentState!.validate()) {
                                         onButtonPressed();
                                         _focusNode1.unfocus();

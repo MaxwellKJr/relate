@@ -1,25 +1,30 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/screens/authentication/get_user_data_screen.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/authentication/professional/get_professional_data_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Auth class contains all methods that have to do with authentication
+/// Include signUp, login, and signout
+
 class Auth {
+  /// Get the context (scope) for each instance of where it is being used
+  /// This can be another function or a screen
+
   final context = BuildContext;
+
+  /// [userName] to be used
 
   String? userName;
   String? profilePicture;
 
+  /// signUp as a normal user !professional
   void signUp(
     context,
     userNameController,
@@ -93,6 +98,7 @@ class Auth {
     }
   }
 
+  /// signUpAsProfessional
   void signUpAsProfessional(context, userNameController, phoneNumberController,
       emailController, passwordController) async {
     try {
@@ -168,6 +174,7 @@ class Auth {
     }
   }
 
+  /// login
   void login(context, _emailController, _passwordController) async {
     try {
       await FirebaseAuth.instance

@@ -29,6 +29,9 @@ class PostTile extends StatelessWidget {
   Future<void> morePostOptions(BuildContext context) async {
     final currentUser = FirebaseAuth.instance.currentUser?.uid;
 
+    /// Check if the user is the owner of the post
+    /// if true, give them the option to delete the post
+    /// else give them the option to report the post
     if (currentUser == uid) {
       showDialog(
           context: context,
@@ -47,7 +50,8 @@ class PostTile extends StatelessWidget {
                 TextButton(
                   child: const Text('Delete'),
                   onPressed: () async {
-                    // Delete Comments First
+                    /// Firebase requires that inner documents or fields or collections are deleted first before outer collections
+                    /// Delete Comments First
                     final commentsRef = await FirebaseFirestore.instance
                         .collection("posts")
                         .doc(postId)
@@ -63,7 +67,7 @@ class PostTile extends StatelessWidget {
                           .delete();
                     }
 
-                    // Delete Post
+                    /// Delete Post
                     FirebaseFirestore.instance
                         .collection("posts")
                         .doc(postId)
@@ -85,12 +89,14 @@ class PostTile extends StatelessWidget {
             );
           });
     } else {
+      /// if user is not the owner of the post give them the option to report it
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Report Post'),
-            content: const Text('Posts that get reported more than 3 times will automatically be deleted. Are you sure you want to report this post?'),
+            content: const Text(
+                'Posts that get reported more than 3 times will automatically be deleted. Are you sure you want to report this post?'),
             actions: [
               TextButton(
                 child:
@@ -102,12 +108,12 @@ class PostTile extends StatelessWidget {
               TextButton(
                 child: const Text('Yes, report'),
                 onPressed: () async {
-                  // Get the current post document reference
+                  /// Get the current post document reference or uid
                   final postRef = FirebaseFirestore.instance
                       .collection('posts')
                       .doc(postId);
 
-                  // Add the current user's ID to the reports field array
+                  /// Add the current user's ID to the reports field array
                   await postRef.update({
                     'reports': FieldValue.arrayUnion([currentUser]),
                   }).then((value) => {
@@ -123,15 +129,16 @@ class PostTile extends StatelessWidget {
 
                   Navigator.of(context).pop();
 
-                  // Get the updated post document snapshot
+                  /// Get the updated post document snapshot
                   final postSnapshot = await postRef.get();
 
-                  // Get the reports count from the updated post document
+                  /// Get the reports count from the updated post document
                   final reportsCount =
                       postSnapshot.data()?['reports']?.length ?? 0;
 
+                  /// This will check if the post has more than 2 reports
+                  /// Then elete the post if there are more than 2 reports
                   if (reportsCount > 2) {
-                    // Delete the post if there are more than 0 reports
                     await postRef.delete();
                   }
                 },
@@ -224,8 +231,7 @@ class PostTile extends StatelessWidget {
                                               style: GoogleFonts.poppins(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600),
-                                        maxLines: 2,
-                                        
+                                              maxLines: 2,
                                             ),
                                             const SizedBox(
                                               width: 5,
