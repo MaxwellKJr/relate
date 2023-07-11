@@ -137,7 +137,7 @@ class PostTile extends StatelessWidget {
                       postSnapshot.data()?['reports']?.length ?? 0;
 
                   /// This will check if the post has more than 2 reports
-                  /// Then elete the post if there are more than 2 reports
+                  /// Then delete the post if there are more than 2 reports
                   if (reportsCount > 2) {
                     await postRef.delete();
                   }
