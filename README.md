@@ -34,17 +34,17 @@ You can also access the app through an online emulator here: [Start Android Simu
 Here is the folder structure for the app
 
 relate
-    ├── android
-    ├── assets
-    ├── lib
-		├── components
-    	├── constants
-		├── models
-    	├── screens
-		├── services
-    	├── view_models
-    ├── pubspec.yaml
-    └── README.md
+├── android
+├── assets
+├── lib
+    ├── components
+    ├── constants
+    ├── models
+    ├── screens
+    ├── services
+    ├── view_models
+├── pubspec.yaml
+└── README.md
 	
 The Assets folder contains all the images and icons that were used in the app
 
