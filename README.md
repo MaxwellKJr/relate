@@ -37,12 +37,12 @@ relate
 ├── android
 ├── assets
 ├── lib
-    ├── components
-    ├── constants
-    ├── models
-    ├── screens
-    ├── services
-    ├── view_models
+├── components
+├── constants
+├── models
+├── screens
+├── services
+├── view_models
 ├── pubspec.yaml
 └── README.md
 	
