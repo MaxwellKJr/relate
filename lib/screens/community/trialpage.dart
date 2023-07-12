@@ -150,3 +150,7 @@ class _TrialPageState extends State<TrialPage> {
     );
   }
 }
+//The TrialPage widget represents a page that displays the details of a group that the current user is not in.
+// It includes the group name, purpose, description, and rules. 
+//Users can join the group by clicking on the "Join Now" button if they are not already a member.
+// The membership status is checked based on the current user's ID and the list of members stored in the Firestore database.

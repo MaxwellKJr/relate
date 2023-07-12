@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../chat/chat_screen.dart';
 
 class GroupCards extends StatefulWidget {
@@ -11,6 +10,7 @@ class GroupCards extends StatefulWidget {
   final String description;
   final String admin;
   final String imageUrl;
+
   const GroupCards({
     Key? key,
     required this.imageUrl,
@@ -33,17 +33,20 @@ class _GroupCardsState extends State<GroupCards> {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreen(
-                  groupId: widget.groupId,
-                  groupName: widget.groupName,
-                  userName: widget.userName,
-                  description: widget.description,
-                  purpose: widget.purpose,
-                  rules: widget.rules,
-                  admin: widget.admin),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatScreen(
+              imageUrl: widget.imageUrl,
+              groupId: widget.groupId,
+              groupName: widget.groupName,
+              userName: widget.userName,
+              description: widget.description,
+              purpose: widget.purpose,
+              rules: widget.rules,
+              admin: widget.admin,
+            ),
+          ),
+        );
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -51,9 +54,13 @@ class _GroupCardsState extends State<GroupCards> {
           leading: CircleAvatar(
             radius: 30,
             backgroundColor: Theme.of(context).primaryColor,
-            child: Image.network(
-              widget.imageUrl,
-              fit: BoxFit.cover,
+            child: ClipOval(
+              child: Image.network(
+                widget.imageUrl,
+                fit: BoxFit.cover,
+                width: 100,
+                height: 100,
+              ),
             ),
           ),
           title: Text(
@@ -62,7 +69,6 @@ class _GroupCardsState extends State<GroupCards> {
           ),
           subtitle: const Text(
             "Join the conversation as ",
-            // widget.userName,
             style: TextStyle(fontSize: 13),
           ),
         ),

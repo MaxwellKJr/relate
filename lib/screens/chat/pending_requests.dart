@@ -139,8 +139,8 @@ class _PendingRequestState extends State<PendingRequest> {
   }
 
   Future<void> fetchData() async {
-    List<Map<String, dynamic>> results = await chatDatabase
-        .retrieveDataByGroupId(widget.groupId); // Use ChatDatabase instance
+    List<Map<String, dynamic>> results =
+        await chatDatabase.retrieveDataByGroupId(widget.groupId);
     setState(() {
       requestList =
           results.where((data) => data['status'] == 'NotApproved').toList();
@@ -156,7 +156,6 @@ class _PendingRequestState extends State<PendingRequest> {
           userId: requestList[index]['userId'],
           userName: requestList[index]['userName'],
           reason: requestList[index]['reason'],
-          // Pass any other required details
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:relate/screens/chat/chat_screen.dart';
-import 'package:relate/screens/community/community_groups.dart';
+// import 'package:relate/screens/community/community_groups.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
@@ -17,7 +17,7 @@ class _NavigationBarMainState extends State<NavigationBarMain> {
 
   final screens = [
     const HomeScreen(),
-    const CommunityGroupsScreen(),
+    // const CommunityGroupsScreen(),
     // const MessagesScreen(),
     // const UserProfileScreen()
   ];

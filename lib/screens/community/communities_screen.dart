@@ -2,23 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/screens/community/alllgroups.dart';
 import 'package:relate/screens/community/group_cards.dart';
-// import 'package:relate/screens/community/search_and_join_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:relate/components/navigation/drawer/drawer_community.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
-import 'package:relate/components/navigation/navigation_bar.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/community/group_cards.dart';
-import 'package:relate/screens/community/group_info_card.dart';
-import 'package:relate/screens/community/search_and_join%20_screen.dart';
 import 'package:relate/screens/create_group/CreateGroup.dart';
 import 'package:relate/services/chat_database_services.dart';
-import 'package:relate/services/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
 
 class Communities extends StatefulWidget {
   const Communities({Key? key}) : super(key: key);
@@ -39,17 +29,13 @@ class _CommunitiesState extends State<Communities>
   String description = "";
   String rules = "";
   Stream? allGroupsStream;
-  // Stream<DocumentSnapshot<Map<String, dynamic>>>? myGroupsStream;
-  Stream<List<DocumentSnapshot<Map<String, dynamic>>>>?
-      myGroupsStream; // Updated type
+  Stream<List<DocumentSnapshot<Map<String, dynamic>>>>? myGroupsStream;
 
-  //new alterations
+  // New alterations
   bool hasUserSearched = false;
   bool isJoined = false;
 
-//
-
-  // string manipulation
+  // String manipulation
   String getUsertId(String res) {
     return res.substring(0, res.indexOf("_"));
   }
@@ -79,6 +65,7 @@ class _CommunitiesState extends State<Communities>
     super.dispose();
   }
 
+  // Fetch user data from SharedPreferences and Firestore
   gettingUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String storedUserName = prefs.getString('userName') ?? "";
@@ -96,30 +83,6 @@ class _CommunitiesState extends State<Communities>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(tCommunityGroups,
-      //       style: TextStyle(fontWeight: FontWeight.w500)),
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.search),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //               builder: (context) => SearchAndJoin(
-      //                     groupId: groupId,
-      //                     // admin: admin,
-      //                     groupName: groupName,
-      //                     userName: userName,
-      //                     description: description,
-      //                     purpose: purpose,
-      //                     rules: rules,
-      //                   )),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: Column(
         children: [
           TabBar(
@@ -163,18 +126,11 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
+  // Widget for displaying the user's groups
   Widget myGroupList() {
     return StreamBuilder<List<DocumentSnapshot>>(
-      stream: myGroupsStream, // Updated stream type
+      stream: myGroupsStream,
       builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return Center(
-        //     child: CircularProgressIndicator(
-        //       color: Theme.of(context).primaryColor,
-        //     ),
-        //   );
-        // }
-
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
@@ -197,7 +153,6 @@ class _CommunitiesState extends State<Communities>
             String rules = myGroups[index].get('rules');
 
             return GroupCards(
-                // groupId: myGroups[index].id,
                 imageUrl: imageUrl,
                 groupId: groupId,
                 userName: userName,
@@ -212,6 +167,7 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
+  // Widget for displaying a message when the user has no groups
   noGroupWidget() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -228,7 +184,8 @@ class _CommunitiesState extends State<Communities>
     );
   }
 
+  // Widget for displaying the list of all groups
   Widget allGroupList() {
-    return AllGroups();
+    return const AllGroups();
   }
 }
