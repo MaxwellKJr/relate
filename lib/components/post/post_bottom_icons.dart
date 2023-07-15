@@ -31,6 +31,12 @@ class _PostBottomIconsState extends State<PostBottomIcons>
 
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 700));
+
+    if (relates) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
   }
 
   @override
@@ -42,7 +48,7 @@ class _PostBottomIconsState extends State<PostBottomIcons>
   void toggleRelate() {
     setState(() {
       relates = !relates;
-      fetchCommentsLength();
+      // fetchCommentsLength();
     });
 
     DocumentReference postRef =
@@ -130,8 +136,7 @@ class _PostBottomIconsState extends State<PostBottomIcons>
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Text("");
-                        }
-                        if (snapshot.hasData) {
+                        } else if (snapshot.hasData) {
                           commentsLength = snapshot.data!;
                         }
                         return Text(
