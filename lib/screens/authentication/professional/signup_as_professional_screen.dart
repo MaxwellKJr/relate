@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
@@ -28,6 +29,11 @@ class _SignupAsProfessionalScreenState
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
   final _focusNode3 = FocusNode();
+
+  final RegExp _userNameRegEx = RegExp(r'\s');
+  final RegExp _emailRegEx = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$');
+  final RegExp _passwordRegEx = RegExp(r'[a-zA-Z0-9]');
 
   bool _isLoading = false;
 
@@ -81,6 +87,9 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.person),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.name,
+                                inputFormatters:
+                                    FilteringTextInputFormatter.deny(
+                                        _userNameRegEx),
                                 focusNode: _focusNode1,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -94,6 +103,9 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
+                                inputFormatters:
+                                    FilteringTextInputFormatter.allow(
+                                        _emailRegEx),
                                 focusNode: _focusNode2,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -107,6 +119,9 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
+                                inputFormatters:
+                                    FilteringTextInputFormatter.allow(
+                                        _passwordRegEx),
                                 focusNode: _focusNode3,
                                 onFieldSubmitted: (value) =>
                                     auth.signUpAsProfessional(

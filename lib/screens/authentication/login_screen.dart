@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
@@ -26,6 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _focusNode1 = FocusNode();
   final _focusNode2 = FocusNode();
+
+  final RegExp _emailRegEx = RegExp(
+      r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$');
+  final RegExp _passwordRegEx = RegExp(r'[a-zA-Z0-9]');
 
   bool _isLoading = false;
 
@@ -76,6 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
+                                inputFormatters:
+                                    FilteringTextInputFormatter.allow(
+                                        _emailRegEx),
                                 focusNode: _focusNode1,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -89,6 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.visiblePassword,
+                                inputFormatters:
+                                    FilteringTextInputFormatter.allow(
+                                        _passwordRegEx),
                                 focusNode: _focusNode2,
                                 onFieldSubmitted: (value) => auth.login(context,
                                     _emailController, _passwordController),
