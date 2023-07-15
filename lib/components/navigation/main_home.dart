@@ -1,17 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
-import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/post_issue/post_issue_screen.dart';
 import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
-import 'package:relate/screens/community/search_and_join _screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class MainHomeScreen extends StatefulWidget {
@@ -83,15 +79,36 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
           destinations: const [
             NavigationDestination(
-                icon: Icon(Icons.home_rounded), label: "Home"),
+                icon: Icon(
+                  Icons.home_rounded,
+                  size: 20,
+                ),
+                label: "Home"),
             NavigationDestination(
-                icon: Icon(Icons.people_rounded), label: "Communities"),
+                icon: Icon(
+                  CupertinoIcons.group_solid,
+                  size: 25,
+                ),
+                label: "Communities"),
             NavigationDestination(
-                icon: Icon(Icons.post_add_rounded), label: "Post"),
+                icon: Icon(
+                  CupertinoIcons.add_circled_solid,
+                  size: 35,
+                  color: primaryColor,
+                ),
+                label: "Post"),
             NavigationDestination(
-                icon: Icon(Icons.bar_chart_rounded), label: "Plans"),
+                icon: Icon(
+                  CupertinoIcons.list_dash,
+                  size: 20,
+                ),
+                label: "Plans"),
             NavigationDestination(
-                icon: Icon(Icons.search_outlined), label: "Discover"),
+                icon: Icon(
+                  CupertinoIcons.search,
+                  size: 20,
+                ),
+                label: "Discover"),
           ],
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>

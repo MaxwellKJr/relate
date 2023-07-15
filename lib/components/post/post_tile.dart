@@ -246,9 +246,9 @@ class PostTile extends StatelessWidget {
                                             ),
                                             Text(
                                               focus,
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.roboto(
                                                   color: primaryColor,
-                                                  fontSize: 12,
+                                                  fontSize: 13,
                                                   fontWeight: FontWeight.w800),
                                             ),
                                           ],
@@ -267,14 +267,15 @@ class PostTile extends StatelessWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                IconButton(
-                                    onPressed: () {
-                                      morePostOptions(context);
-                                    },
-                                    icon: const Icon(
-                                      Icons.more_vert,
-                                      size: 18,
-                                    ))
+                                GestureDetector(
+                                  onTap: () {
+                                    morePostOptions(context);
+                                  },
+                                  child: const Icon(
+                                    Icons.more_vert,
+                                    size: 19,
+                                  ),
+                                )
                               ],
                             ),
                             const SizedBox(height: 10),
