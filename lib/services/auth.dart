@@ -209,7 +209,7 @@ class Auth {
         }
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen()));
+            builder: (BuildContext context) => const MainHomeScreen()));
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
