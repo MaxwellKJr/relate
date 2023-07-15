@@ -95,8 +95,20 @@ class PostTile extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Report Post'),
-            content: const Text(
-                'Posts that get reported more than 3 times will automatically be deleted. Are you sure you want to report this post?'),
+            content: const SizedBox(
+              height: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                      'Posts that get reported more than 3 times will automatically be deleted.'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Are you sure you want to report this post?'),
+                ],
+              ),
+            ),
             actions: [
               TextButton(
                 child:

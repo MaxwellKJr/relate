@@ -136,7 +136,7 @@ class _ViewPostState extends State<ViewPost> {
                                         children: [
                                           Text(
                                             widget.postedBy,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.roboto(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -152,7 +152,7 @@ class _ViewPostState extends State<ViewPost> {
                                             widget.focus,
                                             style: GoogleFonts.roboto(
                                               color: primaryColor,
-                                              fontSize: 12,
+                                              fontSize: 13,
                                               fontWeight: FontWeight.w800,
                                             ),
                                           ),
