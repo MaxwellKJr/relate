@@ -40,6 +40,7 @@ class AuthTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       maxLines: 1,
+      maxLength: 40,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       focusNode: focusNode,

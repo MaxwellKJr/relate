@@ -31,8 +31,7 @@ class _SignupAsProfessionalScreenState
   final _focusNode3 = FocusNode();
 
   final RegExp _userNameRegEx = RegExp(r'\s');
-  final RegExp _emailRegEx = RegExp(
-      r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$');
+  final RegExp _emailRegEx = RegExp(r'\s');
   final RegExp _passwordRegEx = RegExp(r'[a-zA-Z0-9]');
 
   bool _isLoading = false;
@@ -87,9 +86,10 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.person),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.name,
-                                inputFormatters:
-                                    FilteringTextInputFormatter.deny(
-                                        _userNameRegEx),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      _userNameRegEx),
+                                ],
                                 focusNode: _focusNode1,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -103,9 +103,9 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
-                                inputFormatters:
-                                    FilteringTextInputFormatter.allow(
-                                        _emailRegEx),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(_emailRegEx),
+                                ],
                                 focusNode: _focusNode2,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -119,9 +119,10 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
-                                inputFormatters:
-                                    FilteringTextInputFormatter.allow(
-                                        _passwordRegEx),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      _passwordRegEx),
+                                ],
                                 focusNode: _focusNode3,
                                 onFieldSubmitted: (value) =>
                                     auth.signUpAsProfessional(
