@@ -1,11 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/image_strings.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatefulWidget {
@@ -77,16 +74,14 @@ class _CommentCardState extends State<CommentCard> {
                         children: [
                           Text(
                             widget.userName,
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.w600, fontSize: 17),
                           ),
                           const SizedBox(
                             height: 7,
                           ),
-                          Text(
-                            widget.commentBody,
-                            style: const TextStyle(fontSize: 15),
-                          ),
+                          Text(widget.commentBody,
+                              style: GoogleFonts.openSans(fontSize: 15)),
                           const SizedBox(
                             height: 15,
                           ),

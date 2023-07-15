@@ -6,9 +6,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
-import 'package:relate/models/post.dart';
 import 'package:relate/screens/post_issue/view_post_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PostTile extends StatelessWidget {
   String postId, text, focus, image, postedBy, uid, formattedDateTime, daysAgo;
@@ -175,8 +175,8 @@ class PostTile extends StatelessWidget {
                             formattedDateTime: formattedDateTime,
                             uid: uid,
                           ),
-                          type: PageTransitionType.fade,
-                          duration: const Duration(milliseconds: 500)));
+                          type: PageTransitionType.rightToLeft,
+                          duration: const Duration(milliseconds: 300)));
                 },
                 child: SizedBox(
                     width: double.infinity,
@@ -228,7 +228,7 @@ class PostTile extends StatelessWidget {
                                           children: [
                                             Text(
                                               postedBy,
-                                              style: GoogleFonts.poppins(
+                                              style: GoogleFonts.roboto(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600),
                                               maxLines: 2,
@@ -257,7 +257,7 @@ class PostTile extends StatelessWidget {
                                           opacity: 0.6,
                                           child: Text(
                                             daysAgo,
-                                            style: const TextStyle(),
+                                            style: GoogleFonts.roboto(),
                                           ),
                                         )
                                       ],
@@ -280,7 +280,7 @@ class PostTile extends StatelessWidget {
                             const SizedBox(height: 10),
                             Text(
                               text,
-                              style: GoogleFonts.roboto(fontSize: 14.5),
+                              style: GoogleFonts.openSans(fontSize: 14.5),
                               maxLines: 10,
                             ),
                             if (post['image'] != null && post['image'] != '')
@@ -288,8 +288,19 @@ class PostTile extends StatelessWidget {
                                   padding: const EdgeInsets.only(top: 20),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.network(
-                                      image,
+                                    child: CachedNetworkImage(
+                                      key: UniqueKey(),
+                                      imageUrl: image,
+                                      width: double.infinity,
+                                      maxHeightDiskCache: 700,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Center(
+                                        child: Icon(Icons.error),
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
                                   ))

@@ -8,6 +8,7 @@ import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/messages/messages_screen.dart';
+import 'package:relate/screens/post_issue/post_issue_screen.dart';
 import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/screens/community/search_and_join _screen.dart';
@@ -40,6 +41,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final screens = [
       const HomeScreen(),
       const Communities(),
+      const PostIssueScreen(),
       SelfJourneyUpdatedScreen(),
       const WellnessCentresScreen(),
     ];
@@ -47,6 +49,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final screenTitle = [
       "Home",
       "Communities",
+      "Post",
       "Self Recovery Plans",
       "Discover"
     ];
@@ -77,11 +80,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         body: screens[currentPageIndex],
         drawer: const DrawerMain(),
         bottomNavigationBar: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
           destinations: const [
             NavigationDestination(
                 icon: Icon(Icons.home_rounded), label: "Home"),
             NavigationDestination(
                 icon: Icon(Icons.people_rounded), label: "Communities"),
+            NavigationDestination(
+                icon: Icon(Icons.post_add_rounded), label: "Post"),
             NavigationDestination(
                 icon: Icon(Icons.bar_chart_rounded), label: "Plans"),
             NavigationDestination(

@@ -50,6 +50,7 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
                 //Format date
                 final dateTime = timestamp.toDate();
                 final daysAgo = timeago.format(dateTime);
+
                 final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
                 final formattedTime = DateFormat.Hm().format(dateTime);
                 final formattedDateTime = "$formattedDate @ $formattedTime";

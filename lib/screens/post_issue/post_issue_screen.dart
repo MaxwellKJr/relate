@@ -6,6 +6,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:relate/constants/size_values.dart';
@@ -79,7 +81,11 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                     textColor: whiteColor,
                     fontSize: 16.0),
               });
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              child: const MainHomeScreen(),
+              type: PageTransitionType.leftToRight));
     }
   }
 
@@ -89,27 +95,126 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     return SafeArea(
         child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(56.0),
-              child: Container(
-                padding: const EdgeInsets.only(right: layoutPadding - 2),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey[300]!,
-                      width: 1.0,
+            // appBar: PreferredSize(
+            //   preferredSize: const Size.fromHeight(56.0),
+            //   child: Container(
+            //     padding: const EdgeInsets.only(right: layoutPadding - 2),
+            //     decoration: BoxDecoration(
+            //       border: Border(
+            //         bottom: BorderSide(
+            //           color: Colors.grey[300]!,
+            //           width: 1.0,
+            //         ),
+            //       ),
+            //     ),
+            //     child: AppBar(
+            //       title: const Text("Share"),
+            //       leading: IconButton(
+            //         icon: Icon(Icons.adaptive.arrow_back),
+            //         onPressed: () {
+            //           Navigator.pop(context);
+            //         },
+            //       ),
+            //       actions: [
+            //         FilledButton(
+            //           onPressed: () {
+            //             if (_formKey.currentState!.validate()) {
+            //               sendPost();
+            //             }
+            //           },
+            //           child: const Text("Post"),
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            body: GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Form(
+                    key: _formKey,
+                    child: SizedBox(
+                      height: 100,
+                      child: TextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Post cannot be empty. This is not Twitter';
+                          }
+                          return null;
+                        },
+                        controller: _postTextController,
+                        decoration: const InputDecoration(
+                          hintText: 'Let it out...',
+                          border: InputBorder.none,
+                        ),
+                        maxLines: null,
+                      ),
+                    )),
+              ],
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomDropdown(
+                            fillColor: Colors.transparent,
+                            listItemStyle: const TextStyle(color: blackColor),
+                            selectedStyle: const TextStyle(color: Colors.teal),
+                            hintText: 'Choose focus',
+                            items: const [
+                              'General',
+                              'Depression',
+                              'Addiction',
+                              'Motivation'
+                            ],
+                            controller: _focusController,
+                          ),
+                        ),
+                        OutlinedButton.icon(
+                            onPressed: () async {
+                              ImagePicker imagePicker = ImagePicker();
+                              XFile? file = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
+                              print('${file?.path}');
+
+                              if (file == null) return;
+                              String uniqueImageName = DateTime.now()
+                                  .millisecondsSinceEpoch
+                                  .toString();
+
+                              Reference referenceRoot =
+                                  FirebaseStorage.instance.ref();
+                              Reference referenceDirImages =
+                                  referenceRoot.child('images');
+
+                              Reference imageReferenceToUpload =
+                                  referenceDirImages.child(uniqueImageName);
+
+                              await imageReferenceToUpload
+                                  .putFile(File(file.path));
+                              imageUrl =
+                                  await imageReferenceToUpload.getDownloadURL();
+                            },
+                            icon: const Icon(Icons.camera_alt),
+                            label: const Text("Choose Image")),
+                      ],
                     ),
-                  ),
-                ),
-                child: AppBar(
-                  title: const Text("Share"),
-                  leading: IconButton(
-                    icon: Icon(Icons.adaptive.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  actions: [
                     FilledButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -119,98 +224,11 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                       child: const Text("Post"),
                     )
                   ],
-                ),
-              ),
-            ),
-            body: GestureDetector(
-              onTap: () {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Stack(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Form(
-                            key: _formKey,
-                            child: SizedBox(
-                              height: 100,
-                              child: TextFormField(
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Enter some text';
-                                  }
-                                  return null;
-                                },
-                                controller: _postTextController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Share your thoughts...',
-                                  border: InputBorder.none,
-                                ),
-                                maxLines: null,
-                              ),
-                            )),
-                      ],
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: CustomDropdown(
-                              fillColor: Colors.transparent,
-                              listItemStyle: const TextStyle(color: blackColor),
-                              selectedStyle:
-                                  const TextStyle(color: Colors.teal),
-                              hintText: 'Choose focus',
-                              items: const [
-                                'General',
-                                'Depression',
-                                'Addiction',
-                                'Motivation'
-                              ],
-                              controller: _focusController,
-                            ),
-                          ),
-                          OutlinedButton.icon(
-                              onPressed: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                    source: ImageSource.gallery);
-                                print('${file?.path}');
-
-                                if (file == null) return;
-                                String uniqueImageName = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
-
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
-
-                                Reference imageReferenceToUpload =
-                                    referenceDirImages.child(uniqueImageName);
-
-                                await imageReferenceToUpload
-                                    .putFile(File(file.path));
-                                imageUrl = await imageReferenceToUpload
-                                    .getDownloadURL();
-                              },
-                              icon: const Icon(Icons.camera_alt),
-                              label: const Text("Choose Image")),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                // bottomNavigationBar: const NavigationBarMain(),
-              ),
-            )));
+                )),
+          ],
+        ),
+        // bottomNavigationBar: const NavigationBarMain(),
+      ),
+    )));
   }
 }

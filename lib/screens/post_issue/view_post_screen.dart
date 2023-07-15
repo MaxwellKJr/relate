@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/post/comments_section.dart';
@@ -136,8 +137,8 @@ class _ViewPostState extends State<ViewPost> {
                                           Text(
                                             widget.postedBy,
                                             style: GoogleFonts.poppins(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w800,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                           const SizedBox(width: 5),
@@ -149,9 +150,9 @@ class _ViewPostState extends State<ViewPost> {
                                           const SizedBox(width: 5),
                                           Text(
                                             widget.focus,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.roboto(
                                               color: primaryColor,
-                                              fontSize: 15,
+                                              fontSize: 12,
                                               fontWeight: FontWeight.w800,
                                             ),
                                           ),
@@ -177,8 +178,16 @@ class _ViewPostState extends State<ViewPost> {
                                   padding: const EdgeInsets.only(top: 10),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
-                                    child: Image.network(
-                                      widget.image,
+                                    child: CachedNetworkImage(
+                                      imageUrl: widget.image,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Center(
+                                        child: Icon(Icons.error),
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
                                   ),

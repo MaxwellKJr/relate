@@ -19,10 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 4,
-        child: Scaffold(
+        child: const Scaffold(
           body: SafeArea(
             child: Column(
-              children:const [
+              children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: TabBar(isScrollable: true, tabs: [
@@ -43,23 +43,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    duration: const Duration(milliseconds: 400),
-                    child: const PostIssueScreen(),
-                  ));
-            },
-            backgroundColor: primaryColor,
-            elevation: 3,
-            child: const Icon(
-              Icons.add,
-              color: whiteColor,
-            ),
-          ),
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //         context,
+          //         PageTransition(
+          //           type: PageTransitionType.bottomToTop,
+          //           duration: const Duration(milliseconds: 400),
+          //           child: const PostIssueScreen(),
+          //         ));
+          //   },
+          //   backgroundColor: primaryColor,
+          //   elevation: 3,
+          //   child: const Icon(
+          //     Icons.post_add_outlined,
+          //     color: whiteColor,
+          //     size: 25,
+          //   ),
+          // ),
         ));
   }
 }
