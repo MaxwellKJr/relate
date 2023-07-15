@@ -4,9 +4,7 @@ const String tLogo = "assets/images/logo.png";
 const String tLogoWhite = "assets/images/logo-white.png";
 
 // Welcome and On Boarding Pages
-const String girls = "assets/images/welcome/girls.jpg";
-const String silhouette = "assets/images/welcome/silhouette.png";
-const String silhouettesHill = "assets/images/welcome/silhouette-hill.jpg";
+const pinkies = "assets/images/welcome/pinkies.jpg";
 
 // Animations
 const connections = "assets/animations/onboarding/connections.json";

@@ -49,6 +49,7 @@ class _SignupAsProfessionalScreenState
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
             body: SafeArea(
+                child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(
@@ -57,6 +58,9 @@ class _SignupAsProfessionalScreenState
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 100,
+                      ),
                       Text(
                         tCreateProfessionalAccount,
                         style: GoogleFonts.poppins(
@@ -175,6 +179,6 @@ class _SignupAsProfessionalScreenState
                   )
                 ],
               )),
-        )));
+        ))));
   }
 }
