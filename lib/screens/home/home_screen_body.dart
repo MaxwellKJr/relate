@@ -56,6 +56,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                         final Timestamp timestamp = post['timestamp'];
                         final String uid = post['uid'];
 
+                        final relates = post['relates'];
+
                         //Format date
                         final dateTime = timestamp.toDate();
 
@@ -71,6 +73,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
                         return PostTile(
                             post: post,
+                            relates: relates,
                             postId: postId,
                             text: text,
                             image: image,

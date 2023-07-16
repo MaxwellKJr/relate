@@ -61,6 +61,8 @@ class _AddictionPostsBodyState extends State<AddictionPostsBody> {
                         final Timestamp timestamp = post['timestamp'];
                         final String uid = post['uid'];
 
+                        final relates = post['relates'];
+
                         //Format date
                         final dateTime = timestamp.toDate();
                         final daysAgo = timeago.format(dateTime);
@@ -72,6 +74,7 @@ class _AddictionPostsBodyState extends State<AddictionPostsBody> {
 
                         return PostTile(
                             post: post,
+                            relates: relates,
                             postId: postId,
                             text: text,
                             image: image,

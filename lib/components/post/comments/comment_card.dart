@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,8 +67,9 @@ class _CommentCardState extends State<CommentCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        backgroundColor:
-                            Colors.pink, // Customize the background color
+                        backgroundColor: Color(
+                                (math.Random().nextDouble() * 0xFFFFFF).toInt())
+                            .withOpacity(1.0),
                         child: Text(
                           widget.userName.substring(
                               0, 1), // Get the first character of the userName

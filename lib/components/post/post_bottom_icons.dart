@@ -99,7 +99,6 @@ class _PostBottomIconsState extends State<PostBottomIcons>
         child: Padding(
             padding: const EdgeInsets.only(
               top: 20,
-              bottom: 15,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

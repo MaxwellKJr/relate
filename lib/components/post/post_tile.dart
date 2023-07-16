@@ -1,7 +1,7 @@
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
@@ -13,11 +13,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 class PostTile extends StatelessWidget {
   String postId, text, focus, image, postedBy, uid, formattedDateTime, daysAgo;
-  final post;
+  final post, relates;
 
   PostTile(
       {super.key,
       required this.post,
+      required this.relates,
       required this.postId,
       required this.text,
       required this.focus,
@@ -169,11 +170,23 @@ class PostTile extends StatelessWidget {
 
     return SizedBox(
         width: double.infinity,
-        child: Padding(
+        child: Container(
             padding: const EdgeInsets.only(
-              top: 8,
+              top: 15,
+              bottom: 15,
               left: layoutPadding - 10,
               right: layoutPadding - 10,
+            ),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  // color: borderColor,
+                  color: theme.brightness == Brightness.dark
+                      ? borderColorDark // set color for dark theme
+                      : borderColor, // set color for light theme
+                  width: 1.0,
+                ),
+              ),
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -183,6 +196,8 @@ class PostTile extends StatelessWidget {
                       context,
                       PageTransition(
                           child: ViewPost(
+                            post: post,
+                            relates: relates,
                             postId: postId,
                             text: text,
                             focus: focus,
@@ -201,17 +216,6 @@ class PostTile extends StatelessWidget {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              // color: borderColor,
-                              color: theme.brightness == Brightness.dark
-                                  ? borderColorDark // set color for dark theme
-                                  : borderColor, // set color for light theme
-                              width: 1.0,
-                            ),
-                          ),
-                        ),
                         padding: const EdgeInsets.only(
                           left: layoutPadding - 10,
                           right: layoutPadding - 10,

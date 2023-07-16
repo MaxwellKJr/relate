@@ -59,6 +59,8 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
                       final Timestamp timestamp = post['timestamp'];
                       final String uid = post['uid'];
 
+                      final relates = post['relates'];
+
                       //Format date
                       final dateTime = timestamp.toDate();
                       final daysAgo = timeago.format(dateTime);
@@ -71,6 +73,7 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
 
                       return PostTile(
                           post: post,
+                          relates: relates,
                           postId: postId,
                           text: text,
                           image: image,

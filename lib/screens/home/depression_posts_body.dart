@@ -65,6 +65,8 @@ class _DepressionPostsBodyState extends State<DepressionPostsBody> {
                         final Timestamp timestamp = post['timestamp'];
                         final String uid = post['uid'];
 
+                        final relates = post['relates'];
+
                         //Format date
                         final dateTime = timestamp.toDate();
                         final daysAgo = timeago.format(dateTime);
@@ -76,6 +78,7 @@ class _DepressionPostsBodyState extends State<DepressionPostsBody> {
 
                         return PostTile(
                             post: post,
+                            relates: relates,
                             postId: postId,
                             text: text,
                             image: image,
