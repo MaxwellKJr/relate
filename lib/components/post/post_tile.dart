@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
@@ -164,10 +165,13 @@ class PostTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
         width: double.infinity,
         child: Padding(
             padding: const EdgeInsets.only(
+              top: 8,
               left: layoutPadding - 10,
               right: layoutPadding - 10,
             ),
@@ -197,16 +201,18 @@ class PostTile extends StatelessWidget {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10))),
                       child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                              color: Colors.teal,
+                              // color: borderColor,
+                              color: theme.brightness == Brightness.dark
+                                  ? borderColorDark // set color for dark theme
+                                  : borderColor, // set color for light theme
                               width: 1.0,
                             ),
                           ),
                         ),
                         padding: const EdgeInsets.only(
-                          top: layoutPadding + 5,
                           left: layoutPadding - 10,
                           right: layoutPadding - 10,
                         ),
@@ -219,11 +225,16 @@ class PostTile extends StatelessWidget {
                                 Row(
                                   children: [
                                     CircleAvatar(
-                                      backgroundColor: Colors
-                                          .grey, // Customize the background color
+                                      backgroundColor: Colors.grey[400],
+                                      // Random color generator
+                                      // Color(
+                                      //               (math.Random().nextDouble() *
+                                      //                       0xFFFFFF)
+                                      //                   .toInt())
+                                      //           .withOpacity(1.0),
                                       child: Text(
                                         postedBy.substring(0,
-                                            1), // Get the first character of the userName
+                                            2), // Get the first character of the userName
                                         style: const TextStyle(
                                             color: Colors
                                                 .white), // Customize the text color
@@ -259,7 +270,13 @@ class PostTile extends StatelessWidget {
                                             Text(
                                               focus,
                                               style: GoogleFonts.roboto(
-                                                  color: primaryColor,
+                                                  color: focus == 'General'
+                                                      ? primaryColor
+                                                      : focus == 'Depression'
+                                                          ? depressionColor
+                                                          : focus == 'Addiction'
+                                                              ? addictionColor
+                                                              : motivationColor,
                                                   fontSize: 13,
                                                   fontWeight: FontWeight.w800),
                                             ),

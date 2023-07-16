@@ -3,9 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/image_strings.dart';
 
 class PostBottomIcons extends StatefulWidget {
   final String postId;
@@ -101,7 +99,7 @@ class _PostBottomIconsState extends State<PostBottomIcons>
         child: Padding(
             padding: const EdgeInsets.only(
               top: 20,
-              bottom: 20,
+              bottom: 15,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

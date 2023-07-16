@@ -16,7 +16,7 @@ class HomeScreenBody extends StatefulWidget {
 /// This widget gets user data from firebase
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   Future<void> _handleRefresh() async {
-    return await Future.delayed(Duration(seconds: 2));
+    return await Future.delayed(const Duration(seconds: 2));
   }
 
   @override

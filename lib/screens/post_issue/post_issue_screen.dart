@@ -6,11 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:relate/constants/size_values.dart';
 
 class PostIssueScreen extends StatefulWidget {
   const PostIssueScreen({super.key});
@@ -90,6 +92,13 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
   XFile? file;
   File? imageFile;
 
+  Future<File?> _cropImage({required File imageFile}) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imageFile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     // final hasText = ValueNotifier(false);
@@ -136,11 +145,11 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
           currentFocus.unfocus();
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Stack(
-          children: [
-            Column(
+      child: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(layoutPadding),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomDropdown(
@@ -188,43 +197,54 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                 )
               ],
             ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
+          ),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Row(
                       children: [
                         file != null
-                            ? Image.file(
-                                imageFile!,
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              )
+                            ? GestureDetector(
+                                onTap: () async {
+                                  // final img = await _cropImage(imageFile: img);
+                                  // setState(() => imageFile = img);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2, color: primaryColor),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      child: Image.file(
+                                        imageFile!,
+                                        width: 105,
+                                        height: 105,
+                                        fit: BoxFit.cover,
+                                      )),
+                                ))
                             : Container(),
                       ],
                     ),
-                    Row(
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            top: BorderSide(color: primaryColor, width: 1.0))),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Flexible(
-                        //   child: CustomDropdown(
-                        //     fillColor: Colors.transparent,
-                        //     listItemStyle: const TextStyle(color: blackColor),
-                        //     selectedStyle: const TextStyle(color: Colors.teal),
-                        //     hintText: 'Choose focus',
-                        //     items: const [
-                        //       'General',
-                        //       'Depression',
-                        //       'Addiction',
-                        //       'Motivation'
-                        //     ],
-                        //     controller: _focusController,
-                        //   ),
-                        // ),
-
                         Row(
                           children: [
                             //Camera
@@ -265,9 +285,6 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                               ),
                             ),
 
-                            const SizedBox(
-                              width: 5,
-                            ),
                             // Galley
                             IconButton(
                               onPressed: () async {
@@ -307,22 +324,24 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                             ),
                           ],
                         ),
-                        FilledButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              sendPost();
-                            }
-                          },
-                          child: const Text("Post"),
-                        )
+                        SizedBox(
+                            height: 35,
+                            child: FilledButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  sendPost();
+                                }
+                              },
+                              child: const Text("Post"),
+                            ))
                       ],
                     ),
-                  ],
-                )),
-          ],
-        ),
-        // bottomNavigationBar: const NavigationBarMain(),
+                  )
+                ],
+              )),
+        ],
       ),
+      // bottomNavigationBar: const NavigationBarMain(),
     )));
   }
 }

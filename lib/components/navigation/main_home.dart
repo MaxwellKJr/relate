@@ -53,66 +53,59 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-          // actions: currentPageIndex == 1
-          //     ? [
-          //         IconButton(
-          //           icon: const Icon(Icons.search),
-          //           onPressed: () {
-          //             Navigator.of(context).push(MaterialPageRoute(
-          //                 builder: (context) => SearchAndJoin()));
-          //           },
-          //         ),
-          //       ]
-          //     : null,
-          // bottom:
+              style: GoogleFonts.openSans(
+                  fontSize: 20, fontWeight: FontWeight.w600)),
           backgroundColor: theme.brightness == Brightness.dark
               ? Colors.black12 // set color for dark theme
               : Colors.white24, // set color for light theme
           bottomOpacity: 0,
           elevation: 0,
-          iconTheme: const IconThemeData(color: primaryColor),
+          iconTheme: const IconThemeData(),
         ),
         body: screens[currentPageIndex],
         drawer: const DrawerMain(),
-        bottomNavigationBar: NavigationBar(
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(
-                  Icons.home_rounded,
-                  size: 20,
-                ),
-                label: "Home"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.group_solid,
-                  size: 25,
-                ),
-                label: "Communities"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.add_circled_solid,
-                  size: 35,
-                  color: primaryColor,
-                ),
-                label: "Post"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.list_dash,
-                  size: 20,
-                ),
-                label: "Plans"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.search,
-                  size: 20,
-                ),
-                label: "Discover"),
-          ],
-          selectedIndex: currentPageIndex,
-          onDestinationSelected: (currentPageIndex) =>
-              setState(() => this.currentPageIndex = currentPageIndex),
-        ));
+        bottomNavigationBar: Offstage(
+            offstage: currentPageIndex == 5,
+            child: NavigationBar(
+              animationDuration: const Duration(milliseconds: 1000),
+              height: currentPageIndex == 2 ? 60 : 60,
+              selectedIndex: currentPageIndex,
+              onDestinationSelected: (currentPageIndex) =>
+                  setState(() => this.currentPageIndex = currentPageIndex),
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              destinations: const [
+                NavigationDestination(
+                    icon: Icon(
+                      Icons.home_rounded,
+                      size: 20,
+                    ),
+                    label: "Home"),
+                NavigationDestination(
+                    icon: Icon(
+                      CupertinoIcons.group_solid,
+                      size: 25,
+                    ),
+                    label: "Communities"),
+                NavigationDestination(
+                    icon: Icon(
+                      CupertinoIcons.add_circled_solid,
+                      size: 35,
+                      color: primaryColor,
+                    ),
+                    label: "Post"),
+                NavigationDestination(
+                    icon: Icon(
+                      CupertinoIcons.list_dash,
+                      size: 20,
+                    ),
+                    label: "Plans"),
+                NavigationDestination(
+                    icon: Icon(
+                      CupertinoIcons.search,
+                      size: 20,
+                    ),
+                    label: "Discover"),
+              ],
+            )));
   }
 }

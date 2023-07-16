@@ -4,7 +4,6 @@ import 'package:relate/components/navigation/drawer/drawer_list_title.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/community/communities_screen.dart';
 import 'package:relate/services/auth.dart';
 import 'package:relate/view_models/drawer_tiles_view_model.dart';
 
