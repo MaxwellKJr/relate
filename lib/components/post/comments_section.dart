@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/components/post/comments/comment_card.dart';
+import 'package:relate/constants/colors.dart';
 
 /// This Widget retrieves comments for each posts and displays them
 
@@ -15,11 +16,15 @@ class CommentsSection extends StatefulWidget {
 class _CommentsSectionState extends State<CommentsSection> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.teal,
+              color: theme.brightness == Brightness.dark
+                  ? borderColorDark // set color for dark theme
+                  : borderColor, // set color for light theme
               width: 1.0,
             ),
           ),
@@ -49,7 +54,12 @@ class _CommentsSectionState extends State<CommentsSection> {
                     itemCount: comments?.length,
                     itemBuilder: (context, index) {
                       final comment = comments![index];
+                      final commentId = comment.id;
+
                       return CommentCard(
+                        comment: comment,
+                        commentId: commentId,
+                        postId: widget.postId,
                         userName: comment['userName'],
                         commentBody: comment['commentBody'],
                         timestamp: comment['timestamp'],

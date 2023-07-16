@@ -16,7 +16,7 @@ const addictionColor = Color(0xFFEB102F);
 const depressionColor = Color(0xFF006FFF);
 
 // Light Grey Border Color
-const borderColor = Color(0xFFE9ECEf);
+const borderColor = Color(0xFFDEE2E6);
 
 // Dark Grey Border Color
 const borderColorDark = Color(0xFF343A40);

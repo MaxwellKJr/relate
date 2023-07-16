@@ -235,7 +235,9 @@ class PostTile extends StatelessWidget {
                                       child: Text(
                                         postedBy.substring(0,
                                             2), // Get the first character of the userName
-                                        style: const TextStyle(
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
                                             color: Colors
                                                 .white), // Customize the text color
                                       ),
