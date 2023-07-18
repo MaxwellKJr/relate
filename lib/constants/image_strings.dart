@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 
-const String tLogo = "assets/images/logo.png";
-const String tLogoWhite = "assets/images/logo-white.png";
+const String tLogo = "assets/images/logo-teal.png";
+const String tLogoWhite = "assets/images/logo-teal-white.png";
 
 // Welcome and On Boarding Pages
 const pinkies = "assets/images/welcome/pinkies.jpg";

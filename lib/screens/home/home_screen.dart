@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/home/addiction_posts_body.dart';
 import 'package:relate/screens/home/motivation_posts_body.dart';
-import 'package:relate/screens/post_issue/post_issue_screen.dart';
 import 'package:relate/screens/home/home_screen_body.dart';
 import 'package:relate/screens/home/depression_posts_body.dart';
-import 'package:page_transition/page_transition.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,9 +14,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
+    return const DefaultTabController(
         length: 4,
-        child: const Scaffold(
+        child: Scaffold(
           body: SafeArea(
             child: Column(
               children: [

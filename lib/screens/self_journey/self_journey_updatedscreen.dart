@@ -6,57 +6,63 @@ import 'package:relate/screens/self_journey/plan_detail_screen.dart';
 import 'package:relate/screens/self_journey/sellall_screen.dart';
 
 class SelfJourneyUpdatedScreen extends StatelessWidget {
-  String typeOfField = '';
+  final String typeOfField = '';
+
+  const SelfJourneyUpdatedScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2, // Number of tabs
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            '',
-            style: TextStyle(fontSize: 2, fontWeight: FontWeight.bold),
-          ),
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'My Plans'),
-              Tab(text: 'Other Plans'),
+          // appBar: AppBar(
+          //   title: const Text(
+          //     '',
+          //     style: TextStyle(fontSize: 2, fontWeight: FontWeight.bold),
+          //   ),
+          //   bottom: const TabBar(
+          //     tabs: [
+          //       Tab(text: 'My Plans'),
+          //       Tab(text: 'Other Plans'),
+          //     ],
+          //   ),
+          // ),
+          body: Column(
+        children: [
+          TabBarView(
+            children: [
+              // My Plans Tab
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Text('My plans'),
+              ),
+              // Other Plans Tab
+              Container(
+                padding: EdgeInsets.all(20),
+                child: ListView(
+                  children: [
+                    PlanSection(
+                      title: 'General',
+                      query: FirebaseFirestore.instance
+                          .collection('plans')
+                          .where('typeOfField', isEqualTo: 'General')
+                          .limit(3),
+                    ),
+                    SizedBox(height: 20),
+                    PlanSection(
+                      title: 'Addiction',
+                      query: FirebaseFirestore.instance
+                          .collection('plans')
+                          .where('typeOfField', isEqualTo: 'Addiction')
+                          .limit(3),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-        ),
-        body: TabBarView(
-          children: [
-            // My Plans Tab
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Text('My plans'),
-            ),
-            // Other Plans Tab
-            Container(
-              padding: EdgeInsets.all(20),
-              child: ListView(
-                children: [
-                  PlanSection(
-                    title: 'General',
-                    query: FirebaseFirestore.instance
-                        .collection('plans')
-                        .where('typeOfField', isEqualTo: 'General')
-                        .limit(3),
-                  ),
-                  SizedBox(height: 20),
-                  PlanSection(
-                    title: 'Addiction',
-                    query: FirebaseFirestore.instance
-                        .collection('plans')
-                        .where('typeOfField', isEqualTo: 'Addiction')
-                        .limit(3),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+        ],
+      )),
     );
   }
 }

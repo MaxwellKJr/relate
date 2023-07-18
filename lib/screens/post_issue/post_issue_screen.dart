@@ -92,12 +92,58 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
   XFile? file;
   File? imageFile;
 
-  Future<File?> _cropImage({required File imageFile}) async {
-    CroppedFile? croppedImage =
-        await ImageCropper().cropImage(sourcePath: imageFile.path);
-    if (croppedImage == null) return null;
-    return File(croppedImage.path);
+  Future<void> _openCamera() async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
+
+    if (file == null) return;
+
+    imageFile = File(file.path);
+
+    String uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final temporaryImage = XFile(file.path);
+    setState(() => this.file = temporaryImage);
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+
+    Reference imageReferenceToUpload =
+        referenceDirImages.child(uniqueImageName);
+
+    await imageReferenceToUpload.putFile(File(file.path));
+    imageUrl = await imageReferenceToUpload.getDownloadURL();
   }
+
+  Future<void> _openGallery() async {
+    ImagePicker imagePicker = ImagePicker();
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (file == null) return;
+
+    imageFile = File(file.path);
+
+    String uniqueImageName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    final temporaryImage = XFile(file.path);
+    setState(() => this.file = temporaryImage);
+
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirImages = referenceRoot.child('images');
+
+    Reference imageReferenceToUpload =
+        referenceDirImages.child(uniqueImageName);
+
+    await imageReferenceToUpload.putFile(File(file.path));
+    imageUrl = await imageReferenceToUpload.getDownloadURL();
+  }
+
+  // Future<File?> _cropImage({required File imageFile}) async {
+  //   CroppedFile? croppedImage =
+  //       await ImageCropper().cropImage(sourcePath: imageFile.path);
+  //   if (croppedImage == null) return null;
+  //   return File(croppedImage.path);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -105,39 +151,6 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
     return SafeArea(
         child: Scaffold(
-            // appBar: PreferredSize(
-            //   preferredSize: const Size.fromHeight(56.0),
-            //   child: Container(
-            //     padding: const EdgeInsets.only(right: layoutPadding - 2),
-            //     decoration: BoxDecoration(
-            //       border: Border(
-            //         bottom: BorderSide(
-            //           color: Colors.grey[300]!,
-            //           width: 1.0,
-            //         ),
-            //       ),
-            //     ),
-            //     child: AppBar(
-            //       title: const Text("Share"),
-            //       leading: IconButton(
-            //         icon: Icon(Icons.adaptive.arrow_back),
-            //         onPressed: () {
-            //           Navigator.pop(context);
-            //         },
-            //       ),
-            //       actions: [
-            //         FilledButton(
-            //           onPressed: () {
-            //             if (_formKey.currentState!.validate()) {
-            //               sendPost();
-            //             }
-            //           },
-            //           child: const Text("Post"),
-            //         )
-            //       ],
-            //     ),
-            //   ),
-            // ),
             body: GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -148,7 +161,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.all(layoutPadding),
+            padding: const EdgeInsets.all(layoutPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -249,36 +262,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                           children: [
                             //Camera
                             IconButton(
-                              onPressed: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                    source: ImageSource.camera);
-                                print('${file?.path}');
-
-                                if (file == null) return;
-
-                                imageFile = File(file.path);
-
-                                String uniqueImageName = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
-
-                                final temporaryImage = XFile(file.path);
-                                setState(() => this.file = temporaryImage);
-
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
-
-                                Reference imageReferenceToUpload =
-                                    referenceDirImages.child(uniqueImageName);
-
-                                await imageReferenceToUpload
-                                    .putFile(File(file.path));
-                                imageUrl = await imageReferenceToUpload
-                                    .getDownloadURL();
-                              },
+                              onPressed: () => _openCamera(),
                               icon: const Icon(
                                 CupertinoIcons.camera_fill,
                                 color: primaryColor,
@@ -287,36 +271,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
                             // Galley
                             IconButton(
-                              onPressed: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(
-                                    source: ImageSource.gallery);
-                                print('${file?.path}');
-
-                                if (file == null) return;
-
-                                imageFile = File(file.path);
-
-                                String uniqueImageName = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
-
-                                final temporaryImage = XFile(file.path);
-                                setState(() => this.file = temporaryImage);
-
-                                Reference referenceRoot =
-                                    FirebaseStorage.instance.ref();
-                                Reference referenceDirImages =
-                                    referenceRoot.child('images');
-
-                                Reference imageReferenceToUpload =
-                                    referenceDirImages.child(uniqueImageName);
-
-                                await imageReferenceToUpload
-                                    .putFile(File(file.path));
-                                imageUrl = await imageReferenceToUpload
-                                    .getDownloadURL();
-                              },
+                              onPressed: () => _openGallery(),
                               icon: const Icon(
                                 CupertinoIcons.photo,
                                 color: primaryColor,

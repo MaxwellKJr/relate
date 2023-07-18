@@ -15,44 +15,44 @@ class GetUserDataScreen extends StatefulWidget {
 
 class _GetUserDataScreenState extends State<GetUserDataScreen> {
   List<String> interestTags = [];
-  static final List<String> _interests = [
-    "Mental Health",
-    "Depression",
-    "Motivation",
-    "General Topics",
-    "Rants",
-    "Loneliness",
-    "Unknown Struggles",
-    "Relationships",
-    "Bad Breakup",
-    "Religion",
-  ];
+  // static final List<String> _interests = [
+  //   "Mental Health",
+  //   "Depression",
+  //   "Motivation",
+  //   "General Topics",
+  //   "Rants",
+  //   "Loneliness",
+  //   "Unknown Struggles",
+  //   "Relationships",
+  //   "Bad Breakup",
+  //   "Religion",
+  // ];
 
   List<String> hobbiesTags = [];
-  static final List<String> _hobbies = [
-    "Reading",
-    "Watching TV",
-    "Writing",
-    "Cooking",
-    "Vibes Basi",
-    "Socializing",
-    "Blogging",
-    "Music",
-    "Praying",
-    "Solo Worshipping",
-    "Painting",
-    "Tinkering",
-    "Dancing",
-    "Novels",
-    "Day Dreaming",
-  ];
+  // static final List<String> _hobbies = [
+  //   "Reading",
+  //   "Watching TV",
+  //   "Writing",
+  //   "Cooking",
+  //   "Vibes Basi",
+  //   "Socializing",
+  //   "Blogging",
+  //   "Music",
+  //   "Praying",
+  //   "Solo Worshipping",
+  //   "Painting",
+  //   "Tinkering",
+  //   "Dancing",
+  //   "Novels",
+  //   "Day Dreaming",
+  // ];
 
   List<String> dislikesTags = [];
-  static final List<String> _dislikes = [
-    "Profanity",
-    "Sexual Content",
-    "Alcohol",
-  ];
+  // static final List<String> _dislikes = [
+  //   "Profanity",
+  //   "Sexual Content",
+  //   "Alcohol",
+  // ];
 
   Future<void> updateUserDetails() async {
     final user = FirebaseAuth.instance;

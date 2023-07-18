@@ -286,7 +286,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/screens/chat/chat_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
-import 'package:relate/services/helper_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchAndJoin extends StatefulWidget {
@@ -490,7 +489,7 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
               isJoined = !isJoined;
             });
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
+              const SnackBar(
                 content: Text("Successfully joined the group"),
                 backgroundColor: Colors.green,
               ),
@@ -518,7 +517,7 @@ class _SearchAndJoinState extends State<SearchAndJoin> {
             setState(() {
               isJoined = !isJoined;
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text("Successfully joined the group"),
                   backgroundColor: Colors.green,
                 ),

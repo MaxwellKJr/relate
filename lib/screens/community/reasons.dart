@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/screens/community/communities_screen.dart';
 import '../../services/chat_database_services.dart';
-import '../communities.dart'; // Import the desired page
 
 class Reason extends StatefulWidget {
   final String groupId;

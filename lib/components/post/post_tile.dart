@@ -1,7 +1,7 @@
-import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
@@ -12,10 +12,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class PostTile extends StatelessWidget {
-  String postId, text, focus, image, postedBy, uid, formattedDateTime, daysAgo;
+  final String postId,
+      text,
+      focus,
+      image,
+      postedBy,
+      uid,
+      formattedDateTime,
+      daysAgo;
   final post, relates;
 
-  PostTile(
+  const PostTile(
       {super.key,
       required this.post,
       required this.relates,
@@ -171,12 +178,6 @@ class PostTile extends StatelessWidget {
     return SizedBox(
         width: double.infinity,
         child: Container(
-            padding: const EdgeInsets.only(
-              top: 15,
-              bottom: 15,
-              left: layoutPadding - 10,
-              right: layoutPadding - 10,
-            ),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -187,6 +188,10 @@ class PostTile extends StatelessWidget {
                   width: 1.0,
                 ),
               ),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: layoutPadding - 10,
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relate/screens/community/reasons.dart';
-import 'package:relate/services/chat_database_services.dart';
 
 class TrialPage extends StatefulWidget {
   final String groupId;
@@ -65,9 +64,7 @@ class _TrialPageState extends State<TrialPage> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-        title:
-            Text(widget.groupName, style: const TextStyle(color: Colors.white)),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(widget.groupName),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -95,7 +92,7 @@ class _TrialPageState extends State<TrialPage> {
             ),
             Text(
               widget.description,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             const Text(
@@ -107,50 +104,46 @@ class _TrialPageState extends State<TrialPage> {
             ),
             Text(
               widget.rules,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 50),
             if (isMember)
-              Text(
+              const Text(
                 'Already a Member',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               )
             else
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Reason(
-                          groupId: widget.groupId,
-                          groupName: widget.groupName,
-                          purpose: widget.purpose,
-                          description: widget.description,
-                          rules: widget.rules,
-                          userName: widget.userName),
-                    ),
-                  );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              Flexible(
+                  child: SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Reason(
+                            groupId: widget.groupId,
+                            groupName: widget.groupName,
+                            purpose: widget.purpose,
+                            description: widget.description,
+                            rules: widget.rules,
+                            userName: widget.userName),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "Join Now",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-              ),
+              ))
           ],
         ),
       ),
     );
   }
 }
-//The TrialPage widget represents a page that displays the details of a group that the current user is not in.
+// The TrialPage widget represents a page that displays the details of a group that the current user is not in.
 // It includes the group name, purpose, description, and rules. 
-//Users can join the group by clicking on the "Join Now" button if they are not already a member.
+// Users can join the group by clicking on the "Join Now" button if they are not already a member.
 // The membership status is checked based on the current user's ID and the list of members stored in the Firestore database.
