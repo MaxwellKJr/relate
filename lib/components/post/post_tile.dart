@@ -336,7 +336,8 @@ class PostTile extends StatelessWidget {
                                       maxHeightDiskCache: 700,
                                       placeholder: (context, url) =>
                                           const Center(
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator
+                                            .adaptive(),
                                       ),
                                       errorWidget: (context, url, error) =>
                                           const Center(

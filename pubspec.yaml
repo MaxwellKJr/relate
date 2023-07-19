@@ -65,6 +65,9 @@ dependencies:
   cached_network_image: ^3.2.3
   liquid_pull_to_refresh: ^3.0.1
   flutter_launcher_icons: ^0.13.1
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  isar_generator: ^3.1.0+1
 
 dev_dependencies:
   flutter_test:
