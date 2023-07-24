@@ -7,11 +7,7 @@ import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/authentication/professional/get_professional_data_screen.dart';
-import 'package:relate/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-/// Auth class contains all methods that have to do with authentication
-/// Include signUp, login, and signout
 
 class Auth {
   /// Get the context (scope) for each instance of where it is being used
@@ -126,6 +122,7 @@ class Auth {
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('hasSignedInBefore', true);
+        prefs.setString('userName', userName);
 
         final professionalRef =
             FirebaseFirestore.instance.collection('professionals').doc(uid);
@@ -177,39 +174,38 @@ class Auth {
   /// login
   void login(context, _emailController, _passwordController) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text)
-          .then((value) => {
-                Fluttertoast.showToast(
-                    msg: "Welcome, back!",
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.TOP,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: primaryColor,
-                    textColor: whiteColor,
-                    fontSize: 16.0)
-              });
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text, password: _passwordController.text);
 
-      var user = FirebaseAuth.instance;
+      final user = FirebaseAuth.instance;
+      final currentUser = user.currentUser!.uid;
 
       if (user.currentUser != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
+
         prefs.setBool('hasSignedInBefore', true);
 
-        final currentUser = user.currentUser!;
         final querySnapshot = await FirebaseFirestore.instance
             .collection('users')
-            .where('email', isEqualTo: currentUser.email)
+            .where('uid', isEqualTo: currentUser)
             .get();
 
-        if (querySnapshot.docs.isNotEmpty) {
-          final userName = querySnapshot.docs[0].data()['userName'];
-          prefs.setString('userName', userName);
-        }
+        final userName = querySnapshot.docs[0].data()['userName'];
+        prefs.setString('userName', userName);
 
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => const MainHomeScreen()));
+        if (querySnapshot.docs.isNotEmpty) {
+          Fluttertoast.showToast(
+              msg: "Welcome, $userName",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIosWeb: 1,
+              backgroundColor: primaryColor,
+              textColor: whiteColor,
+              fontSize: 16.0);
+
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (BuildContext context) => const MainHomeScreen()));
+        }
       }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {

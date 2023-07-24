@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:relate/screens/on_boarding/welcome_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(const MyApp());
 }
 
@@ -39,15 +43,19 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     checkIfLoggedIn();
     super.initState();
+
+    final theme = Theme.of(context);
+
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          systemNavigationBarColor: (theme.brightness != Brightness.light)
+              ? bottomNavDark
+              : bottomNavDark));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        systemNavigationBarColor:
-            Colors.transparent // Set your desired color for the system buttons
-        ));
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Relate',

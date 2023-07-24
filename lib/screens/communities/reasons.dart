@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:relate/screens/community/communities_screen.dart';
+import 'package:relate/screens/communities/communities_screen.dart';
+
 import '../../services/chat_database_services.dart';
 
 class Reason extends StatefulWidget {

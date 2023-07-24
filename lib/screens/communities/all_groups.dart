@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:relate/screens/community/trialpage.dart';
+import 'package:relate/screens/communities/group_overview_screen.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -147,7 +147,7 @@ class GroupTile extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TrialPage(
+            builder: (context) => GroupOverviewScreen(
                 groupId: groupId,
                 groupName: groupName,
                 purpose: purpose,

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+
 import '../chat/chat_screen.dart';
 
 class GroupCards extends StatefulWidget {
-  final String groupId;
-  final String groupName;
-  final String userName;
-  final String purpose;
-  final String rules;
-  final String description;
-  final String admin;
-  final String imageUrl;
+  final String groupId,
+      groupName,
+      userName,
+      purpose,
+      rules,
+      description,
+      admin,
+      imageUrl;
 
   const GroupCards({
     Key? key,

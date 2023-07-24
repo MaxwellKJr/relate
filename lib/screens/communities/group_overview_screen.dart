@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:relate/screens/community/reasons.dart';
+import 'package:relate/screens/communities/reasons.dart';
 
-class TrialPage extends StatefulWidget {
+class GroupOverviewScreen extends StatefulWidget {
   final String groupId;
   final String groupName;
   final String purpose;
@@ -11,7 +11,7 @@ class TrialPage extends StatefulWidget {
   final String rules;
   final String userName;
 
-  const TrialPage({
+  const GroupOverviewScreen({
     Key? key,
     required this.groupId,
     required this.groupName,
@@ -22,10 +22,10 @@ class TrialPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TrialPage> createState() => _TrialPageState();
+  State<GroupOverviewScreen> createState() => _GroupOverviewScreenState();
 }
 
-class _TrialPageState extends State<TrialPage> {
+class _GroupOverviewScreenState extends State<GroupOverviewScreen> {
   String admin = "";
   bool isMember = false;
 
@@ -144,6 +144,6 @@ class _TrialPageState extends State<TrialPage> {
   }
 }
 // The TrialPage widget represents a page that displays the details of a group that the current user is not in.
-// It includes the group name, purpose, description, and rules. 
+// It includes the group name, purpose, description, and rules.
 // Users can join the group by clicking on the "Join Now" button if they are not already a member.
 // The membership status is checked based on the current user's ID and the list of members stored in the Firestore database.

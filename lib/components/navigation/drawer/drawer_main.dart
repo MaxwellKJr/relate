@@ -4,8 +4,9 @@ import 'package:relate/components/navigation/drawer/drawer_list_title.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
+import 'package:relate/models/drawer_tile.dart';
 import 'package:relate/services/auth.dart';
-import 'package:relate/view_models/drawer_tiles_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMain extends StatefulWidget {
   const DrawerMain({super.key});
@@ -18,10 +19,21 @@ class _DrawerMainState extends State<DrawerMain> {
   late DrawerTilesViewModel _viewModel;
   final Auth auth = Auth();
 
+  String? userName;
+
+  Future init() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('userName');
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    auth.getCurrentUserData().then((value) => {setState(() {})});
+    init();
+    // auth.getCurrentUserData().then((value) => {setState(() {})});
     _viewModel = DrawerTilesViewModel();
   }
 
@@ -71,7 +83,7 @@ class _DrawerMainState extends State<DrawerMain> {
                     Column(
                       children: [
                         Text(
-                          auth.userName ?? '',
+                          userName.toString(),
                           style: GoogleFonts.roboto(
                               fontSize: 20, fontWeight: FontWeight.w700),
                         ),

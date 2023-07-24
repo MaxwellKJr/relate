@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relate/constants/colors.dart';
 
 class MessageCards extends StatefulWidget {
   final String message;
@@ -25,8 +26,8 @@ class _MessageCardsState extends State<MessageCards> {
 
     return Container(
       padding: EdgeInsets.only(
-        top: 4,
-        bottom: 4,
+        top: 1,
+        bottom: 1,
         left: widget.sentByMe ? 0 : 24,
         right: widget.sentByMe ? 24 : 0,
       ),
@@ -36,10 +37,10 @@ class _MessageCardsState extends State<MessageCards> {
             ? const EdgeInsets.only(left: 30)
             : const EdgeInsets.only(right: 30),
         padding: const EdgeInsets.only(
-          top: 17,
-          bottom: 17,
-          left: 20,
-          right: 20,
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10,
         ),
         decoration: BoxDecoration(
           borderRadius: widget.sentByMe
@@ -53,15 +54,13 @@ class _MessageCardsState extends State<MessageCards> {
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
                 ),
-          color: widget.sentByMe
-              ? Theme.of(context).primaryColor
-              : Colors.grey[700],
+          color: widget.sentByMe ? primaryColor : Colors.grey[700],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.sender.toUpperCase(),
+              widget.sender,
               textAlign: TextAlign.start,
               style: const TextStyle(
                 fontSize: 13,
@@ -71,7 +70,7 @@ class _MessageCardsState extends State<MessageCards> {
               ),
             ),
             const SizedBox(
-              height: 8,
+              height: 4,
             ),
             Text(
               widget.message,

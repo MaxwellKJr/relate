@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:relate/screens/community/alllgroups.dart';
-import 'package:relate/screens/community/group_cards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/screens/create_group/CreateGroup.dart';
+import 'package:relate/screens/communities/all_groups.dart';
+import 'package:relate/screens/communities/create_group/create_group_screen.dart';
+import 'package:relate/screens/communities/group_cards.dart';
 import 'package:relate/services/chat_database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,13 +21,7 @@ class _CommunitiesState extends State<Communities>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   Stream? groups;
-  String userName = "";
-  String email = "";
-  String groupName = "";
-  String groupId = "";
-  String purpose = "";
-  String description = "";
-  String rules = "";
+  late final String userName, email, groupId, purpose, description, rules;
   Stream? allGroupsStream;
   Stream<List<DocumentSnapshot<Map<String, dynamic>>>>? myGroupsStream;
 

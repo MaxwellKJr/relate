@@ -212,7 +212,7 @@ class PostTile extends StatelessWidget {
                             uid: uid,
                           ),
                           type: PageTransitionType.rightToLeft,
-                          duration: const Duration(milliseconds: 300)));
+                          duration: const Duration(milliseconds: 100)));
                 },
                 child: SizedBox(
                     width: double.infinity,
