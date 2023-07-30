@@ -33,8 +33,6 @@ dependencies:
   rxdart: ^0.27.2
   encrypt: ^5.0.0
 
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   
@@ -48,8 +46,6 @@ dependencies:
   cloud_firestore: ^4.6.0
   fluttertoast: ^8.2.1
   flutter_svg: ^2.0.5
-  get: ^4.6.5
-  provider: ^6.0.5
   lottie: ^2.3.2
   intl: ^0.17.0
   page_transition: ^2.0.9
@@ -64,10 +60,22 @@ dependencies:
   connectivity_plus: ^4.0.1
   webview_flutter: ^4.2.2
   timeago: ^3.3.0
+  cached_network_image: ^3.2.3
+  liquid_pull_to_refresh: ^3.0.1
+  flutter_launcher_icons: ^0.13.1
+  isar: ^3.1.0+1
+  isar_flutter_libs: ^3.1.0+1
+  isar_generator: ^3.1.0+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  image_path: "assets/images/logo-white.png"
+  min_sdk_android: 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -116,11 +124,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schyler
+  #   - family: OpenSans
   #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  #       - asset: fonts/OpenSans-Regular.ttf
+        # - asset: fonts/Schyler-Italic.ttf
+        #   style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

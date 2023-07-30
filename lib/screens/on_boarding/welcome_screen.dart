@@ -5,9 +5,7 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/image_strings.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
-import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/on_boarding/on_boarding_pages.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -17,41 +15,16 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  // Check if user has signed in before
-  // bool _userHasSignedInBefore = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _checkIfUserHasSignedInBefore();
-  // }
-
-  // Future<void> _checkIfUserHasSignedInBefore() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool hasSignedInBefore = prefs.getBool('hasSignedInBefore') ?? false;
-  //   setState(() {
-  //     _userHasSignedInBefore = hasSignedInBefore;
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-
-    // if (_userHasSignedInBefore) {
-    //   // Navigate directly to the home screen if the user has signed in before
-    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //       builder: (BuildContext context) => const LoginScreen()));
-
-    //   return Container();
-    // } else {
     return Scaffold(
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-              silhouette,
+              pinkies,
               fit: BoxFit.cover,
             ),
             Container(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:relate/constants/size_values.dart';
-import 'package:relate/constants/size_values.dart';
 
 class FormTextField extends StatelessWidget {
   final TextEditingController controller;

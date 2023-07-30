@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
@@ -6,7 +7,6 @@ import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/authentication/professional/professional_disclaimer_screen.dart';
-import 'package:relate/screens/authentication/professional/signup_as_professional_screen.dart';
 import 'package:relate/services/auth.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -24,12 +24,16 @@ class _SignupScreenState extends State<SignupScreen> {
   final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  //
+
   final _groupsController = TextEditingController();
 
-  final _focusNode1 = FocusNode();
-  final _focusNode2 = FocusNode();
-  final _focusNode3 = FocusNode();
+  final _focusNode4 = FocusNode();
+  final _focusNode5 = FocusNode();
+  final _focusNode6 = FocusNode();
+
+  final RegExp _userNameRegEx = RegExp(r'\s');
+  final RegExp _emailRegEx = RegExp(r'\s');
+  final RegExp _passwordRegEx = RegExp(r'[a-zA-Z0-9]');
 
   bool _isLoading = false;
 
@@ -83,10 +87,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                 prefixIcon: const Icon(Icons.person),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.name,
-                                focusNode: _focusNode1,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      _userNameRegEx),
+                                ],
+                                focusNode: _focusNode4,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
-                                        .requestFocus(_focusNode2),
+                                        .requestFocus(_focusNode5),
                               ),
                               const SizedBox(height: elementSpacing),
                               AuthTextField(
@@ -96,10 +104,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
-                                focusNode: _focusNode2,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(_emailRegEx),
+                                ],
+                                focusNode: _focusNode5,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
-                                        .requestFocus(_focusNode3),
+                                        .requestFocus(_focusNode6),
                               ),
                               const SizedBox(height: elementSpacing),
                               AuthTextField(
@@ -109,7 +120,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
-                                focusNode: _focusNode3,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      _passwordRegEx),
+                                ],
+                                focusNode: _focusNode6,
                                 onFieldSubmitted: (value) => auth.signUp(
                                   context,
                                   _userNameController,
@@ -133,9 +148,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         onButtonPressed();
-                                        _focusNode1.unfocus();
-                                        _focusNode2.unfocus();
-                                        _focusNode3.unfocus();
+                                        _focusNode4.unfocus();
+                                        _focusNode5.unfocus();
+                                        _focusNode6.unfocus();
                                         auth.signUp(
                                           context,
                                           _userNameController,
@@ -205,6 +220,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         tCreateProfessionalAccount,
                                         style: TextStyle(
                                             color: primaryColor,
+                                            fontSize: 18,
                                             fontWeight: FontWeight.w600),
                                       ))
                                 ],

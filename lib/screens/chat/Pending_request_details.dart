@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:relate/screens/community/communities_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:relate/screens/communities/communities_screen.dart';
 
 class PendingRequestDetails extends StatelessWidget {
   final String userName;

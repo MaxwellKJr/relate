@@ -5,8 +5,8 @@ const double taPadding = 40.0;
 const double tButtonHeight = 54.0;
 
 // Layout Constants
-const double layoutPadding = 18.0;
-const double elementSpacing = 20.0;
+const double layoutPadding = 16;
+const double elementSpacing = 19.0;
 
 // Border Radius
 const double borderRadius = 30.0;

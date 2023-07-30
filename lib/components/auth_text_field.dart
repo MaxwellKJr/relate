@@ -10,6 +10,7 @@ class AuthTextField extends StatelessWidget {
   final keyboardType;
   final FocusNode focusNode;
   final onFieldSubmitted;
+  final inputFormatters;
 
   const AuthTextField({
     super.key,
@@ -21,6 +22,7 @@ class AuthTextField extends StatelessWidget {
     required this.keyboardType,
     required this.focusNode,
     required this.onFieldSubmitted,
+    required this.inputFormatters,
   });
 
   @override
@@ -38,6 +40,7 @@ class AuthTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       maxLines: 1,
+      maxLength: 40,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       focusNode: focusNode,
@@ -45,6 +48,7 @@ class AuthTextField extends StatelessWidget {
         hasText.value = text.isNotEmpty;
       },
       onFieldSubmitted: onFieldSubmitted,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),

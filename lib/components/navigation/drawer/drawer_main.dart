@@ -4,9 +4,9 @@ import 'package:relate/components/navigation/drawer/drawer_list_title.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
 import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/community/communities_screen.dart';
+import 'package:relate/models/drawer_tile.dart';
 import 'package:relate/services/auth.dart';
-import 'package:relate/view_models/drawer_tiles_view_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DrawerMain extends StatefulWidget {
   const DrawerMain({super.key});
@@ -19,16 +19,32 @@ class _DrawerMainState extends State<DrawerMain> {
   late DrawerTilesViewModel _viewModel;
   final Auth auth = Auth();
 
+  String? userName;
+
+  Future init() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('userName');
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    auth.getCurrentUserData().then((value) => {setState(() {})});
+    init();
+    // auth.getCurrentUserData().then((value) => {setState(() {})});
     _viewModel = DrawerTilesViewModel();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Drawer(
+      backgroundColor: theme.brightness == Brightness.dark
+          ? backgroundColorDark // set color for dark theme
+          : backgroundColorLight, // set color for light theme
       child: Container(
         padding:
             const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
@@ -44,9 +60,9 @@ class _DrawerMainState extends State<DrawerMain> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Relate",
-                        style: GoogleFonts.alexBrush(
+                        style: GoogleFonts.openSans(
                             fontSize: 40,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w300,
                             color: primaryColor)),
                     if (auth.profilePicture != null &&
                         auth.profilePicture != '')
@@ -72,8 +88,8 @@ class _DrawerMainState extends State<DrawerMain> {
                     Column(
                       children: [
                         Text(
-                          auth.userName ?? '',
-                          style: GoogleFonts.roboto(
+                          userName.toString(),
+                          style: GoogleFonts.poppins(
                               fontSize: 20, fontWeight: FontWeight.w700),
                         ),
                       ],

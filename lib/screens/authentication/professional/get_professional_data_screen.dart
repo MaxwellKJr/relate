@@ -9,8 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
-import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/authentication/get_user_data_screen.dart';
 import 'package:relate/services/auth.dart';
 import 'package:relate/components/form_text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,6 +90,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser!.uid;
+
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(

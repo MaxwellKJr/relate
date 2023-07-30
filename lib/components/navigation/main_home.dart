@@ -1,17 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/text_string.dart';
-import 'package:relate/screens/community/communities_screen.dart';
+import 'package:relate/screens/communities/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
-import 'package:relate/screens/messages/messages_screen.dart';
 import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
-import 'package:relate/screens/community/search_and_join _screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:relate/services/auth.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -21,16 +18,9 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
-  String userName = "";
-  String email = "";
-  String groupName = "";
-  String groupId = "";
-  String purpose = "";
-  String description = "";
-  String rules = "";
+  Auth auth = Auth();
 
   int currentPageIndex = 0;
-
   final uid = FirebaseAuth.instance.currentUser?.uid.toString();
 
   @override
@@ -40,7 +30,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final screens = [
       const HomeScreen(),
       const Communities(),
-      SelfJourneyUpdatedScreen(),
+      const SelfJourneyUpdatedScreen(),
       const WellnessCentresScreen(),
     ];
 
@@ -54,42 +44,55 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w500)),
-          // actions: currentPageIndex == 1
-          //     ? [
-          //         IconButton(
-          //           icon: const Icon(Icons.search),
-          //           onPressed: () {
-          //             Navigator.of(context).push(MaterialPageRoute(
-          //                 builder: (context) => SearchAndJoin()));
-          //           },
-          //         ),
-          //       ]
-          //     : null,
-          // bottom:
+              style: GoogleFonts.openSans(
+                  fontSize: 20, fontWeight: FontWeight.w600)),
           backgroundColor: theme.brightness == Brightness.dark
-              ? Colors.black12 // set color for dark theme
-              : Colors.white24, // set color for light theme
+              ? backgroundColorDark // set color for dark theme
+              : backgroundColorLight, // set color for light theme
           bottomOpacity: 0,
           elevation: 0,
-          iconTheme: const IconThemeData(color: primaryColor),
+          iconTheme: const IconThemeData(),
         ),
         body: screens[currentPageIndex],
         drawer: const DrawerMain(),
         bottomNavigationBar: NavigationBar(
-          destinations: const [
-            NavigationDestination(
-                icon: Icon(Icons.home_rounded), label: "Home"),
-            NavigationDestination(
-                icon: Icon(Icons.people_rounded), label: "Communities"),
-            NavigationDestination(
-                icon: Icon(Icons.bar_chart_rounded), label: "Plans"),
-            NavigationDestination(
-                icon: Icon(Icons.search_outlined), label: "Discover"),
-          ],
+          backgroundColor: theme.brightness == Brightness.dark
+              ? Colors.black26
+              : Colors.black12,
+          animationDuration: const Duration(milliseconds: 1000),
+          height: 60,
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>
               setState(() => this.currentPageIndex = currentPageIndex),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_rounded,
+                size: 20,
+              ),
+              label: "Home",
+            ),
+            NavigationDestination(
+              icon: Icon(
+                CupertinoIcons.group_solid,
+                size: 25,
+              ),
+              label: "Communities",
+            ),
+            NavigationDestination(
+                icon: Icon(
+                  CupertinoIcons.list_dash,
+                  size: 20,
+                ),
+                label: "Plans"),
+            NavigationDestination(
+                icon: Icon(
+                  CupertinoIcons.search,
+                  size: 20,
+                ),
+                label: "Discover"),
+          ],
         ));
   }
 }

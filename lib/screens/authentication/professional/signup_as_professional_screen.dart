@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/auth_text_field.dart';
 import 'package:relate/constants/colors.dart';
@@ -29,6 +30,10 @@ class _SignupAsProfessionalScreenState
   final _focusNode2 = FocusNode();
   final _focusNode3 = FocusNode();
 
+  final RegExp _userNameRegEx = RegExp(r'\s');
+  final RegExp _emailRegEx = RegExp(r'\s');
+  final RegExp _passwordRegEx = RegExp(r'[a-zA-Z0-9]');
+
   bool _isLoading = false;
 
   void onButtonPressed() {
@@ -49,6 +54,7 @@ class _SignupAsProfessionalScreenState
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
             body: SafeArea(
+                child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(
@@ -57,6 +63,9 @@ class _SignupAsProfessionalScreenState
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(
+                        height: 100,
+                      ),
                       Text(
                         tCreateProfessionalAccount,
                         style: GoogleFonts.poppins(
@@ -77,6 +86,10 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.person),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.name,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      _userNameRegEx),
+                                ],
                                 focusNode: _focusNode1,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -90,6 +103,9 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.alternate_email),
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.emailAddress,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(_emailRegEx),
+                                ],
                                 focusNode: _focusNode2,
                                 onFieldSubmitted: (value) =>
                                     FocusScope.of(context)
@@ -103,6 +119,10 @@ class _SignupAsProfessionalScreenState
                                 prefixIcon: const Icon(Icons.lock),
                                 textInputAction: TextInputAction.send,
                                 keyboardType: TextInputType.visiblePassword,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      _passwordRegEx),
+                                ],
                                 focusNode: _focusNode3,
                                 onFieldSubmitted: (value) =>
                                     auth.signUpAsProfessional(
@@ -175,6 +195,6 @@ class _SignupAsProfessionalScreenState
                   )
                 ],
               )),
-        )));
+        ))));
   }
 }

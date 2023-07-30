@@ -1,11 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/home/addiction_posts_body.dart';
 import 'package:relate/screens/home/motivation_posts_body.dart';
-import 'package:relate/screens/post_issue/post_issue_screen.dart';
 import 'package:relate/screens/home/home_screen_body.dart';
 import 'package:relate/screens/home/depression_posts_body.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:relate/screens/post_issue/post_issue_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           body: SafeArea(
             child: Column(
-              children:const [
+              children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: TabBar(isScrollable: true, tabs: [
@@ -56,8 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
             backgroundColor: primaryColor,
             elevation: 3,
             child: const Icon(
-              Icons.add,
+              CupertinoIcons.pen,
               color: whiteColor,
+              size: 30,
             ),
           ),
         ));

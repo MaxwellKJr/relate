@@ -25,7 +25,7 @@ const String page3Headline = "Seek and talk with professionals";
 
 // Descriptions
 const String page1Description =
-    "This app is all about support, you don't have to struggle alone. Share your load with us.";
+    "This app is all about support, you don't have to struggle alone. Share your load, relate with others.";
 const String page2Description =
     "Send texts and posts from anywhere, read and learn more about depression anytime.";
 const String page3Description =
@@ -50,6 +50,7 @@ const String tCreateProfessionalAccount = "Create Professional Account";
 const String tAlreadyHaveAnAccount = "Already have an account? ";
 const String tCreateProfessionalAccountInstead = "Create professional account";
 const String tIUnderstand = "Sure, I understand";
+
 //Disclaimers
 const String tProfessionalDisclaimer =
     "Thank you for considering creating a professional account on our social media app designed for individuals struggling with mental illness. Before you proceed, we would like to provide you with some important information to ensure a safe and supportive environment for all users. Please read and understand the following disclaimer:";

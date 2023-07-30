@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:relate/constants/image_strings.dart';
 
 class PostBottomIcons extends StatefulWidget {
   final String postId;
@@ -42,7 +41,7 @@ class _PostBottomIconsState extends State<PostBottomIcons>
   void toggleRelate() {
     setState(() {
       relates = !relates;
-      fetchCommentsLength();
+      // fetchCommentsLength();
     });
 
     DocumentReference postRef =
@@ -98,40 +97,60 @@ class _PostBottomIconsState extends State<PostBottomIcons>
     return SizedBox(
         width: double.infinity,
         child: Padding(
-            padding: const EdgeInsets.all(0),
+            padding: const EdgeInsets.only(
+              top: 20,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: () {
-                        toggleRelate();
-                      },
-                      child: Lottie.asset(relateHeart,
-                          height: 70, controller: _controller),
+                        onTap: () {
+                          toggleRelate();
+                        },
+                        child: relates
+                            ? Icon(
+                                Icons.favorite,
+                                color: Colors.red[800],
+                                size: 20,
+                              )
+                            : const Icon(
+                                Icons.favorite_border,
+                                color: Colors.grey,
+                                size: 20,
+                              )
+                        // Lottie.asset(relateHeart,
+                        //         height: 70, controller: _controller),
+                        ),
+                    const SizedBox(
+                      width: 8,
                     ),
                     Text(widget.relates.length.toString())
                   ],
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
                 Row(
                   children: [
-                    Lottie.asset(comment, height: 40, width: 40),
+                    // Lottie.asset(comment, height: 40, width: 40),
+                    const Icon(
+                      CupertinoIcons.text_bubble,
+                      size: 19,
+                      color: Colors.grey,
+                    ),
                     const SizedBox(
-                      width: 10,
+                      width: 8,
                     ),
                     FutureBuilder<int>(
                       future: getCommentsLength(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
-                          return const Text("");
-                        }
-                        if (snapshot.hasData) {
+                          return const Text("0");
+                        } else if (snapshot.hasData) {
                           commentsLength = snapshot.data!;
                         }
                         return Text(
