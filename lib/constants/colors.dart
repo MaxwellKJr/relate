@@ -6,6 +6,9 @@ const primaryAccent = Color(0xFF00EFD6);
 const whiteColor = Color(0xFFF1F1F1);
 const blackColor = Color(0xFF111111);
 
+const backgroundColorLight = Color(0xFFFBFDFC);
+const backgroundColorDark = Color(0xFF181C1D);
+
 // Bottom Nagivation Bar
 const bottomNavLight = Color(0xFFE7F1F0);
 const bottomNavDark = Color(0xFF1C2A2A);

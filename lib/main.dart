@@ -48,9 +48,9 @@ class _MyAppState extends State<MyApp> {
 
     if (Platform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-          systemNavigationBarColor: (theme.brightness != Brightness.light)
-              ? bottomNavDark
-              : bottomNavDark));
+          systemNavigationBarColor: (theme.brightness == Brightness.light)
+              ? backgroundColorLight
+              : backgroundColorDark));
     }
   }
 

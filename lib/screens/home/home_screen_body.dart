@@ -31,6 +31,10 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('posts')
+                  .where(
+                    'focus',
+                    isEqualTo: 'General',
+                  )
                   .orderBy('timestamp', descending: true)
                   // .orderBy('relates', descending: true)
                   .snapshots(),

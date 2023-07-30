@@ -46,8 +46,6 @@ dependencies:
   cloud_firestore: ^4.6.0
   fluttertoast: ^8.2.1
   flutter_svg: ^2.0.5
-  get: ^4.6.5
-  provider: ^6.0.5
   lottie: ^2.3.2
   intl: ^0.17.0
   page_transition: ^2.0.9

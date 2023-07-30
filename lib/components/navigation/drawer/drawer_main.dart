@@ -39,7 +39,12 @@ class _DrawerMainState extends State<DrawerMain> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Drawer(
+      backgroundColor: theme.brightness == Brightness.dark
+          ? backgroundColorDark // set color for dark theme
+          : backgroundColorLight, // set color for light theme
       child: Container(
         padding:
             const EdgeInsets.only(left: layoutPadding, right: layoutPadding),
@@ -55,9 +60,9 @@ class _DrawerMainState extends State<DrawerMain> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Relate",
-                        style: GoogleFonts.alexBrush(
+                        style: GoogleFonts.openSans(
                             fontSize: 40,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w300,
                             color: primaryColor)),
                     if (auth.profilePicture != null &&
                         auth.profilePicture != '')
@@ -84,7 +89,7 @@ class _DrawerMainState extends State<DrawerMain> {
                       children: [
                         Text(
                           userName.toString(),
-                          style: GoogleFonts.roboto(
+                          style: GoogleFonts.poppins(
                               fontSize: 20, fontWeight: FontWeight.w700),
                         ),
                       ],

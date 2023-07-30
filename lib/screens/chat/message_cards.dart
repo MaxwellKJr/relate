@@ -26,7 +26,7 @@ class _MessageCardsState extends State<MessageCards> {
 
     return Container(
       padding: EdgeInsets.only(
-        top: 1,
+        top: 10,
         bottom: 1,
         left: widget.sentByMe ? 0 : 24,
         right: widget.sentByMe ? 24 : 0,

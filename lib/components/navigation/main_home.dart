@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
+import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/communities/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
@@ -36,63 +37,62 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     final screenTitle = [
       "Home",
       "Communities",
-      "Post",
       "Self Recovery Plans",
       "Discover"
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(screenTitle[currentPageIndex],
-            style: GoogleFonts.openSans(
-                fontSize: 20, fontWeight: FontWeight.w600)),
-        backgroundColor: theme.brightness == Brightness.dark
-            ? Colors.black12 // set color for dark theme
-            : Colors.white24, // set color for light theme
-        bottomOpacity: 0,
-        elevation: 0,
-        iconTheme: const IconThemeData(),
-      ),
-      body: screens[currentPageIndex],
-      drawer: const DrawerMain(),
-      bottomNavigationBar: Offstage(
-          offstage: currentPageIndex == 5,
-          child: NavigationBar(
-            animationDuration: const Duration(milliseconds: 1000),
-            height: currentPageIndex == 2 ? 60 : 60,
-            selectedIndex: currentPageIndex,
-            onDestinationSelected: (currentPageIndex) =>
-                setState(() => this.currentPageIndex = currentPageIndex),
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-            destinations: const [
-              NavigationDestination(
+        appBar: AppBar(
+          title: Text(screenTitle[currentPageIndex],
+              style: GoogleFonts.openSans(
+                  fontSize: 20, fontWeight: FontWeight.w600)),
+          backgroundColor: theme.brightness == Brightness.dark
+              ? backgroundColorDark // set color for dark theme
+              : backgroundColorLight, // set color for light theme
+          bottomOpacity: 0,
+          elevation: 0,
+          iconTheme: const IconThemeData(),
+        ),
+        body: screens[currentPageIndex],
+        drawer: const DrawerMain(),
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: theme.brightness == Brightness.dark
+              ? Colors.black26
+              : Colors.black12,
+          animationDuration: const Duration(milliseconds: 1000),
+          height: 60,
+          selectedIndex: currentPageIndex,
+          onDestinationSelected: (currentPageIndex) =>
+              setState(() => this.currentPageIndex = currentPageIndex),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_rounded,
+                size: 20,
+              ),
+              label: "Home",
+            ),
+            NavigationDestination(
+              icon: Icon(
+                CupertinoIcons.group_solid,
+                size: 25,
+              ),
+              label: "Communities",
+            ),
+            NavigationDestination(
                 icon: Icon(
-                  Icons.home_rounded,
+                  CupertinoIcons.list_dash,
                   size: 20,
                 ),
-                label: "Home",
-              ),
-              NavigationDestination(
+                label: "Plans"),
+            NavigationDestination(
                 icon: Icon(
-                  CupertinoIcons.group_solid,
-                  size: 25,
+                  CupertinoIcons.search,
+                  size: 20,
                 ),
-                label: "Communities",
-              ),
-              NavigationDestination(
-                  icon: Icon(
-                    CupertinoIcons.list_dash,
-                    size: 20,
-                  ),
-                  label: "Plans"),
-              NavigationDestination(
-                  icon: Icon(
-                    CupertinoIcons.search,
-                    size: 20,
-                  ),
-                  label: "Discover"),
-            ],
-          )),
-    );
+                label: "Discover"),
+          ],
+        ));
   }
 }
