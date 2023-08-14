@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/firebase_options.dart';
@@ -43,32 +44,39 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     checkIfLoggedIn();
     super.initState();
-
-    final theme = Theme.of(context);
-
-    if (Platform.isAndroid) {
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-          systemNavigationBarColor: (theme.brightness == Brightness.light)
-              ? backgroundColorLight
-              : backgroundColorDark));
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (theme.brightness == Brightness.light) {
+      SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(systemNavigationBarColor: backgroundColorDark));
+    } else if (theme.brightness == Brightness.dark) {
+      SystemChrome.setSystemUIOverlayStyle(
+          SystemUiOverlayStyle(systemNavigationBarColor: bottomNavDark));
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Relate',
       theme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-        colorSchemeSeed: primaryColor,
-      ),
+          useMaterial3: true,
+          fontFamily: "Open Sans",
+          colorScheme: ColorScheme.fromSeed(
+              brightness: Brightness.light,
+              seedColor: primaryColor,
+              primary: primaryColor,
+              background: backgroundColorLight)),
       darkTheme: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: primaryColor,
-      ),
+          useMaterial3: true,
+          fontFamily: "Open Sans",
+          colorScheme: ColorScheme.fromSeed(
+              brightness: Brightness.dark,
+              seedColor: primaryColor,
+              primary: primaryColor,
+              background: backgroundColorDark)),
       themeMode: ThemeMode.system,
       home: isLoggedIn ? const MainHomeScreen() : const WelcomeScreen(),
     );

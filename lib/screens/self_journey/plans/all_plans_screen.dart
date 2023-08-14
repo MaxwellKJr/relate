@@ -15,7 +15,7 @@ class _AllPlansScreenState extends State<AllPlansScreen> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          vertical: layoutPadding, horizontal: layoutPadding - 10),
+          vertical: layoutPadding, horizontal: layoutPadding),
       child: Column(
         children: [
           // General Plans

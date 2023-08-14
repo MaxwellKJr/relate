@@ -12,7 +12,7 @@ class SelfJourneyUpdatedScreen extends StatefulWidget {
 class _SelfJourneyUpdatedScreenState extends State<SelfJourneyUpdatedScreen> {
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 2, // Number of tabs
       child: Scaffold(
           body: SafeArea(

@@ -6,9 +6,11 @@ import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/communities/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
+import 'package:relate/screens/profile/profile_screen.dart';
 import 'package:relate/screens/self_journey/self_journey_updatedscreen.dart';
 import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 import 'package:relate/services/auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -23,6 +25,22 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   int currentPageIndex = 0;
   final uid = FirebaseAuth.instance.currentUser?.uid.toString();
 
+  String? userName;
+
+  Future init() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = prefs.getString('userName');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -32,20 +50,22 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       const Communities(),
       const SelfJourneyUpdatedScreen(),
       const WellnessCentresScreen(),
+      ProfileScreen(uid: uid ?? ''),
     ];
 
     final screenTitle = [
       "Home",
       "Communities",
       "Self Recovery Plans",
-      "Discover"
+      "Discover",
+      "Profile"
     ];
 
     return Scaffold(
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
               style: GoogleFonts.openSans(
-                  fontSize: 20, fontWeight: FontWeight.w600)),
+                  fontSize: 20, fontWeight: FontWeight.w800)),
           backgroundColor: theme.brightness == Brightness.dark
               ? backgroundColorDark // set color for dark theme
               : backgroundColorLight, // set color for light theme
@@ -56,15 +76,19 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         body: screens[currentPageIndex],
         drawer: const DrawerMain(),
         bottomNavigationBar: NavigationBar(
-          backgroundColor: theme.brightness == Brightness.dark
-              ? Colors.black26
-              : Colors.black12,
+          elevation: 5,
+          surfaceTintColor: theme.brightness == Brightness.light
+              ? backgroundColorLight
+              : backgroundColorDark,
+          shadowColor: theme.brightness == Brightness.light
+              ? backgroundColorDark // set color for dark theme
+              : backgroundColorLight, // set color for light theme
           animationDuration: const Duration(milliseconds: 1000),
           height: 60,
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>
               setState(() => this.currentPageIndex = currentPageIndex),
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
           destinations: const [
             NavigationDestination(
               icon: Icon(
@@ -92,6 +116,12 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                   size: 20,
                 ),
                 label: "Discover"),
+            NavigationDestination(
+                icon: Icon(
+                  CupertinoIcons.profile_circled,
+                  size: 20,
+                ),
+                label: "Profile"),
           ],
         ));
   }
