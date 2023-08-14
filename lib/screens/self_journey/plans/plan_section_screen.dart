@@ -88,10 +88,11 @@ class PlanSection extends StatelessWidget {
                 final imageURL = planData['image'];
 
                 return Card(
+                  margin: EdgeInsets.only(top: 10, bottom: 10),
                   clipBehavior: Clip.antiAlias,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24)),
-                  elevation: 1,
+                      borderRadius: BorderRadius.circular(18)),
+                  elevation: 0,
                   child: Stack(
                     alignment: Alignment.bottomCenter,
                     children: [
@@ -119,7 +120,7 @@ class PlanSection extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Container(
-                            decoration: BoxDecoration(color: primaryColor),
+                            decoration: BoxDecoration(color: primaryAccentDark),
                             child: ListTile(
                               title: Text(
                                 planData['nameOfPlan'],
@@ -136,7 +137,7 @@ class PlanSection extends StatelessWidget {
                             ),
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 );
