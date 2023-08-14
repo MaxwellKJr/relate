@@ -65,7 +65,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
         appBar: AppBar(
           title: Text(screenTitle[currentPageIndex],
               style: GoogleFonts.openSans(
-                  fontSize: 20, fontWeight: FontWeight.w800)),
+                  fontSize: 20, fontWeight: FontWeight.w700)),
           backgroundColor: theme.brightness == Brightness.dark
               ? backgroundColorDark // set color for dark theme
               : backgroundColorLight, // set color for light theme

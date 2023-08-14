@@ -14,6 +14,8 @@ class PlanSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         SizedBox(
@@ -85,54 +87,57 @@ class PlanSection extends StatelessWidget {
 
                 final imageURL = planData['image'];
 
-                return GestureDetector(
-                  onTap: () {
-                    // Handle navigation to the detailed page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PlanDetailScreen(planData),
+                return Card(
+                  clipBehavior: Clip.antiAlias,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                  elevation: 1,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PlanDetailScreen(planData),
+                            ),
+                          );
+                        },
+                        child: CachedNetworkImage(
+                          colorBlendMode: BlendMode.hue,
+                          key: UniqueKey(),
+                          imageUrl: imageURL,
+                          fit: BoxFit.cover,
+                          maxHeightDiskCache: 500,
+                          placeholder: (context, imageURL) => const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                        ),
                       ),
-                    );
-                  },
-                  child: Card(
-                    elevation: 0,
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 80,
-                          child: FittedBox(
-                            fit: BoxFit.fill,
-                            child: CachedNetworkImage(
-                              key: UniqueKey(),
-                              imageUrl: imageURL,
-                              width: 80,
-                              fit: BoxFit.fitHeight,
-                              maxHeightDiskCache: 500,
-                              placeholder: (context, imageURL) => const Center(
-                                child: CircularProgressIndicator.adaptive(),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(color: primaryColor),
+                            child: ListTile(
+                              title: Text(
+                                planData['nameOfPlan'],
+                                style: GoogleFonts.openSans(
+                                    color: whiteColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              subtitle: Text(
+                                planData['description'],
+                                style: GoogleFonts.openSans(
+                                    color: whiteColor, fontSize: 13),
                               ),
                             ),
-                            // Image.network(
-                            //   imageURL,
-                            //   fit: BoxFit.fill,
-                            //   height: 80,
-                            //   width: 80,
-                            // ),
-                          ),
-                        ),
-                        Expanded(
-                          child: ListTile(
-                            title: Text(
-                              planData['nameOfPlan'],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Text(planData['description']),
-                          ),
-                        ),
-                      ],
-                    ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
                 );
               },

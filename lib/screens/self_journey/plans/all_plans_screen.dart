@@ -13,29 +13,36 @@ class AllPlansScreen extends StatefulWidget {
 class _AllPlansScreenState extends State<AllPlansScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: layoutPadding, horizontal: layoutPadding),
-      child: Column(
-        children: [
-          // General Plans
-          PlanSection(
-            typeOfField: 'General',
-            query: FirebaseFirestore.instance
-                .collection('plans')
-                .where('typeOfField', isEqualTo: 'General')
-                .limit(3),
+    return ListView(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(
+              vertical: layoutPadding, horizontal: layoutPadding),
+          child: Column(
+            children: [
+              // General Plans
+              PlanSection(
+                typeOfField: 'General',
+                query: FirebaseFirestore.instance
+                    .collection('plans')
+                    .where('typeOfField', isEqualTo: 'General')
+                    .limit(3),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // Other Plans Tab
+              PlanSection(
+                typeOfField: 'Addiction',
+                query: FirebaseFirestore.instance
+                    .collection('plans')
+                    .where('typeOfField', isEqualTo: 'Addiction')
+                    .limit(3),
+              )
+            ],
           ),
-          // Other Plans Tab
-          PlanSection(
-            typeOfField: 'Addiction',
-            query: FirebaseFirestore.instance
-                .collection('plans')
-                .where('typeOfField', isEqualTo: 'Addiction')
-                .limit(3),
-          )
-        ],
-      ),
+        )
+      ],
     );
   }
 }
