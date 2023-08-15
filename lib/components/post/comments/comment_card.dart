@@ -30,6 +30,7 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
 
     /// Format date
@@ -41,98 +42,117 @@ class _CommentCardState extends State<CommentCard> {
 
     final formattedDateTime = "$formattedDate $formattedTime";
 
-    return Container(
-      padding: const EdgeInsets.only(top: 15, bottom: 0),
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: theme.brightness == Brightness.dark
-                ? borderColorDark // set color for dark theme
-                : borderColor, // set color for light theme
-            width: 1.0, // Set the width of the border
+    return SizedBox(
+      child: Container(
+        padding: const EdgeInsets.only(top: 15, bottom: 0),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: theme.brightness == Brightness.dark
+                  ? borderColorDark // set color for dark theme
+                  : borderColor, // set color for light theme
+              width: 1.0, // Set the width of the border
+            ),
           ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Color(
-                                (math.Random().nextDouble() * 0xFFFFFF).toInt())
-                            .withOpacity(1.0),
-                        child: Text(
-                          widget.userName.substring(
-                              0, 1), // Get the first character of the userName
-                          style: const TextStyle(
-                              color: Colors.white), // Customize the text color
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Column(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.userName,
-                            style: GoogleFonts.roboto(
-                                fontWeight: FontWeight.w600, fontSize: 15),
+                          CircleAvatar(
+                            backgroundColor: Color(
+                                    (math.Random().nextDouble() * 0xFFFFFF)
+                                        .toInt())
+                                .withOpacity(0.3),
+                            child: Text(
+                              widget.userName.substring(0,
+                                  2), // Get the first character of the userName
+                              style: const TextStyle(
+                                  color:
+                                      Colors.white), // Customize the text color
+                            ),
                           ),
-                          Text(widget.commentBody,
-                              style: GoogleFonts.openSans(fontSize: 15)),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            width: 10,
                           ),
-
-                          CommentBottomIcons(
-                            postId: widget.postId,
-                            commentId: widget.commentId,
-                            relates: List<String>.from(
-                                widget.comment['relates'] ?? []),
-                          ),
-                          // GestureDetector(
-                          //   onTap: () {
-                          //     setState(() {
-                          //       isClicked = !isClicked;
-                          //     });
-                          //   },
-                          //   child: isClicked
-                          //       ? const Icon(
-                          //           Icons.favorite,
-                          //           size: 18,
-                          //           color: primaryColor,
-                          //         )
-                          //       : const Icon(
-                          //           Icons.favorite_outline,
-                          //           size: 18,
-                          //         ),
-                          // ),
-                          const SizedBox(
-                            height: 15,
-                          ),
+                          Expanded(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.userName,
+                                style: GoogleFonts.openSans(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(widget.commentBody,
+                                            style: GoogleFonts.openSans(
+                                                fontSize: 13)),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 2,
+                              ),
+                              CommentBottomIcons(
+                                postId: widget.postId,
+                                commentId: widget.commentId,
+                                relates: List<String>.from(
+                                    widget.comment['relates'] ?? []),
+                              ),
+                              // GestureDetector(
+                              //   onTap: () {
+                              //     setState(() {
+                              //       isClicked = !isClicked;
+                              //     });
+                              //   },
+                              //   child: isClicked
+                              //       ? const Icon(
+                              //           Icons.favorite,
+                              //           size: 18,
+                              //           color: primaryColor,
+                              //         )
+                              //       : const Icon(
+                              //           Icons.favorite_outline,
+                              //           size: 18,
+                              //         ),
+                              // ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                            ],
+                          ))
                         ],
-                      )
-                    ],
-                  ),
-                  Text(
-                    daysAgo,
-                    style: const TextStyle(fontSize: 13, color: primaryColor),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                      ),
+                    ),
+                    Text(
+                      daysAgo,
+                      style: const TextStyle(fontSize: 13, color: primaryColor),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

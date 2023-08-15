@@ -96,7 +96,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                               BorderRadius.all(
                                                                   Radius
                                                                       .circular(
-                                                                          10))),
+                                                                          12))),
                                                   child: Container(
                                                     padding:
                                                         const EdgeInsets.only(
@@ -125,7 +125,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                                 textWidthBasis:
                                                                     TextWidthBasis
                                                                         .parent,
-                                                                style: GoogleFonts.poppins(
+                                                                style: GoogleFonts.openSans(
                                                                     fontSize:
                                                                         17,
                                                                     fontWeight:
@@ -141,7 +141,7 @@ class _WellnessCentresScreenState extends State<WellnessCentresScreen> {
                                                           address,
                                                           softWrap: true,
                                                           style: GoogleFonts
-                                                              .roboto(
+                                                              .openSans(
                                                                   color:
                                                                       primaryColor,
                                                                   fontSize:

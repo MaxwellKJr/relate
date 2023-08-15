@@ -88,7 +88,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           selectedIndex: currentPageIndex,
           onDestinationSelected: (currentPageIndex) =>
               setState(() => this.currentPageIndex = currentPageIndex),
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: const [
             NavigationDestination(
               icon: Icon(

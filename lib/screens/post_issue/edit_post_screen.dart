@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,17 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:relate/constants/colors.dart';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:relate/constants/size_values.dart';
 
-class PostIssueScreen extends StatefulWidget {
-  const PostIssueScreen({super.key});
+class EditPostScreen extends StatefulWidget {
+  final String postId, text, focus, image;
+
+  const EditPostScreen(
+      {super.key,
+      required this.postId,
+      required this.text,
+      required this.focus,
+      required this.image});
 
   @override
-  State<PostIssueScreen> createState() => _PostIssueScreenState();
+  State<EditPostScreen> createState() => _EditPostScreenState();
 }
 
-class _PostIssueScreenState extends State<PostIssueScreen> {
+class _EditPostScreenState extends State<EditPostScreen> {
   final _postTextController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isEmpty = false;
@@ -70,7 +77,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
           .add(post)
           .then((value) => {
                 Fluttertoast.showToast(
-                    msg: "Post Shared",
+                    msg: "Your post has been edited",
                     toastLength: Toast.LENGTH_SHORT,
                     gravity: ToastGravity.TOP,
                     timeInSecForIosWeb: 1,
@@ -133,11 +140,9 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final hasText = ValueNotifier(false);
-
     return SafeArea(
         child: Scaffold(
-            appBar: AppBar(title: Text("Post")),
+            appBar: AppBar(title: Text("Edit Post")),
             body: GestureDetector(
               onTap: () {
                 FocusScopeNode currentFocus = FocusScope.of(context);
@@ -187,8 +192,8 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                                   },
                                   maxLength: 1000,
                                   controller: _postTextController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Let it out...',
+                                  decoration: InputDecoration(
+                                    hintText: "Let it out...",
                                     border: InputBorder.none,
                                   ),
                                   maxLines: null,
@@ -277,7 +282,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                                           sendPost();
                                         }
                                       },
-                                      child: const Text("Post"),
+                                      child: const Text("Edit"),
                                     ))
                               ],
                             ),

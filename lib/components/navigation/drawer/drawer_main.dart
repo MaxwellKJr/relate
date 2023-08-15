@@ -57,13 +57,24 @@ class _DrawerMainState extends State<DrawerMain> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Relate",
-                        style: GoogleFonts.openSans(
-                            fontSize: 40,
-                            fontWeight: FontWeight.w300,
-                            color: primaryColor)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Relate",
+                            style: GoogleFonts.openSans(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w500,
+                                color: primaryColor)),
+                        Text(
+                          "$userName",
+                          style: GoogleFonts.openSans(
+                              fontSize: 20, fontWeight: FontWeight.w600),
+                        )
+                      ],
+                    ),
                     if (auth.profilePicture != null &&
                         auth.profilePicture != '')
                       Container(
@@ -82,20 +93,6 @@ class _DrawerMainState extends State<DrawerMain> {
                       Container(),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          userName.toString(),
-                          style: GoogleFonts.poppins(
-                              fontSize: 20, fontWeight: FontWeight.w700),
-                        ),
-                      ],
-                    )
-                  ],
-                )
               ],
             )),
             SizedBox(

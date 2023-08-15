@@ -7,20 +7,20 @@ import 'package:relate/screens/wellness_centres/wellness_centres_screen.dart';
 
 class DrawerTilesViewModel {
   final List<Map<String, dynamic>> dataList = [
-    {
-      'leading': const Icon(
-        Icons.favorite,
-      ),
-      'title': tWellnessCentres,
-      'destination': const WellnessCentresScreen()
-    },
-    {
-      'leading': const Icon(
-        Icons.send_sharp,
-      ),
-      'title': tContactAProfessional,
-      'destination': ContactProfessionalScreen()
-    },
+    // {
+    //   'leading': const Icon(
+    //     Icons.favorite,
+    //   ),
+    //   'title': tWellnessCentres,
+    //   'destination': const WellnessCentresScreen()
+    // },
+    // {
+    //   'leading': const Icon(
+    //     Icons.send_sharp,
+    //   ),
+    //   'title': tContactAProfessional,
+    //   'destination': ContactProfessionalScreen()
+    // },
     {
       'leading': const Icon(
         Icons.settings,
