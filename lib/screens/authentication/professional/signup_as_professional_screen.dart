@@ -68,7 +68,7 @@ class _SignupAsProfessionalScreenState
                       ),
                       Text(
                         tCreateProfessionalAccount,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: primaryColor),
@@ -159,7 +159,7 @@ class _SignupAsProfessionalScreenState
                                     },
                                     child: Text(
                                       tCreateProfessionalAccount.toUpperCase(),
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.openSans(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -172,7 +172,7 @@ class _SignupAsProfessionalScreenState
                             children: [
                               Text(
                                 tAlreadyHaveAnAccount,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.openSans(),
                               ),
                               GestureDetector(
                                   onTap: () {

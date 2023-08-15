@@ -121,7 +121,7 @@ class _DrawerMainState extends State<DrawerMain> {
                     auth.signOut(context);
                   },
                   child: Text(tSignout.toUpperCase(),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.openSans(
                           fontSize: 17, fontWeight: FontWeight.w700))),
             )
           ],

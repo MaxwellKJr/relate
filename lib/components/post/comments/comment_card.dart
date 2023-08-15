@@ -30,17 +30,12 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
 
     /// Format date
     final dateTime = widget.timestamp.toDate();
 
     final daysAgo = timeago.format(dateTime, locale: 'en_short');
-    final formattedDate = DateFormat.yMMMMEEEEd().format(dateTime);
-    final formattedTime = DateFormat.Hm().format(dateTime);
-
-    final formattedDateTime = "$formattedDate $formattedTime";
 
     return SizedBox(
       child: Container(

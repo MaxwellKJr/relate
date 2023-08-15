@@ -176,7 +176,7 @@ class _ViewPostState extends State<ViewPost> {
                               const SizedBox(height: elementSpacing),
                               Text(
                                 widget.text,
-                                style: GoogleFonts.poppins(fontSize: 14),
+                                style: GoogleFonts.openSans(fontSize: 14),
                               ),
                               if (widget.image != '')
                                 Container(

@@ -24,7 +24,7 @@ class Page3 extends StatelessWidget {
             children: [
               Text(
                 page3Headline.toUpperCase(),
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.openSans(
                     fontSize: 24,
                     fontWeight: FontWeight.w800,
                     color: primaryColor),
@@ -33,7 +33,7 @@ class Page3 extends StatelessWidget {
               const SizedBox(height: 10.0),
               Text(
                 page3Description,
-                style: GoogleFonts.poppins(fontSize: 16),
+                style: GoogleFonts.openSans(fontSize: 16),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(

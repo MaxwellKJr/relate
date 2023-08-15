@@ -26,32 +26,32 @@ class _ProfessionalDisclaimerScreenState
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Disclaimer".toUpperCase(),
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.openSans(
                           fontWeight: FontWeight.w800, fontSize: 20)),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tProfessionalDisclaimer, style: GoogleFonts.poppins()),
+                  Text(tProfessionalDisclaimer, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tDisclaimer1, style: GoogleFonts.poppins()),
+                  Text(tDisclaimer1, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tDisclaimer2, style: GoogleFonts.poppins()),
+                  Text(tDisclaimer2, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tDisclaimer3, style: GoogleFonts.poppins()),
+                  Text(tDisclaimer3, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tDisclaimer4, style: GoogleFonts.poppins()),
+                  Text(tDisclaimer4, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
-                  Text(tDisclaimer5, style: GoogleFonts.poppins()),
+                  Text(tDisclaimer5, style: GoogleFonts.openSans()),
                   const SizedBox(
                     height: elementSpacing,
                   ),
@@ -68,7 +68,7 @@ class _ProfessionalDisclaimerScreenState
                       },
                       child: Text(
                         tIUnderstand.toUpperCase(),
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),

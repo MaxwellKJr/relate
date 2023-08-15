@@ -71,7 +71,7 @@ class _OnBoardingPagesState extends State<OnBoardingPages> {
                                   },
                                   child: Text(
                                     tCreateAccount.toUpperCase(),
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -85,7 +85,7 @@ class _OnBoardingPagesState extends State<OnBoardingPages> {
                                   },
                                   child: Text(
                                     "Next".toUpperCase(),
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),

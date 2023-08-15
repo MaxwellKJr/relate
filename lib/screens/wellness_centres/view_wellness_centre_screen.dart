@@ -64,7 +64,7 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                     children: [
                                       Text(
                                         widget.name,
-                                        style: GoogleFonts.poppins(
+                                        style: GoogleFonts.openSans(
                                             fontSize: 17,
                                             fontWeight: FontWeight.w800),
                                       ),
@@ -81,7 +81,7 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                           ),
                                           Text(
                                             widget.address,
-                                            style: GoogleFonts.poppins(
+                                            style: GoogleFonts.openSans(
                                                 color: primaryColor),
                                           ),
                                         ],
@@ -119,26 +119,26 @@ class _ViewWellnessCentreScreenState extends State<ViewWellnessCentreScreen> {
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     "Background",
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700),
                                   ),
                                   Text(
                                     widget.background,
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                       fontSize: 14,
                                     ),
                                   ),
                                   const SizedBox(height: elementSpacing),
                                   Text(
                                     "Services",
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w700),
                                   ),
                                   Text(
                                     widget.services,
-                                    style: GoogleFonts.poppins(fontSize: 14),
+                                    style: GoogleFonts.openSans(fontSize: 14),
                                   ),
                                 ],
                               ),

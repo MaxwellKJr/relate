@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         tWelcomeBack,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: primaryColor),
@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     },
                                     child: Text(
                                       tLogin.toUpperCase(),
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.openSans(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               Text(
                                 tDontHaveAnAccount,
-                                style: GoogleFonts.poppins(),
+                                style: GoogleFonts.openSans(),
                               ),
                               GestureDetector(
                                   onTap: () {
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                   child: Text(
                                     tSignupText,
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         color: primaryColor,
                                         fontWeight: FontWeight.w600),
                                   ))

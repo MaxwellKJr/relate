@@ -102,7 +102,7 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                       padding: const EdgeInsets.all(layoutPadding),
                       child: Text(
                         "For a better user experience, we need to know more about you",
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),
@@ -115,7 +115,7 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                           children: [
                             Text(
                               "Interests",
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.openSans(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: primaryColor),
@@ -144,7 +144,7 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                           children: [
                             Text(
                               "Hobbies",
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.openSans(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: primaryColor),
@@ -173,7 +173,7 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
                           children: [
                             Text(
                               "Dislikes",
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.openSans(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: primaryColor),

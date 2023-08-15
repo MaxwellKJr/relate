@@ -69,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       Text(
                         tCreateAccount,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: primaryColor),
@@ -163,7 +163,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     },
                                     child: Text(
                                       tSignupText.toUpperCase(),
-                                      style: GoogleFonts.poppins(
+                                      style: GoogleFonts.openSans(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -179,7 +179,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 children: [
                                   Text(
                                     tAlreadyHaveAnAccount,
-                                    style: GoogleFonts.poppins(),
+                                    style: GoogleFonts.openSans(),
                                   ),
                                   GestureDetector(
                                       onTap: () {

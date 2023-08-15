@@ -52,7 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     children: [
                       Text(
                         tWelcomeText.toUpperCase(),
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 30,
                             fontWeight: FontWeight.w800,
                             color: whiteColor),
@@ -61,7 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       const SizedBox(height: 12.0),
                       Text(
                         tWelcomeDescription,
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.openSans(
                             fontSize: 15, color: whiteColor.withOpacity(0.84)),
                         textAlign: TextAlign.left,
                       ),
@@ -83,7 +83,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           child: Text(
                             tGetStartedText.toUpperCase(),
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.openSans(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -102,7 +102,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             },
                             child: Text(
                               tLoginInsteadText.toUpperCase(),
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.openSans(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             )),
                       ),

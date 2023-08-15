@@ -26,7 +26,7 @@ class PlanSection extends StatelessWidget {
           children: [
             Text(
               typeOfField,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.openSans(
                   fontSize: 16, fontWeight: FontWeight.w600),
             ),
             GestureDetector(

@@ -104,7 +104,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                   children: [
                     Text(
                       "We need to know you more...",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.openSans(
                           fontSize: 28,
                           fontWeight: FontWeight.w800,
                           color: primaryColor),
@@ -264,7 +264,7 @@ class _GetProfessionalDataScreenState extends State<GetProfessionalDataScreen> {
                                   },
                                   child: Text(
                                     "Proceed".toUpperCase(),
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.openSans(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold),
                                   ),
