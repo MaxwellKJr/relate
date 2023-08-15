@@ -311,7 +311,7 @@ class PostTile extends StatelessWidget {
                             uid: uid,
                           ),
                           type: PageTransitionType.rightToLeft,
-                          duration: const Duration(milliseconds: 100)));
+                          duration: const Duration(milliseconds: 230)));
                 },
                 child: SizedBox(
                     width: double.infinity,
@@ -361,7 +361,7 @@ class PostTile extends StatelessWidget {
                                           children: [
                                             Text(
                                               postedBy,
-                                              style: GoogleFonts.roboto(
+                                              style: GoogleFonts.openSans(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600),
                                               maxLines: 2,
@@ -422,6 +422,7 @@ class PostTile extends StatelessWidget {
                             Text(
                               text,
                               style: GoogleFonts.openSans(fontSize: 14.5),
+                              overflow: TextOverflow.ellipsis,
                               maxLines: 10,
                             ),
                             if (post['image'] != null && post['image'] != '')

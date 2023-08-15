@@ -133,6 +133,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // final hasText = ValueNotifier(false);
 
     return SafeArea(
@@ -152,49 +153,66 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomDropdown(
-                          borderSide: const BorderSide(color: primaryColor),
-                          fillColor: Colors.transparent,
-                          hintStyle: const TextStyle(color: primaryColor),
-                          listItemStyle: const TextStyle(color: blackColor),
-                          selectedStyle: const TextStyle(color: primaryColor),
-                          fieldSuffixIcon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 20,
-                            color: primaryColor,
-                          ),
-                          hintText: 'General',
-                          items: const [
-                            'General',
-                            'Depression',
-                            'Addiction',
-                            'Motivation'
+                        Expanded(
+                            child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.only(bottom: layoutPadding),
+                                child: Container(
+                                  child: Column(children: [
+                                    CustomDropdown(
+                                      borderSide:
+                                          const BorderSide(color: primaryColor),
+                                      fillColor: Colors.transparent,
+                                      hintStyle:
+                                          const TextStyle(color: primaryColor),
+                                      listItemStyle:
+                                          const TextStyle(color: blackColor),
+                                      selectedStyle:
+                                          const TextStyle(color: primaryColor),
+                                      fieldSuffixIcon: const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        size: 20,
+                                        color: primaryColor,
+                                      ),
+                                      hintText: 'General',
+                                      items: const [
+                                        'General',
+                                        'Depression',
+                                        'Addiction',
+                                        'Motivation'
+                                      ],
+                                      controller: _focusController,
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Form(
+                                          key: _formKey,
+                                          child: SizedBox(
+                                            child: TextFormField(
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Post cannot be empty. This is not Twitter';
+                                                }
+                                                return null;
+                                              },
+                                              maxLength: 1000,
+                                              controller: _postTextController,
+                                              decoration: const InputDecoration(
+                                                hintText: 'Let it out...',
+                                                border: InputBorder.none,
+                                              ),
+                                              minLines: 1,
+                                              maxLines: 100,
+                                            ),
+                                          )),
+                                    )
+                                  ]),
+                                ))
                           ],
-                          controller: _focusController,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Form(
-                              key: _formKey,
-                              child: SizedBox(
-                                height: 100,
-                                child: TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Post cannot be empty. This is not Twitter';
-                                    }
-                                    return null;
-                                  },
-                                  maxLength: 1000,
-                                  controller: _postTextController,
-                                  decoration: const InputDecoration(
-                                    hintText: 'Let it out...',
-                                    border: InputBorder.none,
-                                  ),
-                                  maxLines: null,
-                                ),
-                              )),
-                        )
+                        ))
                       ],
                     ),
                   ),
@@ -241,7 +259,8 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10),
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
+                                color: theme.colorScheme.background,
                                 border: Border(
                                     top: BorderSide(
                                         color: primaryColor, width: 1.0))),
@@ -250,14 +269,14 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
                               children: [
                                 Row(
                                   children: [
-                                    // //Camera
-                                    // IconButton(
-                                    //   onPressed: () => _openCamera(),
-                                    //   icon: const Icon(
-                                    //     CupertinoIcons.camera_fill,
-                                    //     color: primaryColor,
-                                    //   ),
-                                    // ),
+                                    //Camera
+                                    IconButton(
+                                      onPressed: () => _openCamera(),
+                                      icon: const Icon(
+                                        CupertinoIcons.camera_fill,
+                                        color: primaryColor,
+                                      ),
+                                    ),
 
                                     // Galley
                                     IconButton(
