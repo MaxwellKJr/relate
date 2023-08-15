@@ -37,8 +37,8 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   
   cupertino_icons: ^1.0.2
-  flutter_native_splash: ^2.2.19
-  google_fonts: ^4.0.4
+  flutter_native_splash: ^2.3.2
+  google_fonts: ^5.1.0
   smooth_page_indicator: ^1.1.0
   firebase_core: ^2.10.0
   firebase_auth: ^4.4.2
@@ -47,19 +47,19 @@ dependencies:
   fluttertoast: ^8.2.1
   flutter_svg: ^2.0.5
   lottie: ^2.3.2
-  intl: ^0.17.0
+  intl: ^0.18.0
   page_transition: ^2.0.9
   hidden_drawer_menu: ^3.0.1
-  image_picker: ^0.8.7+4
+  image_picker: ^1.0.2
   vibration: ^1.7.7
-  image_cropper: ^3.0.3
+  image_cropper: ^5.0.0
   firebase_storage: ^11.1.2
   animated_custom_dropdown: ^1.5.0
   flutter_chat_ui: ^1.6.6
   flutter_sound: ^9.2.13
   connectivity_plus: ^4.0.1
   webview_flutter: ^4.2.2
-  timeago: ^3.3.0
+  timeago: ^3.5.0
   cached_network_image: ^3.2.3
   liquid_pull_to_refresh: ^3.0.1
   flutter_launcher_icons: ^0.13.1
@@ -85,8 +85,8 @@ flutter_launcher_icons:
   flutter_lints: ^2.0.0
 
 flutter_native_splash:
-  color: "#f1f1f1"
-  color_dark: "111111"
+  color: "#FBFDFC"
+  color_dark: "#181C1D"
   image: "assets/images/logo-teal.png"
   image_dark: "assets/images/logo-teal.png"
 

@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   PageTransition(
                     type: PageTransitionType.bottomToTop,
-                    duration: const Duration(milliseconds: 400),
+                    duration: const Duration(milliseconds: 230),
                     child: const PostIssueScreen(),
                   ));
             },

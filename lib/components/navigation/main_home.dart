@@ -1,3 +1,4 @@
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,11 +62,37 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       "Profile"
     ];
 
+    final _dropDownController = TextEditingController();
+    // dropDown = _dropDownController;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text(screenTitle[currentPageIndex],
-              style: GoogleFonts.openSans(
-                  fontSize: 20, fontWeight: FontWeight.w700)),
+          title: currentPageIndex == 0
+              ? SizedBox(
+                  height: 38,
+                  width: _dropDownController.text == 'Home' ? 110 : 120,
+                  child: CustomDropdown(
+                    borderSide: const BorderSide(color: primaryColor),
+                    borderRadius: BorderRadius.circular(10),
+                    fillColor: Colors.transparent,
+                    hintStyle: const TextStyle(
+                        color: primaryColor, fontWeight: FontWeight.w700),
+                    listItemStyle: const TextStyle(color: blackColor),
+                    selectedStyle: const TextStyle(
+                        color: primaryColor, fontWeight: FontWeight.w700),
+                    fieldSuffixIcon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 16,
+                      color: primaryColor,
+                    ),
+                    hintText: 'Home',
+                    items: const ['Home', 'Trending'],
+                    controller: _dropDownController,
+                  ),
+                )
+              : Text(screenTitle[currentPageIndex],
+                  style: GoogleFonts.openSans(
+                      fontSize: 20, fontWeight: FontWeight.w700)),
           backgroundColor: theme.brightness == Brightness.dark
               ? backgroundColorDark // set color for dark theme
               : backgroundColorLight, // set color for light theme
@@ -80,9 +107,9 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
           surfaceTintColor: theme.brightness == Brightness.light
               ? backgroundColorLight
               : backgroundColorDark,
-          shadowColor: theme.brightness == Brightness.light
-              ? backgroundColorDark // set color for dark theme
-              : backgroundColorLight, // set color for light theme
+          // shadowColor: theme.brightness == Brightness.light
+          //     ? backgroundColorDark // set color for dark theme
+          //     : backgroundColorLight, // set color for light theme
           animationDuration: const Duration(milliseconds: 1000),
           height: 60,
           selectedIndex: currentPageIndex,
