@@ -7,7 +7,9 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class HomeScreenBody extends StatefulWidget {
-  const HomeScreenBody({Key? key}) : super(key: key);
+  final String? dropDownValue;
+
+  const HomeScreenBody({super.key, required this.dropDownValue});
 
   @override
   State<HomeScreenBody> createState() => _HomeScreenBodyState();
@@ -28,67 +30,132 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
             backgroundColor: primaryColor,
             color: Colors.transparent,
             showChildOpacityTransition: false,
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('posts')
-                  .where(
-                    'focus',
-                    isEqualTo: 'General',
+            child: widget.dropDownValue == 'Home'
+                ? StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('posts')
+                        .where(
+                          'focus',
+                          isEqualTo: 'General',
+                        )
+                        .orderBy('timestamp', descending: true)
+                        // .orderBy('relates', descending: true)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        final posts = snapshot.data?.docs;
+                        return ListView.builder(
+                            itemCount: posts?.length,
+                            itemBuilder: (context, index) {
+                              final post = posts![index];
+                              final postId = post.id;
+
+                              final String text = post['text'];
+                              final String focus = post['focus'];
+
+                              final image = post['image'];
+
+                              final String postedBy = post['postedBy'];
+                              final Timestamp timestamp = post['timestamp'];
+                              final String uid = post['uid'];
+
+                              final relates = post['relates'];
+
+                              //Format date
+                              final dateTime = timestamp.toDate();
+
+                              // final daysAgo = timeago.format(dateTime, locale: 'en_short');
+                              final daysAgo = timeago.format(dateTime);
+
+                              final formattedDate =
+                                  DateFormat.yMMMMEEEEd().format(dateTime);
+                              final formattedTime =
+                                  DateFormat.Hm().format(dateTime);
+
+                              final formattedDateTime =
+                                  "$formattedDate @ $formattedTime";
+
+                              return PostTile(
+                                  post: post,
+                                  relates: relates,
+                                  postId: postId,
+                                  text: text,
+                                  image: image,
+                                  focus: focus,
+                                  postedBy: postedBy,
+                                  uid: uid,
+                                  daysAgo: daysAgo,
+                                  formattedDateTime: formattedDateTime);
+                            });
+                      }
+                    },
                   )
-                  .orderBy('timestamp', descending: true)
-                  // .orderBy('relates', descending: true)
-                  .snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  final posts = snapshot.data?.docs;
-                  return ListView.builder(
-                      itemCount: posts?.length,
-                      itemBuilder: (context, index) {
-                        final post = posts![index];
-                        final postId = post.id;
+                : StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('posts')
+                        .where(
+                          'focus',
+                          isEqualTo: 'General',
+                        )
+                        .where('relates', isGreaterThan: 1)
+                        // .orderBy('relates', descending: true)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        final posts = snapshot.data?.docs;
+                        return ListView.builder(
+                            itemCount: posts?.length,
+                            itemBuilder: (context, index) {
+                              final post = posts![index];
+                              final postId = post.id;
 
-                        final String text = post['text'];
-                        final String focus = post['focus'];
+                              final String text = post['text'];
+                              final String focus = post['focus'];
 
-                        final image = post['image'];
+                              final image = post['image'];
 
-                        final String postedBy = post['postedBy'];
-                        final Timestamp timestamp = post['timestamp'];
-                        final String uid = post['uid'];
+                              final String postedBy = post['postedBy'];
+                              final Timestamp timestamp = post['timestamp'];
+                              final String uid = post['uid'];
 
-                        final relates = post['relates'];
+                              final relates = post['relates'];
 
-                        //Format date
-                        final dateTime = timestamp.toDate();
+                              //Format date
+                              final dateTime = timestamp.toDate();
 
-                        // final daysAgo = timeago.format(dateTime, locale: 'en_short');
-                        final daysAgo = timeago.format(dateTime);
+                              // final daysAgo = timeago.format(dateTime, locale: 'en_short');
+                              final daysAgo = timeago.format(dateTime);
 
-                        final formattedDate =
-                            DateFormat.yMMMMEEEEd().format(dateTime);
-                        final formattedTime = DateFormat.Hm().format(dateTime);
+                              final formattedDate =
+                                  DateFormat.yMMMMEEEEd().format(dateTime);
+                              final formattedTime =
+                                  DateFormat.Hm().format(dateTime);
 
-                        final formattedDateTime =
-                            "$formattedDate @ $formattedTime";
+                              final formattedDateTime =
+                                  "$formattedDate @ $formattedTime";
 
-                        return PostTile(
-                            post: post,
-                            relates: relates,
-                            postId: postId,
-                            text: text,
-                            image: image,
-                            focus: focus,
-                            postedBy: postedBy,
-                            uid: uid,
-                            daysAgo: daysAgo,
-                            formattedDateTime: formattedDateTime);
-                      });
-                }
-              },
-            )));
+                              return PostTile(
+                                  post: post,
+                                  relates: relates,
+                                  postId: postId,
+                                  text: text,
+                                  image: image,
+                                  focus: focus,
+                                  postedBy: postedBy,
+                                  uid: uid,
+                                  daysAgo: daysAgo,
+                                  formattedDateTime: formattedDateTime);
+                            });
+                      }
+                    },
+                  )));
   }
 }

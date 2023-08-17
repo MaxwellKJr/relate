@@ -9,7 +9,9 @@ import 'package:relate/screens/home/depression_posts_body.dart';
 import 'package:relate/screens/post_issue/post_issue_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String? dropDownValue;
+
+  const HomeScreen({super.key, required this.dropDownValue});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   child: TabBar(isScrollable: true, tabs: [
                     Tab(text: "General"),
@@ -35,10 +38,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: TabBarView(children: [
-                    HomeScreenBody(),
-                    DepressionPostsBody(),
-                    AddictionPostsBody(),
-                    MotivationPostsBody()
+                    HomeScreenBody(dropDownValue: widget.dropDownValue),
+                    DepressionPostsBody(dropDownValue: widget.dropDownValue),
+                    AddictionPostsBody(dropDownValue: widget.dropDownValue),
+                    MotivationPostsBody(dropDownValue: widget.dropDownValue)
                   ]),
                 ),
               ],

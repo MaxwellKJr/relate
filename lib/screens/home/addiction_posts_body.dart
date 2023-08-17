@@ -7,7 +7,9 @@ import 'package:relate/constants/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class AddictionPostsBody extends StatefulWidget {
-  const AddictionPostsBody({super.key});
+  final String? dropDownValue;
+
+  const AddictionPostsBody({super.key, required this.dropDownValue});
 
   @override
   State<AddictionPostsBody> createState() => _AddictionPostsBodyState();

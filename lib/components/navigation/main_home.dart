@@ -42,12 +42,14 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     init();
   }
 
+  String? dropDownValue = 'Home';
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     final screens = [
-      const HomeScreen(),
+      HomeScreen(dropDownValue: dropDownValue),
       const Communities(),
       const SelfJourneyUpdatedScreen(),
       const WellnessCentresScreen(),
@@ -62,37 +64,60 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       "Profile"
     ];
 
-    final _dropDownController = TextEditingController();
-    // dropDown = _dropDownController;
-
     return Scaffold(
         appBar: AppBar(
           title: currentPageIndex == 0
-              ? SizedBox(
-                  height: 38,
-                  width: _dropDownController.text == 'Home' ? 110 : 120,
-                  child: CustomDropdown(
-                    borderSide: const BorderSide(color: primaryColor),
-                    borderRadius: BorderRadius.circular(10),
-                    fillColor: Colors.transparent,
-                    hintStyle: const TextStyle(
-                        color: primaryColor, fontWeight: FontWeight.w700),
-                    listItemStyle: const TextStyle(color: blackColor),
-                    selectedStyle: const TextStyle(
-                        color: primaryColor, fontWeight: FontWeight.w700),
-                    fieldSuffixIcon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 16,
-                      color: primaryColor,
-                    ),
-                    hintText: 'Home',
-                    items: const ['Home', 'Trending'],
-                    controller: _dropDownController,
+              ? Container(
+                  margin: EdgeInsets.all(0),
+                  padding: EdgeInsets.only(left: 10, right: 6),
+                  width: 105,
+                  height: 36,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: primaryColor)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        focusColor: primaryColor,
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          size: 20,
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            child: Text(
+                              "Home",
+                              style: TextStyle(
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                            value: "Home",
+                          ),
+                          DropdownMenuItem(
+                            child: Text(
+                              "Trending",
+                              style: TextStyle(
+                                  color: primaryColor,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            value: "Trending",
+                          )
+                        ],
+                        hint: Text(
+                          "$dropDownValue",
+                          style: TextStyle(
+                              color: primaryColor, fontWeight: FontWeight.w700),
+                        ),
+                        iconEnabledColor: primaryColor,
+                        value: dropDownValue,
+                        onChanged: (dropDownValue) => setState(() {
+                              dropDownValue =
+                                  this.dropDownValue = dropDownValue;
+                            })),
                   ),
                 )
               : Text(screenTitle[currentPageIndex],
                   style: GoogleFonts.openSans(
-                      fontSize: 20, fontWeight: FontWeight.w700)),
+                      fontSize: 18, fontWeight: FontWeight.w600)),
           backgroundColor: theme.brightness == Brightness.dark
               ? backgroundColorDark // set color for dark theme
               : backgroundColorLight, // set color for light theme

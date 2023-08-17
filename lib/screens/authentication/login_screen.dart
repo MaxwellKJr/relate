@@ -52,13 +52,19 @@ class _LoginScreenState extends State<LoginScreen> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
             body: SafeArea(
+                child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 150,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         tWelcomeBack,
@@ -163,6 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ],
               )),
-        )));
+        ))));
   }
 }

@@ -295,6 +295,9 @@ class PostTile extends StatelessWidget {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               GestureDetector(
+                onLongPress: () async {
+                  showBottomSheetPostOption(context);
+                },
                 onTap: () async {
                   Navigator.push(
                       context,

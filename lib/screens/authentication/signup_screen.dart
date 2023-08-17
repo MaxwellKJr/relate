@@ -56,6 +56,7 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Scaffold(
             body: SafeArea(
                 child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Container(
               padding: const EdgeInsets.all(layoutPadding),
               child: Column(

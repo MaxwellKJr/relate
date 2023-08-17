@@ -7,7 +7,8 @@ import 'package:relate/constants/colors.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class DepressionPostsBody extends StatefulWidget {
-  const DepressionPostsBody({super.key});
+  final String? dropDownValue;
+  const DepressionPostsBody({super.key, required this.dropDownValue});
 
   @override
   State<DepressionPostsBody> createState() => _DepressionPostsBodyState();
