@@ -28,3 +28,6 @@ const borderColor = Color(0xFFDEE2E6);
 
 // Dark Grey Border Color
 const borderColorDark = Color(0xFF343A40);
+
+const iconColorLight = Color(0xFFBFC9CB);
+const iconColorDark = Color(0xFF3F4948);

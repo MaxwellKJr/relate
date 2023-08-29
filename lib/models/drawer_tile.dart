@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:relate/constants/colors.dart';
+import 'package:relate/constants/icons.dart';
 import 'package:relate/constants/text_string.dart';
 import 'package:relate/screens/about_relate/about_relate_screen.dart';
 import 'package:relate/screens/contact_professional/contact_professional_screen.dart';
@@ -22,15 +24,23 @@ class DrawerTilesViewModel {
     //   'destination': ContactProfessionalScreen()
     // },
     {
-      'leading': const Icon(
-        Icons.settings,
+      'leading': Container(
+        height: 20,
+        child: Image.asset(
+          settings,
+          color: primaryColor,
+        ),
       ),
       'title': tSettings,
       'destination': const SettingsScreen()
     },
     {
-      'leading': const Icon(
-        Icons.question_mark,
+      'leading': Container(
+        height: 22,
+        child: Image.asset(
+          about,
+          color: primaryColor,
+        ),
       ),
       'title': tAboutRelate,
       'destination': const AboutRelateScreen()

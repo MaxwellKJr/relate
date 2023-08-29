@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:relate/constants/colors.dart';
+import 'package:relate/constants/icons.dart';
 import 'package:relate/screens/home/addiction_posts_body.dart';
 import 'package:relate/screens/home/motivation_posts_body.dart';
 import 'package:relate/screens/home/home_screen_body.dart';
@@ -20,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return DefaultTabController(
         length: 4,
         child: Scaffold(
@@ -48,23 +50,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.bottomToTop,
-                    duration: const Duration(milliseconds: 230),
-                    child: const PostIssueScreen(),
-                  ));
-            },
-            backgroundColor: primaryColor,
-            elevation: 3,
-            child: const Icon(
-              CupertinoIcons.pen,
-              color: whiteColor,
-              size: 30,
-            ),
-          ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.bottomToTop,
+                      duration: const Duration(milliseconds: 230),
+                      child: const PostIssueScreen(),
+                    ));
+              },
+              backgroundColor: primaryColor,
+              elevation: 3,
+              child: Container(
+                height: 25,
+                child: Image.asset(
+                  pencil,
+                  color: theme.brightness == Brightness.light
+                      ? whiteColor
+                      : iconColorLight,
+                ),
+              )),
         ));
   }
 }

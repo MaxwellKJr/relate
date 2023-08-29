@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DrawerListTile extends StatelessWidget {
-  final Icon leading;
+  final Container leading;
   final String title;
   final destination;
 
@@ -21,7 +21,6 @@ class DrawerListTile extends StatelessWidget {
       ),
       onTap: () {
         Navigator.pop(context);
-
         Navigator.of(context).push(
             MaterialPageRoute(builder: (BuildContext context) => destination));
       },

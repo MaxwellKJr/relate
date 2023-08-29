@@ -1,10 +1,10 @@
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:relate/components/navigation/drawer/drawer_main.dart';
 import 'package:relate/constants/colors.dart';
+import 'package:relate/constants/icons.dart';
 import 'package:relate/screens/communities/communities_screen.dart';
 import 'package:relate/screens/home/home_screen.dart';
 import 'package:relate/screens/profile/profile_screen.dart';
@@ -65,116 +65,157 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
     ];
 
     return Scaffold(
-        appBar: AppBar(
-          title: currentPageIndex == 0
-              ? Container(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.only(left: 10, right: 6),
-                  width: 105,
-                  height: 36,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: primaryColor)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        focusColor: primaryColor,
-                        icon: Icon(
-                          Icons.keyboard_arrow_down,
-                          size: 20,
-                        ),
-                        items: [
-                          DropdownMenuItem(
-                            child: Text(
-                              "Home",
-                              style: TextStyle(
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                            value: "Home",
+      appBar: AppBar(
+        title: currentPageIndex == 0
+            ? Container(
+                margin: EdgeInsets.all(0),
+                padding: EdgeInsets.only(left: 10, right: 6),
+                width: 100,
+                height: 34,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: primaryColor)),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton(
+                      focusColor: primaryColor,
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        size: 20,
+                      ),
+                      items: [
+                        DropdownMenuItem(
+                          child: Text(
+                            "Home",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w600),
                           ),
-                          DropdownMenuItem(
-                            child: Text(
-                              "Trending",
-                              style: TextStyle(
-                                  color: primaryColor,
-                                  fontWeight: FontWeight.w900),
-                            ),
-                            value: "Trending",
-                          )
-                        ],
-                        hint: Text(
-                          "$dropDownValue",
-                          style: TextStyle(
-                              color: primaryColor, fontWeight: FontWeight.w700),
+                          value: "Home",
                         ),
-                        iconEnabledColor: primaryColor,
-                        value: dropDownValue,
-                        onChanged: (dropDownValue) => setState(() {
-                              dropDownValue =
-                                  this.dropDownValue = dropDownValue;
-                            })),
+                        DropdownMenuItem(
+                          child: Text(
+                            "Trending",
+                            style: TextStyle(
+                                color: primaryColor,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          value: "Trending",
+                        )
+                      ],
+                      hint: Text(
+                        "$dropDownValue",
+                        style: TextStyle(
+                            color: primaryColor, fontWeight: FontWeight.w700),
+                      ),
+                      iconEnabledColor: primaryColor,
+                      value: dropDownValue,
+                      onChanged: (dropDownValue) => setState(() {
+                            dropDownValue = this.dropDownValue = dropDownValue;
+                          })),
+                ),
+              )
+            : Text(screenTitle[currentPageIndex],
+                style: GoogleFonts.openSans(
+                    fontSize: 18, fontWeight: FontWeight.w600)),
+        leading: Builder(builder: (BuildContext context) {
+          return IconButton(
+            icon: Container(
+              height: 20,
+              child: Image.asset(
+                hamburger,
+                color: theme.brightness == Brightness.light
+                    ? bottomNavDark
+                    : iconColorLight,
+              ),
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          );
+        }),
+        backgroundColor: theme.brightness == Brightness.dark
+            ? backgroundColorDark // set color for dark theme
+            : backgroundColorLight, // set color for light theme
+        bottomOpacity: 0,
+        elevation: 0,
+        iconTheme: const IconThemeData(),
+      ),
+      body: screens[currentPageIndex],
+      drawer: const DrawerMain(),
+      bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+              labelTextStyle: MaterialStateProperty.all(
+                  TextStyle(fontSize: 12, fontWeight: FontWeight.w500))),
+          child: NavigationBar(
+            elevation: 5,
+            surfaceTintColor: theme.brightness == Brightness.light
+                ? backgroundColorLight
+                : backgroundColorDark,
+            // shadowColor: theme.brightness == Brightness.light
+            //     ? backgroundColorDark // set color for dark theme
+            //     : backgroundColorLight, // set color for light theme
+            animationDuration: const Duration(milliseconds: 1000),
+            height: 60,
+            selectedIndex: currentPageIndex,
+            onDestinationSelected: (currentPageIndex) =>
+                setState(() => this.currentPageIndex = currentPageIndex),
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+            destinations: [
+              NavigationDestination(
+                icon: Container(
+                  height: 16,
+                  child: Image.asset(
+                    home,
+                    color: theme.brightness == Brightness.light
+                        ? iconColorDark
+                        : iconColorLight,
                   ),
-                )
-              : Text(screenTitle[currentPageIndex],
-                  style: GoogleFonts.openSans(
-                      fontSize: 18, fontWeight: FontWeight.w600)),
-          backgroundColor: theme.brightness == Brightness.dark
-              ? backgroundColorDark // set color for dark theme
-              : backgroundColorLight, // set color for light theme
-          bottomOpacity: 0,
-          elevation: 0,
-          iconTheme: const IconThemeData(),
-        ),
-        body: screens[currentPageIndex],
-        drawer: const DrawerMain(),
-        bottomNavigationBar: NavigationBar(
-          elevation: 5,
-          surfaceTintColor: theme.brightness == Brightness.light
-              ? backgroundColorLight
-              : backgroundColorDark,
-          // shadowColor: theme.brightness == Brightness.light
-          //     ? backgroundColorDark // set color for dark theme
-          //     : backgroundColorLight, // set color for light theme
-          animationDuration: const Duration(milliseconds: 1000),
-          height: 60,
-          selectedIndex: currentPageIndex,
-          onDestinationSelected: (currentPageIndex) =>
-              setState(() => this.currentPageIndex = currentPageIndex),
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(
-                Icons.home_rounded,
-                size: 20,
+                ),
+                label: "Home",
               ),
-              label: "Home",
-            ),
-            NavigationDestination(
-              icon: Icon(
-                CupertinoIcons.group_solid,
-                size: 25,
+              NavigationDestination(
+                icon: Container(
+                  height: 22,
+                  child: Image.asset(
+                    people,
+                    color: theme.brightness == Brightness.light
+                        ? iconColorDark
+                        : iconColorLight,
+                  ),
+                ),
+                label: "Communities",
               ),
-              label: "Communities",
-            ),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.list_dash,
-                  size: 20,
-                ),
-                label: "Plans"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.search,
-                  size: 20,
-                ),
-                label: "Discover"),
-            NavigationDestination(
-                icon: Icon(
-                  CupertinoIcons.profile_circled,
-                  size: 20,
-                ),
-                label: "Profile"),
-          ],
-        ));
+              NavigationDestination(
+                  icon: Icon(
+                    CupertinoIcons.list_dash,
+                    size: 20,
+                  ),
+                  label: "Plans"),
+              NavigationDestination(
+                  icon: Container(
+                    height: 16,
+                    child: Image.asset(
+                      search,
+                      color: theme.brightness == Brightness.light
+                          ? iconColorDark
+                          : iconColorLight,
+                    ),
+                  ),
+                  label: "Discover"),
+              NavigationDestination(
+                  icon: Container(
+                    height: 16,
+                    child: Image.asset(
+                      person,
+                      color: theme.brightness == Brightness.light
+                          ? iconColorDark
+                          : iconColorLight,
+                    ),
+                  ),
+                  label: "Profile"),
+            ],
+          )),
+    );
   }
 }

@@ -170,7 +170,7 @@ class _CommunitiesState extends State<Communities>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: const [
           Text(
-            "You've not joined any groups, tap on the add icon to create a group or also search from top search button.",
+            "You have not joined any groups yet",
             textAlign: TextAlign.center,
           )
         ],

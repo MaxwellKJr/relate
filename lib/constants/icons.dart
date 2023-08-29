@@ -1,0 +1,9 @@
+const String about = 'assets/icons/about.png';
+const String hamburger = 'assets/icons/hamburger.png';
+const String home = 'assets/icons/home.png';
+const String lineGraph = 'assets/icons/growth-graph.png';
+const String person = 'assets/icons/account.png';
+const String people = 'assets/icons/people.png';
+const String pencil = 'assets/icons/pencil.png';
+const String search = 'assets/icons/search.png';
+const String settings = 'assets/icons/settings.png';
