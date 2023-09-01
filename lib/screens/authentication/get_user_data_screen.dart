@@ -54,6 +54,8 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
   //   "Alcohol",
   // ];
 
+  String? dropDownValue = 'Home';
+
   Future<void> updateUserDetails() async {
     final user = FirebaseAuth.instance;
     final uid = user.currentUser?.uid;
@@ -70,14 +72,18 @@ class _GetUserDataScreenState extends State<GetUserDataScreen> {
       final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
       await userRef.update({'interests': interestTags, 'hobbies': hobbiesTags});
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen()));
+          builder: (BuildContext context) => HomeScreen(
+                dropDownValue: dropDownValue,
+              )));
     } else if (professionalDoc.exists) {
       final professionalRef =
           FirebaseFirestore.instance.collection('professionals').doc(uid);
       await professionalRef
           .update({'interests': interestTags, 'hobbies': hobbiesTags});
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => const HomeScreen()));
+          builder: (BuildContext context) => HomeScreen(
+                dropDownValue: dropDownValue,
+              )));
     }
   }
 

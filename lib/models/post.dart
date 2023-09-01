@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class Post {
   final String postId, text, focus, image, postedBy, uid, timestamp;

@@ -403,8 +403,8 @@ class _CreateGroupState extends State<CreateGroup> {
                     child: Text('Cancel'),
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(150, 50),
-                      primary: Colors.red,
-                      onPrimary: Colors.white,
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(40),

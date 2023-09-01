@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relate/constants/colors.dart';
 // import 'package:bulleted_list/bulleted_list.dart';
 
 class SelfJourneyDepressionScreen extends StatelessWidget {
@@ -142,8 +143,8 @@ class SelfJourneyDepressionScreen extends StatelessWidget {
                   // Handle start plan button press
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.green,
-                  onPrimary: Colors.white,
+                  foregroundColor: whiteColor,
+                  backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),

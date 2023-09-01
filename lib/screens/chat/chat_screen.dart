@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/screens/chat/group_chat_info.dart';
 import 'package:relate/services/chat_database_services.dart';
