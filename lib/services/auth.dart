@@ -1,10 +1,13 @@
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/constants/colors.dart';
+import 'package:relate/models/user_model.dart';
 import 'package:relate/screens/authentication/login_screen.dart';
 import 'package:relate/screens/authentication/professional/get_professional_data_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +17,7 @@ class Auth {
   /// This can be another function or a screen
 
   final context = BuildContext;
+  final ref = WidgetRef;
 
   /// [userName] to be used
 
@@ -21,7 +25,7 @@ class Auth {
   String? profilePicture;
 
   /// signUp as a normal user !professional
-  void signUp(
+  Future<void> signUp(
     context,
     userNameController,
     phoneNumberController,
@@ -50,22 +54,43 @@ class Auth {
       final userName = userNameController.text.trim();
       final email = emailController.text.trim();
       final phoneNumber = phoneNumberController.text.trim();
+      final colorCode = (math.Random().nextDouble() * 0xFFFFFF).toInt();
 
-      if (user.currentUser != null) {
+      if (user.currentUser != null && userName != null) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setBool('hasSignedInBefore', true);
         prefs.setString('userName', userName);
 
         final userRef = FirebaseFirestore.instance.collection('users').doc(uid);
 
-        await userRef.set({
-          'uid': uid,
-          'userName': userName,
-          'email': email,
-          'phoneNumber': phoneNumber,
-          'groups': [],
-          'relatesTo': []
+        final UserModel newUser = UserModel(
+            uid: uid,
+            userName: userName,
+            email: email,
+            phoneNumber: phoneNumber,
+            colorCode: colorCode);
+
+        // await userRef.set({
+        //   'uid': uid,
+        //   'userName': userName,
+        //   'email': email,
+        //   'phoneNumber': phoneNumber,
+        //   'groups': [],
+        //   'relatesTo': []
+        // });
+
+        await userRef.set(newUser.toJson());
+
+        final userModelProvider = StateProvider<UserModel?>((ref) {
+          // Initialize it with the newUser if available, otherwise set it to null
+          return newUser; // Assuming `newUser` is defined earlier
         });
+
+        // // Access the userName property
+        // final currentUserName = userModel?.state?.userName;
+
+        // Now you can use `userName` as needed
+        print('User Name: $userName');
 
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (BuildContext context) => const MainHomeScreen()));

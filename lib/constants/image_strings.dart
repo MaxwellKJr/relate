@@ -2,7 +2,7 @@ const String tLogo = "assets/images/logo-teal.png";
 const String tLogoWhite = "assets/images/logo-teal-white.png";
 
 // Welcome and On Boarding Pages
-const String pinkies = "assets/images/welcome/pinkies.jpg";
+const String splash = "assets/images/welcome/splash.jpg";
 
 // Animations
 const String connections = "assets/animations/onboarding/connections.json";

@@ -18,13 +18,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         extendBodyBehindAppBar: true,
         body: Stack(
           fit: StackFit.expand,
           children: [
             Image.asset(
-              pinkies,
+              splash,
               fit: BoxFit.cover,
             ),
             Container(
@@ -62,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Text(
                         tWelcomeDescription,
                         style: GoogleFonts.openSans(
-                            fontSize: 15, color: whiteColor.withOpacity(0.84)),
+                            fontSize: 15, color: whiteColor),
                         textAlign: TextAlign.left,
                       ),
                     ],

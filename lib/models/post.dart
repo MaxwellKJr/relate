@@ -1,4 +1,3 @@
-
 class Post {
   final String postId, text, focus, image, postedBy, uid, timestamp;
 
@@ -10,7 +9,4 @@ class Post {
       required this.postedBy,
       required this.uid,
       required this.timestamp});
-
-  // Map<String, dynamic> toJson() =>
-  //     {"postedBy": postedBy, "text": text, "timestamp": timestamp, "uid": uid};
 }
