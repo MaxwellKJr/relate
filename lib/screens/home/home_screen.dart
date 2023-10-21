@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   pencil,
                   color: theme.brightness == Brightness.light
                       ? whiteColor
-                      : iconColorLight,
+                      : iconColorDark,
                 ),
               )),
         ));

@@ -146,7 +146,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
               labelTextStyle: MaterialStateProperty.all(
-                  TextStyle(fontSize: 12, fontWeight: FontWeight.w500))),
+                  GoogleFonts.openSans(fontSize: 11, fontWeight: FontWeight.w600))),
           child: NavigationBar(
             elevation: 5,
             surfaceTintColor: theme.brightness == Brightness.light
