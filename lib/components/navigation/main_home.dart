@@ -145,8 +145,8 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       drawer: const DrawerMain(),
       bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-              labelTextStyle: MaterialStateProperty.all(
-                  GoogleFonts.openSans(fontSize: 11, fontWeight: FontWeight.w600))),
+              labelTextStyle: MaterialStateProperty.all(GoogleFonts.openSans(
+                  fontSize: 11, fontWeight: FontWeight.w600))),
           child: NavigationBar(
             elevation: 5,
             surfaceTintColor: theme.brightness == Brightness.light
@@ -156,7 +156,6 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             //     ? backgroundColorDark // set color for dark theme
             //     : backgroundColorLight, // set color for light theme
             animationDuration: const Duration(milliseconds: 1000),
-            height: 60,
             selectedIndex: currentPageIndex,
             onDestinationSelected: (currentPageIndex) =>
                 setState(() => this.currentPageIndex = currentPageIndex),
