@@ -12,7 +12,7 @@ The app allows users to create an account as either a regular user or a professi
 
 It offers various features such as posting, relating to other users' posts (this is similar to a like or reaction on other platforms), reporting offensive content, joining and leaving community groups, accessing a list of professionals, finding wellness centres, and starting a self-recovery journey plan.
 
-⚠️ Please note that this version of Relate is still in the early alpha stages and does not represent the final product of the app ⚠️
+⚠️ _**Please note that this version of Relate is still in the early alpha stages and does not represent the final product of the app**_ ⚠️
 
 ## Running The App
 
@@ -23,7 +23,7 @@ Before we begin, we have provided two ways to run the app:
 1. [APK Download Link](https://github.com/MaxwellKJr/relate/releases/download/v.0.0.11%2B1-alpha/relate-alpha-v0.0.11+1.apk)
 2. [Android Simulator](https://appetize.io/app/ysg3vmtfjpegps25gp5jhsbsni)
 
-- The simulator performance depends on the hardware it is being run on and you might experience constant crushes. If you want to see the app its best performance then go for [option 1](https://github.com/MaxwellKJr/relate/releases/download/v.0.0.11%2B1-alpha/relate-alpha-v0.0.11+1.apk).
+- The simulator performance depends on the hardware it is being run on and you might experience constant crushes. If you want to see the app at its best performance then go for [option 1](https://github.com/MaxwellKJr/relate/releases/download/v.0.0.11%2B1-alpha/relate-alpha-v0.0.11+1.apk).
 
 ### Method 1: APK
 
