@@ -28,16 +28,15 @@ class _HomeScreenState extends State<HomeScreen> {
           body: SafeArea(
             child: Column(
               children: [
-                SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  child: TabBar(isScrollable: true, tabs: [
-                    Tab(text: "General"),
-                    Tab(text: "Depression"),
-                    Tab(text: "Addiction"),
-                    Tab(text: "Motivation"),
-                  ]),
-                ),
+                TabBar(
+                    isScrollable: true,
+                    tabAlignment: TabAlignment.center,
+                    tabs: [
+                      Tab(text: "General"),
+                      Tab(text: "Depression"),
+                      Tab(text: "Addiction"),
+                      Tab(text: "Motivation"),
+                    ]),
                 Expanded(
                   child: TabBarView(children: [
                     HomeScreenBody(dropDownValue: widget.dropDownValue),
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   pencil,
                   color: theme.brightness == Brightness.light
                       ? whiteColor
-                      : iconColorDark,
+                      : whiteColor,
                 ),
               )),
         ));

@@ -70,7 +70,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
             ? Container(
                 margin: EdgeInsets.all(0),
                 padding: EdgeInsets.only(left: 10, right: 6),
-                width: 100,
+                width: 120,
                 height: 34,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
