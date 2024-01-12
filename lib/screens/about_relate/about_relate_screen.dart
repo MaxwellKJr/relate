@@ -26,10 +26,15 @@ class _AboutRelateScreenState extends State<AboutRelateScreen> {
             children: [
               Text(
                 'Relate',
-                style: GoogleFonts.alexBrush(
+                style: TextStyle(
                     fontSize: 40,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                     color: primaryColor),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Version 0.0.11+1',
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
               const Text(
@@ -41,40 +46,28 @@ class _AboutRelateScreenState extends State<AboutRelateScreen> {
                 softWrap: true,
               ),
               const SizedBox(height: 32),
-              const Text(
-                'Version 1.0.0',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Developed by Group 5 Members:',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-              Column(
-                children: [
-                  const Text(
-                    'Maxwell Kapezi Jr',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const Text(
-                    'Emmanuel William',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const Text(
-                    'Elizabeth Kapusa',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const Text(
-                    'Fred Likaka',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const Text(
-                    'Comfort Chikapa',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ],
-              )
+              // const SizedBox(height: 16),
+              // const Text(
+              //   'Developed by Group 5 Members:',
+              //   style: TextStyle(fontSize: 16),
+              // ),
+              // const SizedBox(height: 16),
+              // Column(
+              //   children: [
+              //     const Text(
+              //       'Maxwell Kapezi Jr',
+              //       style: TextStyle(fontSize: 16),
+              //     ),
+              //     const Text(
+              //       'Emmanuel William',
+              //       style: TextStyle(fontSize: 16),
+              //     ),
+              //     const Text(
+              //       'Elizabeth Kapusa',
+              //       style: TextStyle(fontSize: 16),
+              //     ),
+              //   ],
+              // )
             ],
           ),
         ),

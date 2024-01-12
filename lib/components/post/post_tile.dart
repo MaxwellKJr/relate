@@ -97,11 +97,10 @@ class PostTile extends StatelessWidget {
                                                                 "Are you sure you want to delete this post?"),
                                                             actions: [
                                                               TextButton(
-                                                                child: const Text(
-                                                                    'Cancel',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .red)),
+                                                                child:
+                                                                    const Text(
+                                                                  'Cancel',
+                                                                ),
                                                                 onPressed: () {
                                                                   Navigator.of(
                                                                           context)
@@ -110,7 +109,10 @@ class PostTile extends StatelessWidget {
                                                               ),
                                                               TextButton(
                                                                 child: const Text(
-                                                                    'Yes, Delete'),
+                                                                    'Yes, Delete',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .red)),
                                                                 onPressed:
                                                                     () async {
                                                                   /// Firebase requires that inner documents or fields or collections are deleted first before outer collections
@@ -152,7 +154,7 @@ class PostTile extends StatelessWidget {
                                                                       .then(
                                                                           (value) =>
                                                                               {
-                                                                                Fluttertoast.showToast(msg: "Post Deleted Successfully", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.BOTTOM, timeInSecForIosWeb: 1, backgroundColor: primaryColor, textColor: whiteColor, fontSize: 16.0),
+                                                                                Fluttertoast.showToast(msg: "Post Deleted Successfully", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.TOP, timeInSecForIosWeb: 1, backgroundColor: primaryColor, textColor: whiteColor, fontSize: 16.0),
                                                                               });
                                                                   Navigator.of(
                                                                           context)
@@ -184,7 +186,7 @@ class PostTile extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       Text(
-                                                          'Posts that get reported more than 3 times will automatically be deleted.'),
+                                                          'Posts that get reported more than 5 times will automatically be deleted.'),
                                                       SizedBox(
                                                         height: 10,
                                                       ),
