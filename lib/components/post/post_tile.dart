@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
@@ -269,6 +270,7 @@ class PostTile extends StatelessWidget {
                               /// Allow User to delete their post
                               FilledButton(
                                   onPressed: () {
+                                    Navigator.pop(context);
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
@@ -334,7 +336,7 @@ class PostTile extends StatelessWidget {
                                                                     whiteColor,
                                                                 fontSize: 16.0),
                                                           });
-                                                  Navigator.of(context).pop();
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                             ],
