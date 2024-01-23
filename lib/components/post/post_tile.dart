@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:relate/components/navigation/main_home.dart';
 import 'package:relate/components/post/post_bottom_icons.dart';
 import 'package:relate/constants/colors.dart';
 import 'package:relate/constants/size_values.dart';
@@ -82,7 +81,7 @@ class PostTile extends StatelessWidget {
                             uid: uid,
                           ),
                           type: PageTransitionType.rightToLeft,
-                          duration: const Duration(milliseconds: 230)));
+                          duration: const Duration(milliseconds: 220)));
                 },
                 child: SizedBox(
                     width: double.infinity,
@@ -248,15 +247,15 @@ class PostTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               /// Allow user to edit post
-                              FilledButton(
-                                  onPressed: () {
+                              ListTile(
+                                  onTap: () {
                                     Navigator.pop(context);
                                     Navigator.push(
                                         context,
                                         PageTransition(
                                           type: PageTransitionType.bottomToTop,
                                           duration:
-                                              const Duration(milliseconds: 400),
+                                              const Duration(milliseconds: 220),
                                           child: EditPostScreen(
                                             postId: postId,
                                             text: text,
@@ -265,11 +264,11 @@ class PostTile extends StatelessWidget {
                                           ),
                                         ));
                                   },
-                                  child: Text("Edit Post")),
+                                  title: Text("Edit Post")),
 
                               /// Allow User to delete their post
-                              FilledButton(
-                                  onPressed: () {
+                              ListTile(
+                                  onTap: () {
                                     Navigator.pop(context);
                                     showDialog(
                                         context: context,
@@ -343,7 +342,7 @@ class PostTile extends StatelessWidget {
                                           );
                                         });
                                   },
-                                  child: Text("Delete Post")),
+                                  title: Text("Delete Post")),
                             ],
                           )
                         : Flexible(
