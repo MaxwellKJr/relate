@@ -35,242 +35,7 @@ class PostTile extends StatelessWidget {
       required this.daysAgo,
       required this.formattedDateTime});
 
-  Future<void> showBottomSheetPostOption(BuildContext context) async {
-    final currentUser = FirebaseAuth.instance.currentUser?.uid;
-
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SizedBox(
-              height: 150,
-              child: Container(
-                padding: EdgeInsets.all(layoutPadding),
-                child: Center(
-                    child: SizedBox(
-                        width: double.infinity,
-                        child:
-
-                            /// Current User Post Options
-                            currentUser == uid
-                                ? Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      /// Allow user to edit post
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: Flexible(
-                                          child: FilledButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                      type: PageTransitionType
-                                                          .bottomToTop,
-                                                      duration: const Duration(
-                                                          milliseconds: 400),
-                                                      child: EditPostScreen(
-                                                        postId: postId,
-                                                        text: text,
-                                                        focus: focus,
-                                                        image: image,
-                                                      ),
-                                                    ));
-                                              },
-                                              child: Text("Edit Post")),
-                                        ),
-                                      ),
-
-                                      /// Allow User to delete their post
-                                      SizedBox(
-                                          width: double.infinity,
-                                          child: Flexible(
-                                              child: FilledButton(
-                                                  onPressed: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            title: const Text(
-                                                                "Delete Post"),
-                                                            content: const Text(
-                                                                "Are you sure you want to delete this post?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                child:
-                                                                    const Text(
-                                                                  'Cancel',
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                              TextButton(
-                                                                child: const Text(
-                                                                    'Yes, Delete',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .red)),
-                                                                onPressed:
-                                                                    () async {
-                                                                  /// Firebase requires that inner documents or fields or collections are deleted first before outer collections
-                                                                  /// Delete Comments First
-                                                                  final commentsRef = await FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "posts")
-                                                                      .doc(
-                                                                          postId)
-                                                                      .collection(
-                                                                          "comments")
-                                                                      .get();
-
-                                                                  for (var doc
-                                                                      in commentsRef
-                                                                          .docs) {
-                                                                    await FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            "posts")
-                                                                        .doc(
-                                                                            postId)
-                                                                        .collection(
-                                                                            "comments")
-                                                                        .doc(doc
-                                                                            .id)
-                                                                        .delete();
-                                                                  }
-
-                                                                  /// Delete Post
-                                                                  FirebaseFirestore
-                                                                      .instance
-                                                                      .collection(
-                                                                          "posts")
-                                                                      .doc(
-                                                                          postId)
-                                                                      .delete()
-                                                                      .then(
-                                                                          (value) =>
-                                                                              {
-                                                                                Fluttertoast.showToast(msg: "Post Deleted Successfully", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.TOP, timeInSecForIosWeb: 1, backgroundColor: primaryColor, textColor: whiteColor, fontSize: 16.0),
-                                                                              });
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
-                                                              ),
-                                                            ],
-                                                          );
-                                                        });
-                                                  },
-                                                  child: Text("Delete Post")))),
-                                    ],
-                                  )
-                                : Flexible(
-                                    child: FilledButton(
-                                        onPressed: () {
-                                          /// if user is not the owner of the post give them the option to report it
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title:
-                                                    const Text('Report Post'),
-                                                content: const SizedBox(
-                                                  height: 100,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                          'Posts that get reported more than 5 times will automatically be deleted.'),
-                                                      SizedBox(
-                                                        height: 10,
-                                                      ),
-                                                      Text(
-                                                          'Are you sure you want to report this post?'),
-                                                    ],
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    child: const Text('Cancel',
-                                                        style: TextStyle(
-                                                            color: Colors.red)),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                  TextButton(
-                                                    child: const Text(
-                                                        'Yes, report'),
-                                                    onPressed: () async {
-                                                      /// Get the current post document reference or uid
-                                                      final postRef =
-                                                          FirebaseFirestore
-                                                              .instance
-                                                              .collection(
-                                                                  'posts')
-                                                              .doc(postId);
-
-                                                      /// Add the current user's ID to the reports field array
-                                                      await postRef.update({
-                                                        'reports': FieldValue
-                                                            .arrayUnion(
-                                                                [currentUser]),
-                                                      }).then((value) => {
-                                                            Fluttertoast.showToast(
-                                                                msg:
-                                                                    "Thank you for reporting.",
-                                                                toastLength: Toast
-                                                                    .LENGTH_LONG,
-                                                                gravity:
-                                                                    ToastGravity
-                                                                        .BOTTOM,
-                                                                timeInSecForIosWeb:
-                                                                    1,
-                                                                backgroundColor:
-                                                                    primaryColor,
-                                                                textColor:
-                                                                    whiteColor,
-                                                                fontSize: 16.0),
-                                                          });
-
-                                                      Navigator.of(context)
-                                                          .pop();
-
-                                                      /// Get the updated post document snapshot
-                                                      final postSnapshot =
-                                                          await postRef.get();
-
-                                                      /// Get the reports count from the updated post document
-                                                      final reportsCount =
-                                                          postSnapshot
-                                                                  .data()?[
-                                                                      'reports']
-                                                                  ?.length ??
-                                                              0;
-
-                                                      /// This will check if the post has more than 2 reports
-                                                      /// Then delete the post if there are more than 2 reports
-                                                      if (reportsCount > 2) {
-                                                        await postRef.delete();
-                                                      }
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Text("Report Post"))))),
-              ));
-        });
-  }
+  Future<void> showBottomSheetPostOption(BuildContext context) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +63,7 @@ class PostTile extends StatelessWidget {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               GestureDetector(
                 onLongPress: () async {
-                  showBottomSheetPostOption(context);
+                  showPostOptions(context);
                 },
                 onTap: () async {
                   Navigator.push(
@@ -413,8 +178,9 @@ class PostTile extends StatelessWidget {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    showBottomSheetPostOption(context);
                                     // morePostOptions(context);
+
+                                    showPostOptions(context);
                                   },
                                   child: const Icon(
                                     Icons.more_vert,
@@ -464,5 +230,209 @@ class PostTile extends StatelessWidget {
                     )),
               ),
             ])));
+  }
+
+  Future<void> showPostOptions(BuildContext context) {
+    return showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          final currentUser = FirebaseAuth.instance.currentUser?.uid;
+          return SizedBox(
+              height: 200,
+              child: Container(
+                padding: EdgeInsets.all(layoutPadding),
+                child: Center(
+                    child: currentUser == uid
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              /// Allow user to edit post
+                              FilledButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.bottomToTop,
+                                          duration:
+                                              const Duration(milliseconds: 400),
+                                          child: EditPostScreen(
+                                            postId: postId,
+                                            text: text,
+                                            focus: focus,
+                                            image: image,
+                                          ),
+                                        ));
+                                  },
+                                  child: Text("Edit Post")),
+
+                              /// Allow User to delete their post
+                              FilledButton(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text("Delete Post"),
+                                            content: const Text(
+                                                "Are you sure you want to delete this post?"),
+                                            actions: [
+                                              TextButton(
+                                                child: const Text(
+                                                  'Cancel',
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: const Text('Yes, Delete',
+                                                    style: TextStyle(
+                                                        color: Colors.red)),
+                                                onPressed: () async {
+                                                  /// Firebase requires that inner documents or fields or collections are deleted first before outer collections
+                                                  /// Delete Comments First
+                                                  final commentsRef =
+                                                      await FirebaseFirestore
+                                                          .instance
+                                                          .collection("posts")
+                                                          .doc(postId)
+                                                          .collection(
+                                                              "comments")
+                                                          .get();
+
+                                                  for (var doc
+                                                      in commentsRef.docs) {
+                                                    await FirebaseFirestore
+                                                        .instance
+                                                        .collection("posts")
+                                                        .doc(postId)
+                                                        .collection("comments")
+                                                        .doc(doc.id)
+                                                        .delete();
+                                                  }
+
+                                                  /// Delete Post
+                                                  FirebaseFirestore.instance
+                                                      .collection("posts")
+                                                      .doc(postId)
+                                                      .delete()
+                                                      .then((value) => {
+                                                            Fluttertoast.showToast(
+                                                                msg:
+                                                                    "Post Deleted Successfully",
+                                                                toastLength: Toast
+                                                                    .LENGTH_SHORT,
+                                                                gravity:
+                                                                    ToastGravity
+                                                                        .TOP,
+                                                                timeInSecForIosWeb:
+                                                                    1,
+                                                                backgroundColor:
+                                                                    primaryColor,
+                                                                textColor:
+                                                                    whiteColor,
+                                                                fontSize: 16.0),
+                                                          });
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Text("Delete Post")),
+                            ],
+                          )
+                        : Flexible(
+                            child: FilledButton(
+                                onPressed: () {
+                                  /// if user is not the owner of the post give them the option to report it
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text('Report Post'),
+                                        content: const SizedBox(
+                                          height: 100,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  'Posts that get reported more than 5 times will automatically be deleted.'),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                  'Are you sure you want to report this post?'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text('Cancel',
+                                                style: TextStyle(
+                                                    color: Colors.red)),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          TextButton(
+                                            child: const Text('Yes, report'),
+                                            onPressed: () async {
+                                              /// Get the current post document reference or uid
+                                              final postRef = FirebaseFirestore
+                                                  .instance
+                                                  .collection('posts')
+                                                  .doc(postId);
+
+                                              /// Add the current user's ID to the reports field array
+                                              await postRef.update({
+                                                'reports':
+                                                    FieldValue.arrayUnion(
+                                                        [currentUser]),
+                                              }).then((value) => {
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            "Thank you for reporting.",
+                                                        toastLength:
+                                                            Toast.LENGTH_LONG,
+                                                        gravity:
+                                                            ToastGravity.BOTTOM,
+                                                        timeInSecForIosWeb: 1,
+                                                        backgroundColor:
+                                                            primaryColor,
+                                                        textColor: whiteColor,
+                                                        fontSize: 16.0),
+                                                  });
+
+                                              Navigator.of(context).pop();
+
+                                              /// Get the updated post document snapshot
+                                              final postSnapshot =
+                                                  await postRef.get();
+
+                                              /// Get the reports count from the updated post document
+                                              final reportsCount = postSnapshot
+                                                      .data()?['reports']
+                                                      ?.length ??
+                                                  0;
+
+                                              /// This will check if the post has more than 2 reports
+                                              /// Then delete the post if there are more than 2 reports
+                                              if (reportsCount > 2) {
+                                                await postRef.delete();
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text("Report Post")))),
+              ));
+        });
   }
 }
