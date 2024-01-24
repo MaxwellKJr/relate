@@ -78,6 +78,7 @@ class PostTile extends StatelessWidget {
                             text: text,
                             focus: focus,
                             image: image,
+                            colorCode: colorCode,
                             postedBy: postedBy,
                             formattedDateTime: formattedDateTime,
                             uid: uid,

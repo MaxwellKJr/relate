@@ -9,6 +9,7 @@ import 'package:relate/services/post_services.dart';
 
 class ViewPost extends StatefulWidget {
   final String postId, text, focus, image, postedBy, uid, formattedDateTime;
+  final int colorCode;
   final post, relates;
 
   const ViewPost({
@@ -19,6 +20,7 @@ class ViewPost extends StatefulWidget {
     required this.text,
     required this.focus,
     required this.image,
+    required this.colorCode,
     required this.postedBy,
     required this.formattedDateTime,
     required this.uid,
@@ -37,8 +39,8 @@ class _ViewPostState extends State<ViewPost> {
   void flagOrFilterContent(String content) {
     final bannedKeywords = [
       'fuck',
-      'keyword2',
-      'keyword3',
+      'dick',
+      'bitch',
     ];
 
     bool containsBannedKeyword =
@@ -124,7 +126,8 @@ class _ViewPostState extends State<ViewPost> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   CircleAvatar(
-                                    backgroundColor: Colors.grey,
+                                    backgroundColor: Color(
+                                        (widget.colorCode * 0xFFFFFF).toInt()),
                                     child: Text(
                                       widget.postedBy.substring(0, 1),
                                       style: const TextStyle(
