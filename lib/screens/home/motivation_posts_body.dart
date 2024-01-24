@@ -56,6 +56,7 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
                       final String focus = post['focus'];
 
                       final image = post['image'];
+                      final int colorCode = post['colorCode'];
 
                       final String postedBy = post['postedBy'];
                       final Timestamp timestamp = post['timestamp'];
@@ -79,6 +80,7 @@ class _MotivationPostsBodyState extends State<MotivationPostsBody> {
                           postId: postId,
                           text: text,
                           image: image,
+                          colorCode: colorCode,
                           focus: focus,
                           postedBy: postedBy,
                           uid: uid,

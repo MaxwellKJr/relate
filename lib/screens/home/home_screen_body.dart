@@ -64,6 +64,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                               final String uid = post['uid'];
 
                               final relates = post['relates'];
+                              final int colorCode = post['colorCode'];
 
                               //Format date
                               final dateTime = timestamp.toDate();
@@ -85,6 +86,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                   postId: postId,
                                   text: text,
                                   image: image,
+                                  colorCode: colorCode,
                                   focus: focus,
                                   postedBy: postedBy,
                                   uid: uid,
@@ -121,6 +123,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                               final String focus = post['focus'];
 
                               final image = post['image'];
+                              final int colorCode = post['colorCode'];
 
                               final String postedBy = post['postedBy'];
                               final Timestamp timestamp = post['timestamp'];
@@ -148,6 +151,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
                                   postId: postId,
                                   text: text,
                                   image: image,
+                                  colorCode: colorCode,
                                   focus: focus,
                                   postedBy: postedBy,
                                   uid: uid,

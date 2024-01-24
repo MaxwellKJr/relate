@@ -39,12 +39,16 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
         .collection('professionals')
         .doc(uid)
         .get();
+
     String? userName;
+    int? colorCode;
 
     if (userDoc.exists) {
       userName = userDoc.data()!['userName'];
+      colorCode = userDoc.data()!['colorCode'];
     } else if (professionalDoc.exists) {
       userName = professionalDoc.data()!['userName'];
+      colorCode = professionalDoc.data()!['colorCode'];
     }
 
     final text = _postTextController.text;
@@ -58,6 +62,7 @@ class _PostIssueScreenState extends State<PostIssueScreen> {
       'text': text,
       'focus': focus,
       'image': imageUrl,
+      'colorCode': colorCode,
       'timestamp': Timestamp.fromDate(currentTime),
       'uid': uid,
       'postedBy': userName,

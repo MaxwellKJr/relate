@@ -14,19 +14,19 @@ class UserModel {
   final List<String> following;
   final int followingCount;
 
-  UserModel({
-    required this.uid,
-    required this.userName,
-    required this.email,
-    required this.phoneNumber,
-    required this.colorCode,
-    this.isVerified = false,
-    this.isBanned = false,
-    this.followingCount = 0,
-    this.followersCount = 0,
-  })  : relatesTo = const [],
-        followers = const [],
-        following = const [];
+  UserModel(
+      {required this.uid,
+      required this.userName,
+      required this.email,
+      required this.phoneNumber,
+      required this.colorCode,
+      this.isVerified = false,
+      this.isBanned = false,
+      this.followingCount = 0,
+      this.followersCount = 0,
+      this.relatesTo = const [],
+      this.followers = const [],
+      this.following = const []});
 
   Map<String, dynamic> toJson() {
     return {
@@ -47,11 +47,19 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-        uid: map['uid'],
-        userName: map['userName'],
-        email: map['email'],
-        phoneNumber: map['phoneNumber'],
-        colorCode: map['colorCode']);
+      uid: map['uid'],
+      userName: map['userName'],
+      email: map['email'],
+      phoneNumber: map['phoneNumber'],
+      colorCode: map['colorCode'],
+      isVerified: map['isVerified'] ?? false,
+      isBanned: map['isBanned'] ?? false,
+      relatesTo: List<String>.from(map['relatesTo'] ?? []),
+      followers: List<String>.from(map['followers'] ?? []),
+      followersCount: map['followersCount'] ?? 0,
+      following: List<String>.from(map['following'] ?? []),
+      followingCount: map['followingCount'] ?? 0,
+    );
   }
 }
 

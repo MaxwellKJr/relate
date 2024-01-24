@@ -20,6 +20,7 @@ class PostTile extends StatelessWidget {
       uid,
       formattedDateTime,
       daysAgo;
+  final int colorCode;
   final post, relates;
 
   const PostTile(
@@ -30,6 +31,7 @@ class PostTile extends StatelessWidget {
       required this.text,
       required this.focus,
       required this.image,
+      required this.colorCode,
       required this.postedBy,
       required this.uid,
       required this.daysAgo,
@@ -103,13 +105,10 @@ class PostTile extends StatelessWidget {
                                 Row(
                                   children: [
                                     CircleAvatar(
-                                      backgroundColor: Colors.grey[400],
-                                      // Random color generator
-                                      // Color(
-                                      //               (math.Random().nextDouble() *
-                                      //                       0xFFFFFF)
-                                      //                   .toInt())
-                                      //           .withOpacity(1.0),
+                                      backgroundColor:
+                                          // Colors.grey[400],
+                                          // Random color generator
+                                          Color((colorCode * 0xFFFFFF).toInt()),
                                       child: Text(
                                         postedBy.substring(0,
                                             2), // Get the first character of the userName

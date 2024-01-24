@@ -61,6 +61,7 @@ class _DepressionPostsBodyState extends State<DepressionPostsBody> {
                         final String focus = post['focus'];
 
                         final image = post['image'];
+                        final int colorCode = post['colorCode'];
 
                         final String postedBy = post['postedBy'];
                         final Timestamp timestamp = post['timestamp'];
@@ -83,6 +84,7 @@ class _DepressionPostsBodyState extends State<DepressionPostsBody> {
                             postId: postId,
                             text: text,
                             image: image,
+                            colorCode: colorCode,
                             focus: focus,
                             postedBy: postedBy,
                             uid: uid,
