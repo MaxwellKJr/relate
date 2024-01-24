@@ -8,6 +8,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class CommentCard extends StatefulWidget {
   final String commentId, postId, userName, commentBody;
+  final int colorCode;
   final Timestamp timestamp;
   final comment;
 
@@ -17,6 +18,7 @@ class CommentCard extends StatefulWidget {
       required this.commentId,
       required this.postId,
       required this.userName,
+      required this.colorCode,
       required this.commentBody,
       required this.timestamp});
 
@@ -64,10 +66,8 @@ class _CommentCardState extends State<CommentCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CircleAvatar(
-                            backgroundColor: Color(
-                                    (math.Random().nextDouble() * 0xFFFFFF)
-                                        .toInt())
-                                .withOpacity(0.3),
+                            backgroundColor:
+                                Color((widget.colorCode * 0xFFFFFF).toInt()),
                             child: Text(
                               widget.userName.substring(0,
                                   2), // Get the first character of the userName

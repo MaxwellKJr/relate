@@ -61,6 +61,7 @@ class _CommentsSectionState extends State<CommentsSection> {
                         commentId: commentId,
                         postId: widget.postId,
                         userName: comment['userName'],
+                        colorCode: comment['colorCode'],
                         commentBody: comment['commentBody'],
                         timestamp: comment['timestamp'],
                       );

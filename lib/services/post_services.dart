@@ -22,16 +22,20 @@ class PostServices {
           .doc(uid)
           .get();
       String? userName;
+      int? colorCode;
 
       if (userDoc.exists) {
         userName = userDoc.data()!['userName'];
+        colorCode = userDoc.data()!['colorCode'];
       } else if (professionalDoc.exists) {
         userName = professionalDoc.data()!['userName'];
+        colorCode = userDoc.data()!['colorCode'];
       }
 
       final comment = {
         'uid': uid,
         'userName': userName,
+        'colorCode': colorCode,
         'commentBody': commentBody,
         'relates': [],
         'timestamp': Timestamp.now(),
