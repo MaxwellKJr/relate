@@ -345,9 +345,9 @@ class PostTile extends StatelessWidget {
                                   title: Text("Delete Post")),
                             ],
                           )
-                        : Flexible(
-                            child: FilledButton(
-                                onPressed: () {
+                        : Container(
+                            child: ListTile(
+                                onTap: () {
                                   /// if user is not the owner of the post give them the option to report it
                                   showDialog(
                                     context: context,
@@ -432,7 +432,7 @@ class PostTile extends StatelessWidget {
                                     },
                                   );
                                 },
-                                child: Text("Report Post")))),
+                                title: Text("Report Post")))),
               ));
         });
   }
